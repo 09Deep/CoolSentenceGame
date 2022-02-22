@@ -113,21 +113,25 @@ public class Game extends AppCompatActivity {
                         return true;
 
                     case DragEvent.ACTION_DROP:
-                        // Gets the item containing the dragged data.
-                        ClipData.Item item = e.getClipData().getItemAt(0);
+                        ViewGroup clickedParent = (ViewGroup) clickedView.getParent();
+                        LinearLayout targetLayout = (LinearLayout)v;
 
-                        // Gets the text data from the item.
-                        CharSequence dragData = item.getText();
+                        // Move a token to an empty answer slot
+                        if(targetLayout.getChildCount() == 0) {
+                            clickedParent.removeView(clickedView);
+                            targetLayout.addView(clickedView);
+                        }
 
-                        // Displays a message containing the dragged data.
-                        textStatus.setText("Dragged data is [" + dragData + "]");
+                        // Swap two tokens in their slots (unless trying to swap token with itself)
+                        else if(targetLayout.getChildCount() == 1 && clickedView != targetLayout.getChildAt(0)) {
+                            View targetView = targetLayout.getChildAt(0);
+                            targetLayout.removeView(targetView);
+                            clickedParent.removeView(clickedView);
+                            targetLayout.addView(clickedView);
+                            clickedParent.addView(targetView);
+                        }
 
-                        ViewGroup parent = (ViewGroup) clickedView.getParent();
-                        parent.removeView(clickedView);
-                        ((LinearLayout)v).addView(clickedView);
-                        System.out.println(clickedView);
-
-                        ((LinearLayout)v).getBackground().clearColorFilter();
+                        targetLayout.getBackground().clearColorFilter();
                         v.invalidate();
 
                         // Returns true. DragEvent.getResult() will return true.
