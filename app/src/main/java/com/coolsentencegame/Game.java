@@ -7,7 +7,9 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -15,8 +17,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,9 +33,10 @@ public class Game extends AppCompatActivity {
 
     private String testString;
     private ArrayList<String> tokens;
+    private View clickedView; // This feels wrong
 
-    private LinearLayout topLayout;
-    private LinearLayout btmLayout;
+    private FlexboxLayout topFlex;  // Users answer
+    private FlexboxLayout btmFlex;  // Users choices
     private TextView textStatus;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -40,22 +47,24 @@ public class Game extends AppCompatActivity {
 
         tokens = new ArrayList<>();
 
-        topLayout = (LinearLayout)findViewById(R.id.topLayout);
-        btmLayout = (LinearLayout)findViewById(R.id.btmLayout);
+        topFlex = findViewById(R.id.topLayout2);
+        btmFlex = findViewById(R.id.btmLayout2);
         textStatus = (TextView)findViewById(R.id.textStatus);
 
-        // This will be replaced buy the database stuff
-        testString = "This is a very good test";
+        // This will be replaced by the database stuff
+        testString = "This is a very good test, very nice!";
 
         Collections.addAll(tokens, testString.split(" "));
 
         for(String s : tokens) {
-            TextView tv = new TextView(this);
-            tv.setText(s);
-            tv.setPadding(10,10,10,10);
-            tv.setTextSize(24);
+            LinearLayout btmLayout = layoutFactory();
+            LinearLayout topLayout = layoutFactory();
+            Button btn = new Button(this);
 
-            tv.setOnLongClickListener(v -> {
+            btn.setText(s);
+            btn.setTextSize(24);
+            btn.setOnLongClickListener(v -> {
+                clickedView = v;
                 ClipData.Item item = new ClipData.Item((CharSequence) s);
                 ClipData dragData = new ClipData(
                         (CharSequence) s,
@@ -63,46 +72,22 @@ public class Game extends AppCompatActivity {
                         item
                 );
 
-                View.DragShadowBuilder shadow = new MyDragShadowBuilder(tv);
+                View.DragShadowBuilder shadow = new MyDragShadowBuilder(btn);
 
                 v.startDragAndDrop(dragData, shadow, null, 0);
-                System.out.println("fuck face fucker");
+
                 return true;
             });
 
-
-
-
-            btmLayout.addView(tv);
-        }
-
-        for(String s : tokens) {
-            LinearLayout layout = new LinearLayout(this);
-            layout.setMinimumWidth(250);
-            layout.setMinimumHeight(100);
-            layout.setBackgroundColor(Color.RED);
-            layout.setPadding(10,10,10,10);
-            topLayout.addView(layout);
-
-            // Set the drag event listener for the View.
-            layout.setOnDragListener( (v, e) -> {
-
+            // Set up the answer containers
+            topLayout.setOnDragListener( (v, e) -> {
                 // Handles each of the expected events.
                 switch(e.getAction()) {
 
                     case DragEvent.ACTION_DRAG_STARTED:
-
                         // Determines if this View can accept the dragged data.
                         if (e.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-
-                            // As an example of what your application might do, applies a blue color tint
-                            // to the View to indicate that it can accept data.
-                            ((LinearLayout)v).setBackgroundColor(Color.RED);
-
-                            // Invalidate the view to force a redraw in the new tint.
-                            v.invalidate();
-
-                            // Returns true to indicate that the View can accept the dragged data.
+//                            v.invalidate();
                             return true;
                         }
 
@@ -111,34 +96,23 @@ public class Game extends AppCompatActivity {
                         return false;
 
                     case DragEvent.ACTION_DRAG_ENTERED:
-
-                        // Applies a green tint to the View.
-                        ((LinearLayout)v).setBackgroundColor(Color.GREEN);
-
-                        // Invalidates the view to force a redraw in the new tint.
+                        ((LinearLayout)v).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
                         v.invalidate();
 
                         // Returns true; the value is ignored.
                         return true;
 
                     case DragEvent.ACTION_DRAG_LOCATION:
-
                         // Ignore the event.
                         return true;
 
                     case DragEvent.ACTION_DRAG_EXITED:
-
-                        // Resets the color tint to blue.
-                        ((LinearLayout)v).setBackgroundColor(Color.BLUE);
-
-                        // Invalidates the view to force a redraw in the new tint.
+                        ((LinearLayout)v).getBackground().clearColorFilter();
                         v.invalidate();
 
-                        // Returns true; the value is ignored.
                         return true;
 
                     case DragEvent.ACTION_DROP:
-
                         // Gets the item containing the dragged data.
                         ClipData.Item item = e.getClipData().getItemAt(0);
 
@@ -146,32 +120,22 @@ public class Game extends AppCompatActivity {
                         CharSequence dragData = item.getText();
 
                         // Displays a message containing the dragged data.
-//                        Toast.makeText(this, "Dragged data is " + dragData, Toast.LENGTH_LONG).show();
                         textStatus.setText("Dragged data is [" + dragData + "]");
 
-                        // Invalidates the view to force a redraw.
+                        ViewGroup parent = (ViewGroup) clickedView.getParent();
+                        parent.removeView(clickedView);
+                        ((LinearLayout)v).addView(clickedView);
+                        System.out.println(clickedView);
+
+                        ((LinearLayout)v).getBackground().clearColorFilter();
                         v.invalidate();
 
                         // Returns true. DragEvent.getResult() will return true.
                         return true;
 
                     case DragEvent.ACTION_DRAG_ENDED:
-
-                        // Turns off any color tinting.
-//                        ((TextView)v).clearColorFilter();
-
-                        // Invalidates the view to force a redraw.
+                        ((LinearLayout)v).getBackground().clearColorFilter();
                         v.invalidate();
-
-                        // Does a getResult(), and displays what happened.
-                        if (e.getResult()) {
-//                            TextView t2 = new TextView(this);
-//                            t2.setText("FUCK YOU");
-//                            btmLayout.addView(t2);
-                            System.out.println("DROP");
-                        } else {
-//                            Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_LONG).show();
-                        }
 
                         // Returns true; the value is ignored.
                         return true;
@@ -183,10 +147,30 @@ public class Game extends AppCompatActivity {
                 }
 
                 return false;
-
             });
+
+            btmLayout.addView(btn);
+            btmFlex.addView(btmLayout);
+            topFlex.addView(topLayout);
         }
 
+    }
+
+    private LinearLayout layoutFactory()
+    {
+        LinearLayout layout = new LinearLayout(this);
+        layout.setMinimumWidth(150);
+        layout.setMinimumHeight(100);
+        layout.setBackgroundColor(Color.LTGRAY);
+        layout.setPadding(10,10,10,10);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        layoutParams.setMargins(20, 20, 20, 20);
+
+        layout.setLayoutParams(layoutParams);
+        return layout;
     }
 
     private static class MyDragShadowBuilder extends View.DragShadowBuilder {
@@ -235,9 +219,9 @@ public class Game extends AppCompatActivity {
         // constructs from the dimensions passed to onProvideShadowMetrics().
         @Override
         public void onDrawShadow(Canvas canvas) {
-
             // Draw the ColorDrawable on the Canvas passed in from the system.
-            shadow.draw(canvas);
+//            shadow.draw(canvas);
+            getView().draw(canvas);
         }
     }
 }
