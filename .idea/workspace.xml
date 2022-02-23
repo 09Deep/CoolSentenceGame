@@ -10,12 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="05ebd16e-0168-4e27-b671-9feafff36e25" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/coolsentencegame/objects/MockDatabaseTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/MockDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Sentence.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Word.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/IDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/interfaces/IDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Sentence.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Sentence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Word.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -434,5 +431,8 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CoolSentenceGame$unit_test.ic" NAME="unit-test Coverage Results" MODIFIED="1645648153740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
