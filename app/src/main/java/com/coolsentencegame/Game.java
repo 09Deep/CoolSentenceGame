@@ -3,19 +3,22 @@ package com.coolsentencegame;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,7 +29,8 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Game extends AppCompatActivity {
@@ -34,10 +38,13 @@ public class Game extends AppCompatActivity {
     private String testString;
     private ArrayList<String> tokens;
     private View clickedView; // This feels wrong
+    private int score;
 
     private FlexboxLayout topFlex;  // Users answer
     private FlexboxLayout btmFlex;  // Users choices
-    private TextView textStatus;
+    private TextView textTitle;
+    private TextView textScore;
+    private Timer timer;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -45,30 +52,61 @@ public class Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        score = 0;
         tokens = new ArrayList<>();
+        timer = new Timer();
 
         topFlex = findViewById(R.id.topLayout2);
         btmFlex = findViewById(R.id.btmLayout2);
-        textStatus = (TextView)findViewById(R.id.textStatus);
+        textTitle = (TextView)findViewById(R.id.textTitle);
+        textScore = (TextView)findViewById(R.id.textScore);
+
+        startPhase1();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void startPhase1()
+    {
+        tokens.clear();
+        btmFlex.removeAllViews();
+        topFlex.removeAllViews();
 
         // This will be replaced by the database stuff
         testString = "This is a very good test, very nice!";
-
         Collections.addAll(tokens, testString.split(" "));
+
+        textTitle.setText(testString);
+
+        // After 4 seconds, move to next phase
+        timer.schedule(new TestTimer(), 4000);
+    }
+
+    // This is somehow causing a memory leak, should
+    // probably fix that?
+    public Handler mHandler = new Handler() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        public void handleMessage(Message msg) {
+            startPhase2();
+        }
+    };
+
+    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void startPhase2()
+    {
+        textTitle.setText("Rebuild the sentence!");
 
         for(String s : tokens) {
             LinearLayout btmLayout = layoutFactory();
             LinearLayout topLayout = layoutFactory();
-            Button btn = new Button(this);
+            Button btn = buttonFactory(s);
 
-            btn.setText(s);
-            btn.setTextSize(24);
-            btn.setOnLongClickListener(v -> {
+            btn.setOnTouchListener((v, e) -> {
                 clickedView = v;
                 ClipData.Item item = new ClipData.Item((CharSequence) s);
                 ClipData dragData = new ClipData(
                         (CharSequence) s,
-                        new String[] {ClipDescription.MIMETYPE_TEXT_PLAIN},
+                        new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
                         item
                 );
 
@@ -80,84 +118,85 @@ public class Game extends AppCompatActivity {
             });
 
             // Set up the answer containers
-            topLayout.setOnDragListener( (v, e) -> {
-                // Handles each of the expected events.
-                switch(e.getAction()) {
-
-                    case DragEvent.ACTION_DRAG_STARTED:
-                        // Determines if this View can accept the dragged data.
-                        if (e.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-//                            v.invalidate();
-                            return true;
-                        }
-
-                        // Returns false to indicate that, during the current drag and drop operation,
-                        // this View will not receive events again until ACTION_DRAG_ENDED is sent.
-                        return false;
-
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        ((LinearLayout)v).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
-                        v.invalidate();
-
-                        // Returns true; the value is ignored.
-                        return true;
-
-                    case DragEvent.ACTION_DRAG_LOCATION:
-                        // Ignore the event.
-                        return true;
-
-                    case DragEvent.ACTION_DRAG_EXITED:
-                        ((LinearLayout)v).getBackground().clearColorFilter();
-                        v.invalidate();
-
-                        return true;
-
-                    case DragEvent.ACTION_DROP:
-                        ViewGroup clickedParent = (ViewGroup) clickedView.getParent();
-                        LinearLayout targetLayout = (LinearLayout)v;
-
-                        // Move a token to an empty answer slot
-                        if(targetLayout.getChildCount() == 0) {
-                            clickedParent.removeView(clickedView);
-                            targetLayout.addView(clickedView);
-                        }
-
-                        // Swap two tokens in their slots (unless trying to swap token with itself)
-                        else if(targetLayout.getChildCount() == 1 && clickedView != targetLayout.getChildAt(0)) {
-                            View targetView = targetLayout.getChildAt(0);
-                            targetLayout.removeView(targetView);
-                            clickedParent.removeView(clickedView);
-                            targetLayout.addView(clickedView);
-                            clickedParent.addView(targetView);
-                        }
-
-                        targetLayout.getBackground().clearColorFilter();
-                        v.invalidate();
-
-                        // Returns true. DragEvent.getResult() will return true.
-                        return true;
-
-                    case DragEvent.ACTION_DRAG_ENDED:
-                        ((LinearLayout)v).getBackground().clearColorFilter();
-                        v.invalidate();
-
-                        // Returns true; the value is ignored.
-                        return true;
-
-                    // An unknown action type was received.
-                    default:
-                        Log.e("DragDrop Example","Unknown action type received by View.OnDragListener.");
-                        break;
-                }
-
-                return false;
-            });
+            topLayout.setOnDragListener(this::dragListener);
 
             btmLayout.addView(btn);
             btmFlex.addView(btmLayout);
             topFlex.addView(topLayout);
         }
+    }
 
+    private void fuck()
+    {
+        System.out.println("FUCK YOU FUCM YOU");
+    }
+
+    private boolean dragListener(View v, DragEvent e)
+    {
+        // Handles each of the expected events.
+        switch(e.getAction()) {
+
+            case DragEvent.ACTION_DRAG_STARTED:
+                // Determines if this View can accept the dragged data.
+                if (e.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                    return true;
+                }
+
+                // Returns false to indicate that, during the current drag and drop operation,
+                // this View will not receive events again until ACTION_DRAG_ENDED is sent.
+                return false;
+
+            case DragEvent.ACTION_DRAG_ENTERED:
+                ((LinearLayout)v).getBackground().setColorFilter(Color.rgb(150,50,150), PorterDuff.Mode.MULTIPLY);
+                v.invalidate();
+
+                // Returns true; the value is ignored.
+                return true;
+
+            case DragEvent.ACTION_DRAG_LOCATION:
+                // Ignore the event.
+                return true;
+
+            case DragEvent.ACTION_DRAG_EXITED:
+            case DragEvent.ACTION_DRAG_ENDED:
+                ((LinearLayout)v).getBackground().clearColorFilter();
+                v.invalidate();
+
+                return true;
+
+            case DragEvent.ACTION_DROP:
+                ViewGroup clickedParent = (ViewGroup) clickedView.getParent();
+                LinearLayout targetLayout = (LinearLayout)v;
+
+                // Move a token to an empty answer slot
+                if(targetLayout.getChildCount() == 0) {
+                    clickedParent.removeView(clickedView);
+                    targetLayout.addView(clickedView);
+                    btmFlex.removeView(clickedParent);
+                }
+
+                // Swap two tokens in their slots (unless trying to swap token with itself)
+                else if(targetLayout.getChildCount() == 1 && clickedView != targetLayout.getChildAt(0)) {
+                    View targetView = targetLayout.getChildAt(0);
+                    targetLayout.removeView(targetView);
+                    clickedParent.removeView(clickedView);
+                    targetLayout.addView(clickedView);
+                    clickedParent.addView(targetView);
+                }
+
+                targetLayout.getBackground().clearColorFilter();
+                v.invalidate();
+
+                // Returns true. DragEvent.getResult() will return true.
+                return true;
+
+            // An unknown action type was received.
+            default:
+                Log.e("DragDrop Example","Unknown action type received by View.OnDragListener.");
+                break;
+        }
+
+        return false;
     }
 
     private LinearLayout layoutFactory()
@@ -167,6 +206,7 @@ public class Game extends AppCompatActivity {
         layout.setMinimumHeight(100);
         layout.setBackgroundColor(Color.LTGRAY);
         layout.setPadding(10,10,10,10);
+        layout.setBackgroundResource(R.drawable.rounded);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -177,15 +217,44 @@ public class Game extends AppCompatActivity {
         return layout;
     }
 
+    private Button buttonFactory(String s)
+    {
+        Button btn = new Button(this);
+        btn.setText(s);
+        btn.setTextSize(24);
+        btn.setBackgroundColor(Color.TRANSPARENT);
+        return btn;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void onCheckBtnClick(View view)
+    {
+        for(int i = 0; i < topFlex.getChildCount(); i++) {
+            View v = topFlex.getChildAt(i);
+            if(((LinearLayout)v).getChildCount() == 0) {
+                System.out.println("FUCK YOU");
+                return;
+            }
+            Button contents = (Button) ((LinearLayout)v).getChildAt(0);
+            if(!contents.getText().equals(tokens.get(i))) {
+                System.out.println("FUCK YOU");
+                return;
+            }
+        }
+        score++;
+        textScore.setText("" + score);
+
+        startPhase1();
+    }
+
     private static class MyDragShadowBuilder extends View.DragShadowBuilder {
 
         // The drag shadow image, defined as a drawable object.
         private static Drawable shadow;
 
         // Constructor
-        public MyDragShadowBuilder(View v) {
-
-            // Stores the View parameter.
+        public MyDragShadowBuilder(View v)
+        {
             super(v);
 
             // Creates a draggable image that fills the Canvas provided by the system.
@@ -195,24 +264,14 @@ public class Game extends AppCompatActivity {
         // Defines a callback that sends the drag shadow dimensions and touch point
         // back to the system.
         @Override
-        public void onProvideShadowMetrics (Point size, Point touch) {
-
-            // Defines local variables
+        public void onProvideShadowMetrics (Point size, Point touch)
+        {
             int width, height;
 
-            // Set the width of the shadow to half the width of the original View.
             width = getView().getWidth();
-
-            // Set the height of the shadow to half the height of the original View.
             height = getView().getHeight();
 
-            // The drag shadow is a ColorDrawable. This sets its dimensions to be the
-            // same as the Canvas that the system provides. As a result, the drag shadow
-            // fills the Canvas.
             shadow.setBounds(0, 0, width, height);
-
-            // Set the size parameter's width and height values. These get back to the
-            // system through the size parameter.
             size.set(width, height);
 
             // Set the touch point's position to be in the middle of the drag shadow.
@@ -224,8 +283,18 @@ public class Game extends AppCompatActivity {
         @Override
         public void onDrawShadow(Canvas canvas) {
             // Draw the ColorDrawable on the Canvas passed in from the system.
-//            shadow.draw(canvas);
+            shadow.draw(canvas);
             getView().draw(canvas);
         }
+    }
+
+    private class TestTimer extends TimerTask {
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void run() {
+            mHandler.obtainMessage(1).sendToTarget();
+        }
+
     }
 }
