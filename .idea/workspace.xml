@@ -10,9 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="05ebd16e-0168-4e27-b671-9feafff36e25" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Preferences.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Sentence.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Sentence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Word.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/Preferences.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,9 +58,9 @@
       <list>
         <option value="Interface" />
         <option value="resourceFile" />
-        <option value="Class" />
         <option value="JUnit3 Test Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -96,6 +97,10 @@
       <recent name="junit.framework.TestCase" />
     </key>
     <key name="android.template.-1653073035">
+      <recent name="com.coolsentencegame" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.coolsentencegame.objects" />
       <recent name="com.coolsentencegame" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
