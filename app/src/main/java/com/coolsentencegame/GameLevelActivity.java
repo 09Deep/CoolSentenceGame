@@ -29,8 +29,7 @@ public class GameLevelActivity extends AppCompatActivity {
         buttonToLevel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toLevelOne = new Intent(view.getContext(),LevelOneActivity.class);
-                startActivity(toLevelOne);
+                startActivity(new Intent(GameLevelActivity.this, Game.class));
             }
         });
 
