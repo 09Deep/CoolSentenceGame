@@ -10,10 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoolSentenceGame">
         <activity
+            android:name=".LevelThreeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LevelTwoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LevelOneActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameLevelActivity"
+
             android:name=".Game"
             android:exported="false" />
         <activity
             android:name=".GameSetup"
+
             android:exported="false" />
         <activity
             android:name=".MainActivity"
