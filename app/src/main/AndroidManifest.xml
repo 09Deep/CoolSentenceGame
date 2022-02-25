@@ -20,7 +20,8 @@
             android:exported="false" />
         <activity
             android:name=".GameLevelActivity"
-
+            />
+        <activity
             android:name=".Game"
             android:exported="false" />
         <activity
