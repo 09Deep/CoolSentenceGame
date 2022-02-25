@@ -7,12 +7,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class GameLevelActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_level);
+
+        FloatingActionButton backbuttonToMainMenu = findViewById(R.id.back_button_from_gamelevels);
+        backbuttonToMainMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toMainMenu = new Intent(view.getContext(),MainActivity.class);
+                startActivity(toMainMenu);
+            }
+        });
 
         Button buttonToLevel1 = findViewById(R.id.buttontolevel1);
         buttonToLevel1.setOnClickListener(new View.OnClickListener() {

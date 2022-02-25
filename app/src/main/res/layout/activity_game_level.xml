@@ -6,11 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".GameLevelActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back_button_from_gamelevels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_baseline_arrow_back_24"/>
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="156dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp">
@@ -22,9 +33,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Game Level 1"
-            android:textSize="20dp"
-            android:gravity="center"/>
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/buttontolevel1"
@@ -40,7 +51,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="0dp">
@@ -52,9 +63,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Game Level 2"
-            android:textSize="20dp"
-            android:gravity="center"/>
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/buttontolevel2"
@@ -69,10 +80,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:layout_editor_absoluteX="-16dp">
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:id="@+id/textView3"
@@ -81,9 +92,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Game Level 3"
-            android:textSize="20dp"
-            android:gravity="center"/>
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/buttontolevel3"
