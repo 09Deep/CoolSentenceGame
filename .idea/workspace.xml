@@ -30,7 +30,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
+        <option value="resourceFile" />
+        <option value="JUnit3 Test Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -61,6 +65,10 @@
       <recent name="" />
     </key>
     <key name="android.template.1079879161">
+      <recent name="com.coolsentencegame" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.coolsentencegame.objects" />
       <recent name="com.coolsentencegame" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
