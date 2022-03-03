@@ -24,8 +24,9 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.coolsentencegame.interfaces.IDatabase;
+import com.coolsentencegame.objects.MockDatabase;
 import com.google.android.flexbox.FlexboxLayout;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +36,12 @@ import java.util.TimerTask;
 
 public class Game extends AppCompatActivity {
 
-    private String testString;
+    private String lastString;
     private ArrayList<String> tokens;
     private View clickedView; // This feels wrong
     private int score;
     private boolean start; //to only load the scene once. either with the timer or the check btn
+    private IDatabase db;
 
     //this int is set to the number of the next phase that the game should move to.
     // 1 for phase 1 and 2 for phase 2.
@@ -72,12 +74,15 @@ public class Game extends AppCompatActivity {
         textTitle = (TextView)findViewById(R.id.textTitle);
         textScore = (TextView)findViewById(R.id.textScore);
 
+        db = new MockDatabase();
+
         startPhase1();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void startPhase1()
     {
+        String string;
         gameManager = 2;
         btn.setText("Start");
         btn.setEnabled(true);
@@ -87,10 +92,14 @@ public class Game extends AppCompatActivity {
         topFlex.removeAllViews();
 
         // This will be replaced by the database stuff
-        testString = "This is a very good test, very nice!";
-        Collections.addAll(tokens, testString.split(" "));
+        string = db.FetchRandomWord();
+        while(string.equals(lastString)){
+            string = db.FetchRandomWord();
+        }
+        lastString = string;
+        Collections.addAll(tokens, string.split(" "));
 
-        textTitle.setText(testString);
+        textTitle.setText(string);
 
         // After 4 seconds, move to next phase
         timer.schedule(new TestTimer(), 4000);
@@ -102,10 +111,10 @@ public class Game extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void handleMessage(Message msg) {
 
-           if (!start) {
-               gameManager = 2;
-               startPhase2();
-           }
+            if (!start) {
+                gameManager = 2;
+                startPhase2();
+            }
         }
     };
 
@@ -153,11 +162,6 @@ public class Game extends AppCompatActivity {
             btmFlex.addView(btmLayout);
             topFlex.addView(topLayout);
         }
-    }
-
-    private void fuck()
-    {
-        System.out.println("FUCK YOU FUCM YOU");
     }
 
     private boolean dragListener(View v, DragEvent e)
@@ -258,7 +262,7 @@ public class Game extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCheckBtnClick(View view)
     {
-         start = true;
+        start = true;
         btn.setEnabled(false);
         for(int i = 0; i < topFlex.getChildCount(); i++) {
             View v = topFlex.getChildAt(i);
