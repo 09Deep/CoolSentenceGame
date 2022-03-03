@@ -35,6 +35,10 @@ Provide a link to a test of exceptional code. In a few sentences,
 provide an explanation of why the exception is handled or thrown
 in the code you are testing.
 
+### Response
+
+Our code does not currently have exceptions being thrown. The reason for this is that most of the code that is currently developed does not factor in user input, so trying to catch / warn of issues in those cases are low. Additionally, much of the code is unable to throw exceptions to begin with. In short, much of the code we have written is deterministic, and unlikely to thrown exceptions. This negates much of the practical concern for adding exception handling. In future iterations this exceptions will be handled, as the code begins to require it.
+
 Branching
 ----------
 
