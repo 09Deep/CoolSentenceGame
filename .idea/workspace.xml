@@ -12,7 +12,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05ebd16e-0168-4e27-b671-9feafff36e25" name="Default Changelist" comment="" />
+    <list default="true" id="05ebd16e-0168-4e27-b671-9feafff36e25" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/coolsentencegame/objects/SentenceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/coolsentencegame/objects/GameLogicTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/Sentence.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/coolsentencegame/objects/GameLogic.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
