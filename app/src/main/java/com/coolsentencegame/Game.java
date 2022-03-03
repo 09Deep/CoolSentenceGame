@@ -39,7 +39,13 @@ public class Game extends AppCompatActivity {
     private ArrayList<String> tokens;
     private View clickedView; // This feels wrong
     private int score;
+    private boolean start; //to only load the scene once. either with the timer or the check btn
 
+    //this int is set to the number of the next phase that the game should move to.
+    // 1 for phase 1 and 2 for phase 2.
+    private int gameManager;
+
+    private Button btn;
     private FlexboxLayout topFlex;  // Users answer
     private FlexboxLayout btmFlex;  // Users choices
     private TextView textTitle;
@@ -56,6 +62,11 @@ public class Game extends AppCompatActivity {
         tokens = new ArrayList<>();
         timer = new Timer();
 
+        gameManager = 1;
+        start = false;
+        btn = findViewById(R.id.btnCheck);
+        btn.setEnabled(false);
+
         topFlex = findViewById(R.id.topLayout2);
         btmFlex = findViewById(R.id.btmLayout2);
         textTitle = (TextView)findViewById(R.id.textTitle);
@@ -67,6 +78,10 @@ public class Game extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void startPhase1()
     {
+        gameManager = 2;
+        btn.setText("Start");
+        btn.setEnabled(true);
+
         tokens.clear();
         btmFlex.removeAllViews();
         topFlex.removeAllViews();
@@ -83,10 +98,14 @@ public class Game extends AppCompatActivity {
 
     // This is somehow causing a memory leak, should
     // probably fix that?
-    public Handler mHandler = new Handler() {
+    public Handler mHandler =new  Handler() {
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void handleMessage(Message msg) {
-            startPhase2();
+
+           if (!start) {
+               gameManager = 2;
+               startPhase2();
+           }
         }
     };
 
@@ -94,6 +113,16 @@ public class Game extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startPhase2()
     {
+        /**
+         * the code below should later be removed as the scene needs to either changed
+         * to next level or just show a msg that the sentence was correct or not!
+         * (success or failure)*/
+        gameManager = 1;
+        /**********/
+
+
+        btn.setText("Check");
+        btn.setEnabled(true);
         textTitle.setText("Rebuild the sentence!");
 
         for(String s : tokens) {
@@ -229,6 +258,8 @@ public class Game extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCheckBtnClick(View view)
     {
+         start = true;
+        btn.setEnabled(false);
         for(int i = 0; i < topFlex.getChildCount(); i++) {
             View v = topFlex.getChildAt(i);
             if(((LinearLayout)v).getChildCount() == 0) {
@@ -241,10 +272,19 @@ public class Game extends AppCompatActivity {
                 return;
             }
         }
+
         score++;
         textScore.setText("" + score);
 
-        startPhase1();
+        switch (gameManager) {
+            case 1:
+                startPhase1();
+                break;
+            case 2:
+                startPhase2();
+                break;
+        }
+
     }
 
     private static class MyDragShadowBuilder extends View.DragShadowBuilder {
