@@ -37,7 +37,7 @@ public class GameUI extends AppCompatActivity {
 
     private GameLogic gameLogic; // Handles logic layer
     private View clickedView;
-    private boolean start; //to only load the scene once. either with the timer or the check btn
+    private boolean startClicked; //to only load the scene once. either with the timer or the check btn
 
     private Button btnCheck;
     private Button btnStart;
@@ -72,7 +72,7 @@ public class GameUI extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void startPhase1()
     {
-        start = false;
+        startClicked = false;
         btnStart.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
 
@@ -93,7 +93,7 @@ public class GameUI extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void handleMessage(Message msg) {
 
-            if (!start) {
+            if (!startClicked) {
                 startPhase2();
             }
         }
@@ -238,15 +238,15 @@ public class GameUI extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCheckBtnClick(View view)
     {
-        start = true;
-        btnCheck.setEnabled(false);
         ArrayList<String> playerTokens = new ArrayList<>();
 
         // Build the tokens from the UI
         for(int i = 0; i < topFlex.getChildCount(); i++) {
-            View v = topFlex.getChildAt(i);
-            Button contents = (Button) ((LinearLayout)v).getChildAt(0);
-            playerTokens.add((String) contents.getText());
+            LinearLayout v = (LinearLayout) topFlex.getChildAt(i);
+            if(v.getChildCount() > 0) {
+                Button contents = (Button) v.getChildAt(0);
+                playerTokens.add((String) contents.getText());
+            }
         }
 
         boolean success = gameLogic.isPlayerSentenceCorrect(playerTokens);
@@ -259,7 +259,7 @@ public class GameUI extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onStartBtnClick(View view)
     {
-        start = true;
+        startClicked = true;
         startPhase2();
     }
 
