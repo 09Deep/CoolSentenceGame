@@ -1,6 +1,7 @@
-package com.coolsentencegame.objects;
+package com.coolsentencegame.logic;
 
 import com.coolsentencegame.interfaces.IDatabase;
+import com.coolsentencegame.persistence.MockDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;

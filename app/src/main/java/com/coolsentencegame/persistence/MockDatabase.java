@@ -1,4 +1,4 @@
-package com.coolsentencegame.objects;
+package com.coolsentencegame.persistence;
 
 import com.coolsentencegame.interfaces.IDatabase;
 

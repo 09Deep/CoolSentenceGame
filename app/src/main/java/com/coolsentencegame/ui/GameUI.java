@@ -25,7 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.coolsentencegame.R;
-import com.coolsentencegame.objects.GameLogic;
+import com.coolsentencegame.logic.GameLogic;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
