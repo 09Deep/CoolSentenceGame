@@ -60,6 +60,11 @@ your links in the issues are to **specific commits** (not to `main`, or `develop
 
 Provide a link to the issue you created here.
 
+### Response
+
+We could not find a SOLID violation in our assigned group. 
+There was not very much code to go over and thus not many opportunities to find violations.
+
 Agile Planning
 --------------
 
