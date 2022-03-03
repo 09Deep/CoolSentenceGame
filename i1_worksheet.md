@@ -47,7 +47,7 @@ as well as using `git log --graph`.
 ### Response
 
 Our branching strategy is the Gitflow Style. A link to the page is provided within our readme at put_link_here<br>
-Provided at picture_link is a screenshot of the GitLab Graph tool.<br>
+Provided at https://code.cs.umanitoba.ca/winter-2022-a02/group-1/cool-sentence-game/-/blob/a7bf18a7832fae8e05afb11073c57383335e3ca7/worksheet_I1_feature_graph.png is a screenshot of the GitLab Graph tool.<br>
 As it shows, the feature was branched off of our Dev branch, worked on, with additional rebases as other features were added, before finally being merged back into dev, successfully integrating the feature.
 
 SOLID
