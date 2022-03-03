@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Game"
+    tools:context=".ui.GameUI"
     android:id="@+id/game_activity">
 
     <TextView
@@ -52,17 +52,31 @@
         app:layout_constraintTop_toBottomOf="@+id/topLayout2"
         app:layout_constraintVertical_bias="0.38" />
 
-    <Button
-        android:id="@+id/btnCheck"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onCheckBtnClick"
-        android:text="Check!"
-        android:textSize="34sp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btmLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/btmLayout2">
+
+        <Button
+            android:id="@+id/btnCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBtnClick"
+            android:text="Check!"
+            android:textSize="34sp" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onStartBtnClick"
+            android:text="Start!"
+            android:textSize="34sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

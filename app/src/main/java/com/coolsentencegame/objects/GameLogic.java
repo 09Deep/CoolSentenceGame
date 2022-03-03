@@ -14,16 +14,18 @@ public class GameLogic {
     IDatabase db;
     private String sentence;
     private String prevSentence;
-    private ArrayList<String> tokens;
+    private final ArrayList<String> tokens;
     private int correctGuesses;
     private int wrongGuesses;
 
-    public GameLogic(String s) {
+    public GameLogic() {
         db = new MockDatabase();
         tokens = new ArrayList<String>();
-        newSentence();
+        sentence = "";
+        prevSentence = "";
         correctGuesses = 0;
         wrongGuesses = 0;
+        newSentence();
     }
 
     /*
@@ -31,6 +33,7 @@ public class GameLogic {
      */
     public void newSentence()
     {
+        tokens.clear();
         prevSentence = sentence;
         while(sentence.equals(prevSentence)) {
             sentence = db.FetchRandomWord();
@@ -62,6 +65,13 @@ public class GameLogic {
     public ArrayList<String> getTokens()
     {
         return tokens;
+    }
+
+    public ArrayList<String> getTokensRandomized()
+    {
+        ArrayList<String> newTokens = new ArrayList<String>(tokens);
+        Collections.shuffle(newTokens);
+        return newTokens;
     }
 
     public int getCorrectGuesses()

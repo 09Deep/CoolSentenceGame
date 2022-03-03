@@ -28,10 +28,10 @@ public class MockDatabase implements IDatabase {
         words.add("Why hello there");
         words.add("That is based");
         words.add("Don't have a cow man");
-        words.add("Cringe");
+        words.add("Cringe bro");
         words.add("Of and words confusing a string arbitrary");
         words.add("Our table! It's broken!");
-        words.add("Groovy");
+        words.add("Very groovy");
 
         scores = new ArrayList<Integer>();
     }

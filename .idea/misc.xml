@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_game.xml" value="0.5" />
+        <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_game_level.xml" value="0.2777777777777778" />
         <entry key="app/src/main/res/layout/activity_game.xml" value="0.20153985507246377" />
         <entry key="app/src/main/res/layout/activity_game_level.xml" value="0.20153985507246377" />
         <entry key="app/src/main/res/layout/activity_level_one.xml" value="0.20153985507246377" />

@@ -1,4 +1,4 @@
-package com.coolsentencegame;
+package com.coolsentencegame.ui;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -24,30 +24,23 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.coolsentencegame.interfaces.IDatabase;
-import com.coolsentencegame.objects.MockDatabase;
+import com.coolsentencegame.R;
+import com.coolsentencegame.objects.GameLogic;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class Game extends AppCompatActivity {
+public class GameUI extends AppCompatActivity {
 
-    private String lastString;
-    private ArrayList<String> tokens;
-    private View clickedView; // This feels wrong
-    private int score;
+    private GameLogic gameLogic; // Handles logic layer
+    private View clickedView;
     private boolean start; //to only load the scene once. either with the timer or the check btn
-    private IDatabase db;
 
-    //this int is set to the number of the next phase that the game should move to.
-    // 1 for phase 1 and 2 for phase 2.
-    private int gameManager;
-
-    private Button btn;
+    private Button btnCheck;
+    private Button btnStart;
     private FlexboxLayout topFlex;  // Users answer
     private FlexboxLayout btmFlex;  // Users choices
     private TextView textTitle;
@@ -60,21 +53,18 @@ public class Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        score = 0;
-        tokens = new ArrayList<>();
+        gameLogic = new GameLogic();
         timer = new Timer();
-
-        gameManager = 1;
-        start = false;
-        btn = findViewById(R.id.btnCheck);
-        btn.setEnabled(false);
+        
+        btnCheck = findViewById(R.id.btnCheck);
+        btnStart = findViewById(R.id.btnStart);
+        btnCheck.setVisibility(View.GONE);
+        btnStart.setVisibility(View.VISIBLE);
 
         topFlex = findViewById(R.id.topLayout2);
         btmFlex = findViewById(R.id.btmLayout2);
         textTitle = (TextView)findViewById(R.id.textTitle);
         textScore = (TextView)findViewById(R.id.textScore);
-
-        db = new MockDatabase();
 
         startPhase1();
     }
@@ -82,27 +72,19 @@ public class Game extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void startPhase1()
     {
-        String string;
-        gameManager = 2;
-        btn.setText("Start");
-        btn.setEnabled(true);
+        start = false;
+        btnStart.setVisibility(View.VISIBLE);
+        btnCheck.setVisibility(View.GONE);
 
-        tokens.clear();
         btmFlex.removeAllViews();
         topFlex.removeAllViews();
 
-        // This will be replaced by the database stuff
-        string = db.FetchRandomWord();
-        while(string.equals(lastString)){
-            string = db.FetchRandomWord();
-        }
-        lastString = string;
-        Collections.addAll(tokens, string.split(" "));
+        gameLogic.newSentence();
 
-        textTitle.setText(string);
+        textTitle.setText(gameLogic.getSentence());
 
         // After 4 seconds, move to next phase
-        timer.schedule(new TestTimer(), 4000);
+        timer.schedule(new MemorizeTimer(), 4000);
     }
 
     // This is somehow causing a memory leak, should
@@ -112,7 +94,6 @@ public class Game extends AppCompatActivity {
         public void handleMessage(Message msg) {
 
             if (!start) {
-                gameManager = 2;
                 startPhase2();
             }
         }
@@ -122,19 +103,14 @@ public class Game extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startPhase2()
     {
-        /**
-         * the code below should later be removed as the scene needs to either changed
-         * to next level or just show a msg that the sentence was correct or not!
-         * (success or failure)*/
-        gameManager = 1;
-        /**********/
+        btnStart.setVisibility(View.GONE);
+        btnCheck.setVisibility(View.VISIBLE);
 
-
-        btn.setText("Check");
-        btn.setEnabled(true);
+        btnCheck.setText("Check");
+        btnCheck.setEnabled(true);
         textTitle.setText("Rebuild the sentence!");
 
-        for(String s : tokens) {
+        for(String s : gameLogic.getTokensRandomized()) {
             LinearLayout btmLayout = layoutFactory();
             LinearLayout topLayout = layoutFactory();
             Button btn = buttonFactory(s);
@@ -263,32 +239,28 @@ public class Game extends AppCompatActivity {
     public void onCheckBtnClick(View view)
     {
         start = true;
-        btn.setEnabled(false);
+        btnCheck.setEnabled(false);
+        ArrayList<String> playerTokens = new ArrayList<>();
+
+        // Build the tokens from the UI
         for(int i = 0; i < topFlex.getChildCount(); i++) {
             View v = topFlex.getChildAt(i);
-            if(((LinearLayout)v).getChildCount() == 0) {
-                System.out.println("FUCK YOU");
-                return;
-            }
             Button contents = (Button) ((LinearLayout)v).getChildAt(0);
-            if(!contents.getText().equals(tokens.get(i))) {
-                System.out.println("FUCK YOU");
-                return;
-            }
+            playerTokens.add((String) contents.getText());
         }
 
-        score++;
-        textScore.setText("" + score);
-
-        switch (gameManager) {
-            case 1:
-                startPhase1();
-                break;
-            case 2:
-                startPhase2();
-                break;
+        boolean success = gameLogic.isPlayerSentenceCorrect(playerTokens);
+        textScore.setText("" + gameLogic.getCorrectGuesses());
+        if(success) {
+            startPhase1();
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void onStartBtnClick(View view)
+    {
+        start = true;
+        startPhase2();
     }
 
     private static class MyDragShadowBuilder extends View.DragShadowBuilder {
@@ -332,7 +304,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    private class TestTimer extends TimerTask {
+    private class MemorizeTimer extends TimerTask {
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override

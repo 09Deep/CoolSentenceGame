@@ -1,4 +1,4 @@
-package com.coolsentencegame;
+package com.coolsentencegame.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.coolsentencegame.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GameLevelActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class GameLevelActivity extends AppCompatActivity {
         buttonToLevel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(GameLevelActivity.this, Game.class));
+                startActivity(new Intent(GameLevelActivity.this, GameUI.class));
             }
         });
 
