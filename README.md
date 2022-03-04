@@ -15,4 +15,8 @@ A study conducted by Dr. Zahra Moussavi at the biomedical engineering lab of the
 The game will be considered successful if either a user's memory improves, or the decline in memory slows down. Standardized tests such as WMS-IV and ADAS-Cog can be used for base line assessment of patients and the follow up assessment after they use tools such as this game to train their cognitive skills to test and illustrate the effectiveness of this game. 
 <br>
 
-#### Utilizing GitHub Flow style Version Control.
+#### Utilizing GitFlow style Version Control.
+
+Linked here:
+https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow#:~:text=Gitflow%20is%20a%20legacy%20Git,software%20development%20and%20DevOps%20practices.
+
