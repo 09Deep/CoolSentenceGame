@@ -2,6 +2,8 @@ package com.coolsentencegame.objects;
 
 import static org.junit.Assert.*;
 
+import com.coolsentencegame.persistence.MockDatabase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
