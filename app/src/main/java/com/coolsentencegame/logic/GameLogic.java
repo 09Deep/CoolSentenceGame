@@ -57,7 +57,7 @@ public class GameLogic {
             else{
                 answer=true;
                 break;
-                
+
 
 
             }
