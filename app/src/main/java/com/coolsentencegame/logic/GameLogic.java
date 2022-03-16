@@ -1,5 +1,7 @@
 package com.coolsentencegame.logic;
 
+import android.util.Log;
+
 import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.persistence.MockDatabase;
 
@@ -18,6 +20,7 @@ public class GameLogic {
     private final ArrayList<String> tokens;
     private int correctGuesses;
     private int wrongGuesses;
+    private boolean answer = false;
 
     public GameLogic() {
         db = new MockDatabase();
@@ -29,6 +32,11 @@ public class GameLogic {
         newSentence();
     }
 
+    public boolean getFlag(){
+
+        return answer;
+    }
+
     /*
     Sets a new sentence.
      */
@@ -37,9 +45,29 @@ public class GameLogic {
         tokens.clear();
         prevSentence = sentence;
         while(sentence.equals(prevSentence)) {
+
+
+
             sentence = db.FetchRandomWord();
+            if(sentence != null) {
+
+                Collections.addAll(tokens, sentence.split(" "));
+
+            }
+            else{
+                answer=true;
+                break;
+                
+
+
+            }
+
+
         }
-        Collections.addAll(tokens, sentence.split(" "));
+
+        if(sentence == null)
+            Log.v("Deep","still");
+
     }
 
     /*

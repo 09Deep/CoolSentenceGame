@@ -3,6 +3,7 @@ package com.coolsentencegame.ui;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -41,11 +42,13 @@ public class GameUI extends AppCompatActivity {
 
     private Button btnCheck;
     private Button btnStart;
+    private Button btnFinish;
     private FlexboxLayout topFlex;  // Users answer
     private FlexboxLayout btmFlex;  // Users choices
     private TextView textTitle;
     private TextView textScore;
     private Timer timer;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -58,15 +61,19 @@ public class GameUI extends AppCompatActivity {
         
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
+        btnFinish = findViewById(R.id.btnFinish);
         btnCheck.setVisibility(View.GONE);
         btnStart.setVisibility(View.VISIBLE);
+        btnFinish.setVisibility(View.VISIBLE);
 
         topFlex = findViewById(R.id.topLayout2);
         btmFlex = findViewById(R.id.btmLayout2);
         textTitle = (TextView)findViewById(R.id.textTitle);
         textScore = (TextView)findViewById(R.id.textScore);
 
-        startPhase1();
+
+            startPhase1();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -75,16 +82,30 @@ public class GameUI extends AppCompatActivity {
         startClicked = false;
         btnStart.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
+        btnFinish.setVisibility(View.VISIBLE);
 
         btmFlex.removeAllViews();
         topFlex.removeAllViews();
 
         gameLogic.newSentence();
 
-        textTitle.setText(gameLogic.getSentence());
 
-        // After 4 seconds, move to next phase
-        timer.schedule(new MemorizeTimer(), 4000);
+        //if yoy receive the sentence then show it on the screen
+        //if don't then the game is probably over
+        if(!gameLogic.getFlag()){
+
+            textTitle.setText(gameLogic.getSentence());
+
+            // After 4 seconds, move to next phase
+            timer.schedule(new MemorizeTimer(), 4000);
+        }
+        else{
+
+            startPhase3();
+
+        }
+
+
     }
 
     // This is somehow causing a memory leak, should
@@ -105,6 +126,7 @@ public class GameUI extends AppCompatActivity {
     {
         btnStart.setVisibility(View.GONE);
         btnCheck.setVisibility(View.VISIBLE);
+        btnFinish.setVisibility(View.VISIBLE);
 
         btnCheck.setText("Check");
         btnCheck.setEnabled(true);
@@ -138,6 +160,14 @@ public class GameUI extends AppCompatActivity {
             btmFlex.addView(btmLayout);
             topFlex.addView(topLayout);
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void startPhase3(){
+        btnStart.setVisibility(View.GONE);
+        btnCheck.setVisibility(View.GONE);
+        btnFinish.setVisibility(View.VISIBLE);
     }
 
     private boolean dragListener(View v, DragEvent e)
@@ -254,6 +284,9 @@ public class GameUI extends AppCompatActivity {
         if(success) {
             startPhase1();
         }
+        else{
+            backToLevels(view);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -262,6 +295,18 @@ public class GameUI extends AppCompatActivity {
         startClicked = true;
         startPhase2();
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void onFinishBtnClick(View view){
+        Intent toMainMenu = new Intent(view.getContext(),MainActivity.class);
+        startActivity(toMainMenu);
+    }
+
+    public void backToLevels(View view){
+        Intent toGameLevels = new Intent(view.getContext(),GameLevelActivity.class);
+        startActivity(toGameLevels);
+    }
+
 
     private static class MyDragShadowBuilder extends View.DragShadowBuilder {
 

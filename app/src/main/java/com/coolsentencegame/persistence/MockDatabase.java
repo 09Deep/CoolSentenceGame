@@ -1,5 +1,7 @@
 package com.coolsentencegame.persistence;
 
+import android.util.Log;
+
 import com.coolsentencegame.interfaces.IDatabase;
 
 import java.sql.Array;
@@ -42,8 +44,21 @@ public class MockDatabase implements IDatabase {
      * Returns a string at a random index within the word database's bounds.
      *
      */
+    //changed - get to remove
     public String FetchRandomWord() {
-        return words.get(random.nextInt(words.size()));
+        String check;
+
+        if(!words.isEmpty()){
+            check = words.remove(random.nextInt(words.size()));
+
+        }
+        else{
+
+            check=null;
+
+        }
+
+        return check;
     }
 
     /*

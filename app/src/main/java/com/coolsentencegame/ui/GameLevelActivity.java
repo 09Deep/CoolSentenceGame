@@ -27,6 +27,9 @@ public class GameLevelActivity extends AppCompatActivity {
         });
 
         Button buttonToLevel1 = findViewById(R.id.buttontolevel1);
+
+        buttonToLevel1.setEnabled(true);
+
         buttonToLevel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,6 +38,7 @@ public class GameLevelActivity extends AppCompatActivity {
         });
 
         Button buttonToLevel2 = findViewById(R.id.buttontolevel2);
+        buttonToLevel2.setEnabled(true);
         buttonToLevel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,6 +48,7 @@ public class GameLevelActivity extends AppCompatActivity {
         });
 
         Button buttonToLevel3 = findViewById(R.id.buttontolevel3);
+        buttonToLevel3.setEnabled(true);
         buttonToLevel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
