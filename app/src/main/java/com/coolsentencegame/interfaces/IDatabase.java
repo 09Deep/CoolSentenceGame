@@ -1,7 +1,9 @@
 package com.coolsentencegame.interfaces;
 
+import com.coolsentencegame.objects.Sentence;
+
 public interface IDatabase {
-    String FetchRandomWord();
+    Sentence FetchRandomSentence();
 
     void StoreScore(int score);
 }

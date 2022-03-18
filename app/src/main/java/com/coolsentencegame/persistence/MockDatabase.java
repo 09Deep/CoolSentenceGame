@@ -3,6 +3,7 @@ package com.coolsentencegame.persistence;
 import android.util.Log;
 
 import com.coolsentencegame.interfaces.IDatabase;
+import com.coolsentencegame.objects.Sentence;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -45,16 +46,11 @@ public class MockDatabase implements IDatabase {
      *
      */
     //changed - get to remove
-    public String FetchRandomWord() {
-        String check;
+    public Sentence FetchRandomSentence() {
+        Sentence check = null;
 
         if(!words.isEmpty()){
-            check = words.remove(random.nextInt(words.size()));
-
-        }
-        else{
-
-            check=null;
+            //check = words.remove(random.nextInt(words.size()));
 
         }
 

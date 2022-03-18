@@ -32,6 +32,27 @@ android {
 }
 
 dependencies {
+    api 'androidx.room:room-common:2.4.2'
+    def room_version = "2.4.2"
+
+    api "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // optional - RxJava2 support for Room
+    api "androidx.room:room-rxjava2:$room_version"
+
+    // optional - RxJava3 support for Room
+    api "androidx.room:room-rxjava3:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    api "androidx.room:room-guava:$room_version"
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    // optional - Paging 3 Integration
+    api "androidx.room:room-paging:2.5.0-alpha01"
+
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'

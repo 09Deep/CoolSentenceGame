@@ -1,6 +1,7 @@
 package com.coolsentencegame.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +9,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.coolsentencegame.R;
+import com.coolsentencegame.interfaces.IDatabase;
+import com.coolsentencegame.persistence.AppDatabase;
 
 public class MainActivity extends AppCompatActivity {
+    IDatabase db = Room.databaseBuilder(getApplicationContext(),
+            AppDatabase.class, "database-name").build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

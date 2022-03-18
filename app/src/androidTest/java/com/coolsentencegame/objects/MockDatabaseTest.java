@@ -22,7 +22,7 @@ public class MockDatabaseTest {
     public void fetchRandomWord() {
         MockDatabase mockDatabase = new MockDatabase();
 
-        assertNotNull(mockDatabase.FetchRandomWord());
+        assertNotNull(mockDatabase.FetchRandomSentence());
     }
 
     @Test
