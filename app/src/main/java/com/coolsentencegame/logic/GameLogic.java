@@ -2,13 +2,8 @@ package com.coolsentencegame.logic;
 
 import android.util.Log;
 
-import androidx.room.Room;
-import android.content.Context;
-
 import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.objects.Sentence;
-import com.coolsentencegame.persistence.AppDatabase;
-import com.coolsentencegame.persistence.MockDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +14,7 @@ import java.util.Collections;
  * Main logic layer class. Sets sentences and checks user guesses, and keeps track of score.
  */
 public class GameLogic {
+    private IDatabase database;
     private Sentence sentence;
     private Sentence prevSentence;
     private final ArrayList<String> tokens;
@@ -27,7 +23,6 @@ public class GameLogic {
     private boolean answer = false;
 
     public GameLogic() {
-        db = new MockDatabase();
         tokens = new ArrayList<String>();
         correctGuesses = 0;
         wrongGuesses = 0;
@@ -50,7 +45,7 @@ public class GameLogic {
 
 
 
-            sentence = db.FetchRandomSentence();
+            sentence = database.FetchRandomSentence();
             if(sentence != null) {
 
                 //Collections.addAll(tokens, sentence.split(" "));

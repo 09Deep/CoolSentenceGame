@@ -13,8 +13,18 @@ import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.persistence.AppDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    IDatabase db = Room.databaseBuilder(getApplicationContext(),
-            AppDatabase.class, "database-name").build();
+    private IDatabase database;
+
+    public IDatabase GetDatabase() {
+        if(database == null) {
+            database = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+        }
+
+        return database;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
