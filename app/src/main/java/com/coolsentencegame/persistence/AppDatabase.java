@@ -3,11 +3,9 @@ package com.coolsentencegame.persistence;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-import com.coolsentencegame.interfaces.IAccountDao;
 import com.coolsentencegame.interfaces.IAccountDataDao;
 import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.interfaces.ISentenceDao;
-import com.coolsentencegame.objects.Account;
 import com.coolsentencegame.objects.AccountData;
 import com.coolsentencegame.objects.Sentence;
 

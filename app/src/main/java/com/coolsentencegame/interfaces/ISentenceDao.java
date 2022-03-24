@@ -17,9 +17,6 @@ public interface ISentenceDao {
     @Query("SELECT * FROM sentence WHERE ID IN (:sentenceIds)")
     List<Sentence> loadAllByIds(int[] sentenceIds);
 
-    @Query("SELECT * FROM sentence")
-    Sentence FetchRandomSentence();
-
     @Insert
     void insertAll(Sentence... sentences);
 
