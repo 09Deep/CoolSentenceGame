@@ -2,6 +2,8 @@ package com.coolsentencegame.logic;
 
 import static org.junit.Assert.*;
 
+import com.coolsentencegame.objects.Sentence;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +24,7 @@ public class GameLogicTest {
     @Test
     public void newSentence() {
         GameLogic gameLogic = new GameLogic();
-        String sOne, sTwo;
+        Sentence sOne, sTwo;
 
         gameLogic.newSentence();
         sOne = gameLogic.getSentence();
@@ -30,7 +32,7 @@ public class GameLogicTest {
         gameLogic.newSentence();
         sTwo = gameLogic.getSentence();
 
-        assertNotEquals(sOne, sTwo);
+        assertNotEquals(sOne.sentence, sTwo.sentence);
     }
 
     @Test
@@ -39,7 +41,7 @@ public class GameLogicTest {
         String sentence;
 
         gameLogic.newSentence();
-        sentence = gameLogic.getSentence();
+        sentence = gameLogic.getSentence().sentence;
 
         assertTrue(gameLogic.isPlayerSentenceCorrect(new ArrayList<String>(Arrays.asList(sentence.split(" ")))));
     }

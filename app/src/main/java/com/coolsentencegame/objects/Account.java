@@ -5,24 +5,21 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
 public class Account
 {
-    @PrimaryKey
-    public int userID;
-
-    @ColumnInfo(name = "first_name")
-    public String firstName;
-
-    @ColumnInfo(name = "last_name")
-    public String lastName;
-
     final int DIFF_DEFAULT = 1;
     final String SPEED_DEFAULT = "SLOW";
     final String THEME_DEFAULT = "Default";
     final String[] VALID_SPEED = {"SLOW", "FAST"};
     final String[] VALID_THEME = {"Default", "Dark", "Light"};
     final int DIFF_MAX = 5;
+
+    public int userID;
+
+    public String firstName;
+
+    public String lastName;
+
 
 
     private String theme;
