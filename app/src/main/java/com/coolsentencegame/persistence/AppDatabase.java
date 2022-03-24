@@ -9,13 +9,24 @@ import com.coolsentencegame.interfaces.ISentenceDao;
 import com.coolsentencegame.objects.AccountData;
 import com.coolsentencegame.objects.Sentence;
 
+import java.util.List;
+import java.util.Random;
+
 @Database(entities = {AccountData.class, Sentence.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase implements IDatabase {
     public abstract IAccountDataDao accountDataDao();
     public abstract ISentenceDao sentenceDao();
 
+    private Random random;
+
+    public AppDatabase() {
+        random = new Random();
+    }
+
     public Sentence FetchRandomSentence() {
-        return sentenceDao().FetchRandomSentence();
+        List<Sentence> sentenceList = sentenceDao().getAll();
+
+        return sentenceList.get(random.nextInt(sentenceList.size()));
     }
 
     public void StoreScore(int score) {
