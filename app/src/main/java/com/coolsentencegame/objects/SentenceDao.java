@@ -5,7 +5,6 @@ import com.coolsentencegame.interfaces.ISentenceDao;
 import java.util.List;
 
 public class SentenceDao implements ISentenceDao {
-
     @Override
     public List<Sentence> getAll() {
         return null;
