@@ -14,6 +14,8 @@ import java.util.Random;
 
 @Database(entities = {AccountData.class, Sentence.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase implements IDatabase {
+    final String sentence = "How are you";
+
     public abstract IAccountDataDao accountDataDao();
     public abstract ISentenceDao sentenceDao();
 
@@ -21,6 +23,12 @@ public abstract class AppDatabase extends RoomDatabase implements IDatabase {
 
     public AppDatabase() {
         random = new Random();
+
+        FillSentenceDatabase();
+    }
+
+    public void FillSentenceDatabase() {
+        sentenceDao().insertAll(new Sentence(sentence));
     }
 
     public Sentence FetchRandomSentence() {

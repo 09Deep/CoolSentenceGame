@@ -1,18 +1,22 @@
 package com.coolsentencegame.interfaces;
 
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
 import com.coolsentencegame.ui.MainActivity;
 
 import junit.framework.TestCase;
 
+import org.junit.Rule;
+import org.robolectric.Robolectric;
+
 public class IDatabaseTest extends TestCase {
-    MainActivity mainActivity;
-    IDatabase database;
+    @Rule
+    public ActivityScenarioRule<MainActivity> mainActivityActivityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
     public void setUp() throws Exception {
         super.setUp();
-
-        mainActivity = new MainActivity();
-        database = mainActivity.GetDatabase();
     }
 
     public void tearDown() throws Exception {
@@ -20,7 +24,11 @@ public class IDatabaseTest extends TestCase {
     }
 
     public void testFetchRandomSentence() {
-        assertTrue(database.FetchRandomSentence() != null);
+        try(ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+            scenario.onActivity(mainActivity -> {
+                mainActivity.GetDatabase();
+            });
+        }
     }
 
     public void testStoreScore() {

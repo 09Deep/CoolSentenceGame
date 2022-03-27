@@ -11,4 +11,12 @@ public class Sentence {
 
     @PrimaryKey
     public int ID;
+
+    public Sentence(String sentence) {
+        this.sentence = sentence;
+    }
+
+    public Sentence() {
+
+    }
 }

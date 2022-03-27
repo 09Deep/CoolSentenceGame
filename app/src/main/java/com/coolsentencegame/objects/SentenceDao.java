@@ -16,11 +16,6 @@ public class SentenceDao implements ISentenceDao {
     }
 
     @Override
-    public Sentence FetchRandomSentence() {
-        return null;
-    }
-
-    @Override
     public void insertAll(Sentence... sentences) {
 
     }
