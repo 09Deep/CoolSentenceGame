@@ -36,8 +36,8 @@ public class GameLevelActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton backbuttonToMainMenu = findViewById(R.id.back_button_from_gamelevels);
-        backbuttonToMainMenu.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton backButtonToMainMenu = findViewById(R.id.back_button_from_gamelevels);
+        backButtonToMainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent toMainMenu = new Intent(view.getContext(), MainActivity.class);
@@ -52,9 +52,9 @@ public class GameLevelActivity extends AppCompatActivity {
         buttonToLevel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  Intent toLevelOne = new Intent(GameLevelActivity.this, GameUI.class);
-                Intent toLevelOne= new Intent(view.getContext(), GameUI.class);
-                //   toLevelOne.putExtra("speed",get_speed(game_speed_easy,game_speed_hard));
+             Intent toLevelOne = new Intent(GameLevelActivity.this, GameUI.class);
+
+               toLevelOne.putExtra("speed",get_speed(game_speed_easy,game_speed_hard));
                 startActivity(toLevelOne);
             }
         });

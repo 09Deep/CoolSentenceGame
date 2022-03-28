@@ -48,17 +48,24 @@ public class GameUI extends AppCompatActivity {
     private TextView textTitle;
     private TextView textScore;
     private Timer timer;
-
+    int delay;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
+        Bundle bundle = getIntent().getExtras();
         gameLogic = new GameLogic();
         timer = new Timer();
-        
+
+        if (bundle.getString("speed") == "1")
+            delay = 3000;
+        else if (bundle.getString("speed") == "0")
+            delay = 4000;
+
+
+
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
         btnFinish = findViewById(R.id.btnFinish);
@@ -68,17 +75,16 @@ public class GameUI extends AppCompatActivity {
 
         topFlex = findViewById(R.id.topLayout2);
         btmFlex = findViewById(R.id.btmLayout2);
-        textTitle = (TextView)findViewById(R.id.textTitle);
-        textScore = (TextView)findViewById(R.id.textScore);
+        textTitle = (TextView) findViewById(R.id.textTitle);
+        textScore = (TextView) findViewById(R.id.textScore);
 
 
-            startPhase1();
+        startPhase1();
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void startPhase1()
-    {
+    private void startPhase1() {
         startClicked = false;
         btnStart.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
@@ -92,14 +98,13 @@ public class GameUI extends AppCompatActivity {
 
         //if yoy receive the sentence then show it on the screen
         //if don't then the game is probably over
-        if(!gameLogic.getFlag()){
+        if (!gameLogic.getFlag()) {
 
             textTitle.setText(gameLogic.getSentence().sentence);
 
             // After 4 seconds, move to next phase
-            timer.schedule(new MemorizeTimer(), 4000);
-        }
-        else{
+            timer.schedule(new MemorizeTimer(), delay);
+        } else {
 
             startPhase3();
 
@@ -110,7 +115,7 @@ public class GameUI extends AppCompatActivity {
 
     // This is somehow causing a memory leak, should
     // probably fix that?
-    public Handler mHandler =new  Handler() {
+    public Handler mHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void handleMessage(Message msg) {
 
@@ -122,8 +127,7 @@ public class GameUI extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void startPhase2()
-    {
+    public void startPhase2() {
         btnStart.setVisibility(View.GONE);
         btnCheck.setVisibility(View.VISIBLE);
         btnFinish.setVisibility(View.VISIBLE);
@@ -132,7 +136,7 @@ public class GameUI extends AppCompatActivity {
         btnCheck.setEnabled(true);
         textTitle.setText("Rebuild the sentence!");
 
-        for(String s : gameLogic.getTokensRandomized()) {
+        for (String s : gameLogic.getTokensRandomized()) {
             LinearLayout btmLayout = layoutFactory();
             LinearLayout topLayout = layoutFactory();
             Button btn = buttonFactory(s);
@@ -164,16 +168,15 @@ public class GameUI extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void startPhase3(){
+    public void startPhase3() {
         btnStart.setVisibility(View.GONE);
         btnCheck.setVisibility(View.GONE);
         btnFinish.setVisibility(View.VISIBLE);
     }
 
-    private boolean dragListener(View v, DragEvent e)
-    {
+    private boolean dragListener(View v, DragEvent e) {
         // Handles each of the expected events.
-        switch(e.getAction()) {
+        switch (e.getAction()) {
 
             case DragEvent.ACTION_DRAG_STARTED:
                 // Determines if this View can accept the dragged data.
@@ -186,7 +189,7 @@ public class GameUI extends AppCompatActivity {
                 return false;
 
             case DragEvent.ACTION_DRAG_ENTERED:
-                ((LinearLayout)v).getBackground().setColorFilter(Color.rgb(150,50,150), PorterDuff.Mode.MULTIPLY);
+                ((LinearLayout) v).getBackground().setColorFilter(Color.rgb(150, 50, 150), PorterDuff.Mode.MULTIPLY);
                 v.invalidate();
 
                 // Returns true; the value is ignored.
@@ -198,24 +201,24 @@ public class GameUI extends AppCompatActivity {
 
             case DragEvent.ACTION_DRAG_EXITED:
             case DragEvent.ACTION_DRAG_ENDED:
-                ((LinearLayout)v).getBackground().clearColorFilter();
+                ((LinearLayout) v).getBackground().clearColorFilter();
                 v.invalidate();
 
                 return true;
 
             case DragEvent.ACTION_DROP:
                 ViewGroup clickedParent = (ViewGroup) clickedView.getParent();
-                LinearLayout targetLayout = (LinearLayout)v;
+                LinearLayout targetLayout = (LinearLayout) v;
 
                 // Move a token to an empty answer slot
-                if(targetLayout.getChildCount() == 0) {
+                if (targetLayout.getChildCount() == 0) {
                     clickedParent.removeView(clickedView);
                     targetLayout.addView(clickedView);
                     btmFlex.removeView(clickedParent);
                 }
 
                 // Swap two tokens in their slots (unless trying to swap token with itself)
-                else if(targetLayout.getChildCount() == 1 && clickedView != targetLayout.getChildAt(0)) {
+                else if (targetLayout.getChildCount() == 1 && clickedView != targetLayout.getChildAt(0)) {
                     View targetView = targetLayout.getChildAt(0);
                     targetLayout.removeView(targetView);
                     clickedParent.removeView(clickedView);
@@ -231,20 +234,19 @@ public class GameUI extends AppCompatActivity {
 
             // An unknown action type was received.
             default:
-                Log.e("DragDrop Example","Unknown action type received by View.OnDragListener.");
+                Log.e("DragDrop Example", "Unknown action type received by View.OnDragListener.");
                 break;
         }
 
         return false;
     }
 
-    private LinearLayout layoutFactory()
-    {
+    private LinearLayout layoutFactory() {
         LinearLayout layout = new LinearLayout(this);
         layout.setMinimumWidth(150);
         layout.setMinimumHeight(100);
         layout.setBackgroundColor(Color.LTGRAY);
-        layout.setPadding(10,10,10,10);
+        layout.setPadding(10, 10, 10, 10);
         layout.setBackgroundResource(R.drawable.rounded);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -256,8 +258,7 @@ public class GameUI extends AppCompatActivity {
         return layout;
     }
 
-    private Button buttonFactory(String s)
-    {
+    private Button buttonFactory(String s) {
         Button btn = new Button(this);
         btn.setText(s);
         btn.setTextSize(24);
@@ -266,14 +267,13 @@ public class GameUI extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onCheckBtnClick(View view)
-    {
+    public void onCheckBtnClick(View view) {
         ArrayList<String> playerTokens = new ArrayList<>();
 
         // Build the tokens from the UI
-        for(int i = 0; i < topFlex.getChildCount(); i++) {
+        for (int i = 0; i < topFlex.getChildCount(); i++) {
             LinearLayout v = (LinearLayout) topFlex.getChildAt(i);
-            if(v.getChildCount() > 0) {
+            if (v.getChildCount() > 0) {
                 Button contents = (Button) v.getChildAt(0);
                 playerTokens.add((String) contents.getText());
             }
@@ -281,29 +281,27 @@ public class GameUI extends AppCompatActivity {
 
         boolean success = gameLogic.isPlayerSentenceCorrect(playerTokens);
         textScore.setText("" + gameLogic.getCorrectGuesses());
-        if(success) {
+        if (success) {
             startPhase1();
-        }
-        else{
+        } else {
             backToLevels(view);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onStartBtnClick(View view)
-    {
+    public void onStartBtnClick(View view) {
         startClicked = true;
         startPhase2();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onFinishBtnClick(View view){
-        Intent toMainMenu = new Intent(view.getContext(),MainActivity.class);
+    public void onFinishBtnClick(View view) {
+        Intent toMainMenu = new Intent(view.getContext(), MainActivity.class);
         startActivity(toMainMenu);
     }
 
-    public void backToLevels(View view){
-        Intent toGameLevels = new Intent(view.getContext(),GameLevelActivity.class);
+    public void backToLevels(View view) {
+        Intent toGameLevels = new Intent(view.getContext(), GameLevelActivity.class);
         startActivity(toGameLevels);
     }
 
@@ -314,8 +312,7 @@ public class GameUI extends AppCompatActivity {
         private static Drawable shadow;
 
         // Constructor
-        public MyDragShadowBuilder(View v)
-        {
+        public MyDragShadowBuilder(View v) {
             super(v);
 
             // Creates a draggable image that fills the Canvas provided by the system.
@@ -325,8 +322,7 @@ public class GameUI extends AppCompatActivity {
         // Defines a callback that sends the drag shadow dimensions and touch point
         // back to the system.
         @Override
-        public void onProvideShadowMetrics (Point size, Point touch)
-        {
+        public void onProvideShadowMetrics(Point size, Point touch) {
             int width, height;
 
             width = getView().getWidth();
