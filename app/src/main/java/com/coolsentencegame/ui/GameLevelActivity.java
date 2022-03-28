@@ -17,11 +17,30 @@ public class GameLevelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_level);
 
+        Button game_speed_easy = findViewById(R.id.game_speed_easy);
+        Button game_speed_hard = findViewById(R.id.game_speed_hard);
+        game_speed_easy.setEnabled(false);
+        game_speed_hard.setEnabled(true);
+        game_speed_easy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                game_speed_hard.setEnabled(true);
+                game_speed_easy.setEnabled(false);
+            }
+        });
+        game_speed_hard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                game_speed_easy.setEnabled(true);
+                game_speed_hard.setEnabled(false);
+            }
+        });
+
         FloatingActionButton backbuttonToMainMenu = findViewById(R.id.back_button_from_gamelevels);
         backbuttonToMainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toMainMenu = new Intent(view.getContext(),MainActivity.class);
+                Intent toMainMenu = new Intent(view.getContext(), MainActivity.class);
                 startActivity(toMainMenu);
             }
         });
@@ -33,7 +52,10 @@ public class GameLevelActivity extends AppCompatActivity {
         buttonToLevel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(GameLevelActivity.this, GameUI.class));
+                //  Intent toLevelOne = new Intent(GameLevelActivity.this, GameUI.class);
+                Intent toLevelOne= new Intent(view.getContext(), GameUI.class);
+                //   toLevelOne.putExtra("speed",get_speed(game_speed_easy,game_speed_hard));
+                startActivity(toLevelOne);
             }
         });
 
@@ -42,7 +64,8 @@ public class GameLevelActivity extends AppCompatActivity {
         buttonToLevel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toLevelTwo = new Intent(view.getContext(),LevelTwoActivity.class);
+                Intent toLevelTwo = new Intent(view.getContext(), LevelTwoActivity.class);
+                toLevelTwo.putExtra("speed",get_speed(game_speed_easy,game_speed_hard));
                 startActivity(toLevelTwo);
             }
         });
@@ -52,10 +75,23 @@ public class GameLevelActivity extends AppCompatActivity {
         buttonToLevel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toLevelThree = new Intent(view.getContext(),LevelThreeActivity.class);
+                Intent toLevelThree = new Intent(view.getContext(), LevelThreeActivity.class);
+                toLevelThree.putExtra("speed",get_speed(game_speed_easy,game_speed_hard));
                 startActivity(toLevelThree);
             }
         });
 
+
+
+
+    }
+
+    private int get_speed(Button easy, Button hard) {
+        int result = -1;
+        if (easy.isEnabled() && !hard.isEnabled())
+            result = 0;
+        if (!easy.isEnabled() && hard.isEnabled())
+            result = 1;
+        return result;
     }
 }

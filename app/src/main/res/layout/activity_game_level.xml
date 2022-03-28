@@ -13,17 +13,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_baseline_arrow_back_24"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="224dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp">
@@ -113,10 +113,66 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginEnd="300dp"
         android:text="Score: "
-        android:textSize="26dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="150dp"
+        android:layout_height="61dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+
+        android:linksClickable="false"
+        android:text="Game Speed"
+        android:textAlignment="center"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/game_speed_hard"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        android:paddingLeft="0sp"
+        android:paddingTop="0sp"
+        android:paddingRight="0sp"
+        android:text="Hard"
+        android:textAlignment="center"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/game_speed_easy"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="20dp"
+        android:paddingLeft="0sp"
+        android:paddingRight="0sp"
+        android:text="Easy"
+        android:textAlignment="center"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/game_speed_hard"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
