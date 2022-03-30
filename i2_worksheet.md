@@ -12,7 +12,7 @@ Example of how to link to a diff - click on he commit in the commit log, then cl
 
 ### Response
 
-The two examples of technical debt are the Stub Database, and the UI.
+The two examples of technical debt are the Stub Database, and nothing.
 
 Stub Database - As we did not have a real database, we had to implement a database from scratch, which proved to be challenging, and a lengthy endeavor. We started paying of this technical debt here
 
@@ -30,8 +30,7 @@ This is the most recent commit of our database, and here there is not a whole lo
 
 We would classify this as a deliberate reckless. We knew we would have to change the database, but our timeline for Iteration 1 was too tight to fit designing a proper database for our system. In this case, it was deliberate because we specifically chose to implement a stub database, and reckless because we put the stub together quickly, and beyond including an interface, did not do much else to make paying off that debt easier.
 
-User Interface (UI) - 
-
+Nothing - We don't believe that there is no other technical debt in this project, however, in the course of working through this iteration, we have yet to find any other technical debt. Much of what we are doing relates heavily to the database, which is discussed above. The other large section is game logic, which we had originally designed knowing we needed to expand it. Thus, we have not yet discovered any other instances of technical debt in the project.
 
 ## **SOLID**
 
