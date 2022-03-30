@@ -1,6 +1,7 @@
 package com.coolsentencegame.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.graphics.Canvas;
@@ -15,11 +16,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,16 +50,23 @@ public class GameUI extends AppCompatActivity {
     private TextView textTitle;
     private TextView textScore;
     private Timer timer;
+    private boolean created;
+    private boolean finishClicked;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("Deep","onCreate executed");
+
+        created = true;
+        finishClicked = false;
+
         setContentView(R.layout.activity_game);
 
         gameLogic = new GameLogic();
         timer = new Timer();
-        
+
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
         btnCheck.setVisibility(View.GONE);
@@ -72,6 +83,7 @@ public class GameUI extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void startPhase1()
     {
+        //Log.v("Deep","phase1 started executed");
         startClicked = false;
         btnStart.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
@@ -83,8 +95,26 @@ public class GameUI extends AppCompatActivity {
 
         textTitle.setText(gameLogic.getSentence());
 
+<<<<<<< Updated upstream
         // After 4 seconds, move to next phase
         timer.schedule(new MemorizeTimer(), 4000);
+=======
+        //if yoy receive the sentence then show it on the screen
+        //if don't then the game is probably over
+        if(!gameLogic.getFlag()){
+
+            textTitle.setText(gameLogic.getSentence());
+
+            // After 4 seconds, move to next phase
+            timer.schedule(new MemorizeTimer(), 4000);
+        }
+        else{
+
+            startPhase3();
+
+        }
+
+>>>>>>> Stashed changes
     }
 
     // This is somehow causing a memory leak, should
@@ -94,6 +124,7 @@ public class GameUI extends AppCompatActivity {
         public void handleMessage(Message msg) {
 
             if (!startClicked) {
+                //Log.v("Deep","handler executed");
                 startPhase2();
             }
         }
@@ -103,6 +134,11 @@ public class GameUI extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startPhase2()
     {
+        if(!finishClicked) {
+            gameLogic.startTimer(this, timer);
+        }
+        //Log.v("Deep","phase2 start executed");
+
         btnStart.setVisibility(View.GONE);
         btnCheck.setVisibility(View.VISIBLE);
 
@@ -140,6 +176,18 @@ public class GameUI extends AppCompatActivity {
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void startPhase3(){
+        //Log.v("Deep","phase3 start executed");
+        btnStart.setVisibility(View.GONE);
+        btnCheck.setVisibility(View.GONE);
+        btnFinish.setVisibility(View.VISIBLE);
+    }
+
+>>>>>>> Stashed changes
     private boolean dragListener(View v, DragEvent e)
     {
         // Handles each of the expected events.
@@ -210,6 +258,7 @@ public class GameUI extends AppCompatActivity {
 
     private LinearLayout layoutFactory()
     {
+        //Log.v("Deep","layout executed");
         LinearLayout layout = new LinearLayout(this);
         layout.setMinimumWidth(150);
         layout.setMinimumHeight(100);
@@ -228,6 +277,7 @@ public class GameUI extends AppCompatActivity {
 
     private Button buttonFactory(String s)
     {
+        //Log.v("Deep","buttonfactory executed");
         Button btn = new Button(this);
         btn.setText(s);
         btn.setTextSize(24);
@@ -238,6 +288,7 @@ public class GameUI extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCheckBtnClick(View view)
     {
+        //Log.v("Deep","onCheckBtnClick executed");
         ArrayList<String> playerTokens = new ArrayList<>();
 
         // Build the tokens from the UI
@@ -252,6 +303,10 @@ public class GameUI extends AppCompatActivity {
         boolean success = gameLogic.isPlayerSentenceCorrect(playerTokens);
         textScore.setText("" + gameLogic.getCorrectGuesses());
         if(success) {
+
+            gameLogic.stopTimer();
+            //activityTimer.cancel();
+            //Log.v("Deep", time.toString());
             startPhase1();
         }
     }
@@ -263,6 +318,51 @@ public class GameUI extends AppCompatActivity {
         startPhase2();
     }
 
+<<<<<<< Updated upstream
+=======
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void onFinishBtnClick(View view){
+        finishClicked = true;
+        gameLogic.saveTime();
+        timeToast();
+        Intent toMainMenu = new Intent(view.getContext(),MainActivity.class);
+
+        String previousTime = gameLogic.getPreviousTime();
+        String currentTime = gameLogic.getCurrentTime();
+
+        toMainMenu.putExtra("PTime",previousTime);
+        toMainMenu.putExtra("CTime",currentTime);
+
+        startActivity(toMainMenu);
+    }
+
+    public void timeToast(){
+        LayoutInflater lInflator = getLayoutInflater();
+        View view = lInflator.inflate(R.layout.time_toast, (ViewGroup) findViewById(R.id.timeToastLayout));
+
+        TextView timeToastText = view.findViewById(R.id.timeToastText);
+
+        if(gameLogic.getRawTime() == 0){
+            timeToastText.setText("You did not play game!");
+        }
+        else{
+            timeToastText.setText("Completion time: \n"+gameLogic.getCurrentTime());
+        }
+
+        Toast timeToast = new Toast(getApplicationContext());
+        timeToast.setGravity(Gravity.CENTER,0,0);
+        timeToast.setDuration(Toast.LENGTH_LONG);
+        timeToast.setView(view);
+        timeToast.show();
+    }
+
+    public void backToLevels(View view){
+        Intent toGameLevels = new Intent(view.getContext(),GameLevelActivity.class);
+        startActivity(toGameLevels);
+    }
+
+
+>>>>>>> Stashed changes
     private static class MyDragShadowBuilder extends View.DragShadowBuilder {
 
         // The drag shadow image, defined as a drawable object.

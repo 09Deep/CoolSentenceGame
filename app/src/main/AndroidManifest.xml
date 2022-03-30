@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoolSentenceGame">
         <activity
+            android:name=".ui.StatsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.LevelThreeActivity"
             android:exported="false" />
         <activity
@@ -18,9 +21,7 @@
         <activity
             android:name=".ui.LevelOneActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.GameLevelActivity"
-            />
+        <activity android:name=".ui.GameLevelActivity" />
         <activity
             android:name=".ui.GameUI"
             android:exported="false" />
