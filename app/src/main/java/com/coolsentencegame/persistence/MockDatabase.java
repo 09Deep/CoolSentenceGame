@@ -1,5 +1,7 @@
 package com.coolsentencegame.persistence;
 
+import android.util.Log;
+
 import com.coolsentencegame.interfaces.IDatabase;
 
 import java.sql.Array;

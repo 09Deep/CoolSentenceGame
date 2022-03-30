@@ -1,11 +1,8 @@
 package com.coolsentencegame.logic;
 
-<<<<<<< Updated upstream
-=======
 import android.app.Activity;
 import android.util.Log;
 
->>>>>>> Stashed changes
 import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.persistence.MockDatabase;
 
@@ -32,7 +29,7 @@ public class GameLogic {
     private TimerTask activityTimerTask;
     private Double time = 0.0;
     private boolean timerStarted = false;
-
+    private boolean answer = false;
     public GameLogic() {
         db = new MockDatabase();
         tokens = new ArrayList<String>();
@@ -45,18 +42,49 @@ public class GameLogic {
         activityTimer = new Timer();
     }
 
+    public boolean getFlag(){
+
+        return answer;
+    }
+
+
     /*
     Sets a new sentence.
      */
+//    public void newSentence()
+//    {
+////        tokens.clear();
+////        prevSentence = sentence;
+////        while(sentence.equals(prevSentence)) {
+////            sentence = db.FetchRandomWord();
+////        }
+////        Collections.addAll(tokens, sentence.split(" "));
+//    }
+
     public void newSentence()
     {
         tokens.clear();
         prevSentence = sentence;
         while(sentence.equals(prevSentence)) {
+
             sentence = db.FetchRandomWord();
+            if(sentence != null) {
+
+                Collections.addAll(tokens, sentence.split(" "));
+
+            }
+            else{
+                answer=true;
+                break;
+            }
+
         }
-        Collections.addAll(tokens, sentence.split(" "));
+
+        if(sentence == null)
+            Log.v("Deep","still");
+
     }
+
 
     /*
      * isPlayerSentenceCorrect

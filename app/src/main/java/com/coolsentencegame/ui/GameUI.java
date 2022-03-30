@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -45,6 +46,7 @@ public class GameUI extends AppCompatActivity {
 
     private Button btnCheck;
     private Button btnStart;
+    private Button btnFinish;
     private FlexboxLayout topFlex;  // Users answer
     private FlexboxLayout btmFlex;  // Users choices
     private TextView textTitle;
@@ -69,9 +71,10 @@ public class GameUI extends AppCompatActivity {
 
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
+        btnFinish = findViewById(R.id.btnFinish);
         btnCheck.setVisibility(View.GONE);
         btnStart.setVisibility(View.VISIBLE);
-
+        btnFinish.setVisibility(View.VISIBLE);
         topFlex = findViewById(R.id.topLayout2);
         btmFlex = findViewById(R.id.btmLayout2);
         textTitle = (TextView)findViewById(R.id.textTitle);
@@ -87,18 +90,13 @@ public class GameUI extends AppCompatActivity {
         startClicked = false;
         btnStart.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
+        btnFinish.setVisibility(View.VISIBLE);
 
         btmFlex.removeAllViews();
         topFlex.removeAllViews();
 
         gameLogic.newSentence();
 
-        textTitle.setText(gameLogic.getSentence());
-
-<<<<<<< Updated upstream
-        // After 4 seconds, move to next phase
-        timer.schedule(new MemorizeTimer(), 4000);
-=======
         //if yoy receive the sentence then show it on the screen
         //if don't then the game is probably over
         if(!gameLogic.getFlag()){
@@ -114,7 +112,6 @@ public class GameUI extends AppCompatActivity {
 
         }
 
->>>>>>> Stashed changes
     }
 
     // This is somehow causing a memory leak, should
@@ -141,7 +138,7 @@ public class GameUI extends AppCompatActivity {
 
         btnStart.setVisibility(View.GONE);
         btnCheck.setVisibility(View.VISIBLE);
-
+        btnFinish.setVisibility(View.VISIBLE);
         btnCheck.setText("Check");
         btnCheck.setEnabled(true);
         textTitle.setText("Rebuild the sentence!");
@@ -176,8 +173,7 @@ public class GameUI extends AppCompatActivity {
         }
     }
 
-<<<<<<< Updated upstream
-=======
+
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startPhase3(){
@@ -187,7 +183,6 @@ public class GameUI extends AppCompatActivity {
         btnFinish.setVisibility(View.VISIBLE);
     }
 
->>>>>>> Stashed changes
     private boolean dragListener(View v, DragEvent e)
     {
         // Handles each of the expected events.
@@ -309,6 +304,9 @@ public class GameUI extends AppCompatActivity {
             //Log.v("Deep", time.toString());
             startPhase1();
         }
+        else{
+            backToLevels(view);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -318,8 +316,6 @@ public class GameUI extends AppCompatActivity {
         startPhase2();
     }
 
-<<<<<<< Updated upstream
-=======
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onFinishBtnClick(View view){
         finishClicked = true;
@@ -361,8 +357,6 @@ public class GameUI extends AppCompatActivity {
         startActivity(toGameLevels);
     }
 
-
->>>>>>> Stashed changes
     private static class MyDragShadowBuilder extends View.DragShadowBuilder {
 
         // The drag shadow image, defined as a drawable object.
