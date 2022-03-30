@@ -12,11 +12,12 @@ Example of how to link to a diff - click on he commit in the commit log, then cl
 
 ### Response
 
+The two examples of technical debt are the Stub Database, and the UI.
 
 
 ## **SOLID**
 
-Find a SOLID violation in the project of group with the same group number in the next class over - (n%3)+1 (A03 does A01) Open an issue in their project with the violation, clearly explaining the SOLID violation - specifying the type, provide a link to that issue. Be sure your links in the issues are to specific commits (not to main, or develop as those will be changed).
+Find a SOLID violation in the project of group with group number n-1 in the same section of the course as you (group 1 does group 16). Open an issue in their project with the violation, clearly explaining the SOLID violation - specifying the type, provide a link to that issue. Be sure your links in the issues are to specific commits (not to main, or develop as those will be changed).
 
 Provide a link to the issue you created here.
 
@@ -50,3 +51,4 @@ Explain what the issue was, and why it was flagged. Explain what you did to refa
 
 ### Response
 
+No issues were opened by the graders, however there were some code suggestions. In general, some of the code could be (continue)
