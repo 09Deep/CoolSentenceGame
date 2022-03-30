@@ -30,6 +30,8 @@ public class GameLogic {
     private Double time = 0.0;
     private boolean timerStarted = false;
     private boolean answer = false;
+
+
     public GameLogic() {
         db = new MockDatabase();
         tokens = new ArrayList<String>();
@@ -46,20 +48,7 @@ public class GameLogic {
 
         return answer;
     }
-
-
-    /*
-    Sets a new sentence.
-     */
-//    public void newSentence()
-//    {
-////        tokens.clear();
-////        prevSentence = sentence;
-////        while(sentence.equals(prevSentence)) {
-////            sentence = db.FetchRandomWord();
-////        }
-////        Collections.addAll(tokens, sentence.split(" "));
-//    }
+    
 
     public void newSentence()
     {

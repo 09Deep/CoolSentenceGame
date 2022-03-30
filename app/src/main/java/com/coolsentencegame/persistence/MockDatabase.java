@@ -50,7 +50,15 @@ public class MockDatabase implements IDatabase {
      *
      */
     public String FetchRandomWord() {
-        return words.get(random.nextInt(words.size()));
+        String check;
+
+        if(!words.isEmpty()){
+            check = words.remove(random.nextInt(words.size()));
+        }
+        else{
+            check=null;
+        }
+        return check;
     }
 
     /*
@@ -94,7 +102,7 @@ public class MockDatabase implements IDatabase {
     public double getPreviousTime(){
         Log.v("Deep","getPreviousTime is called");
 
-        if(time.size() > 1) {
+        if(time.size() > 0) {
             return time.get(0);
         }
         return -1;
