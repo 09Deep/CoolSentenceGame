@@ -32,9 +32,12 @@ We would classify this as a deliberate reckless. We knew we would have to change
 
 **Game UI** - We had originally built GameUI as a very large single file, that contained everything it needed to. However, this is technical debt as we are now needing to refactor code into smaller files, to allow for better maintenance and readability.
 
-We are repaying this debt by spending time refactor the GameUI file into many smaller files that have a more focused purpose.
+We are repaying this debt by spending time refactor the GameUI file into smaller files that have a more focused purpose.
 
-From this commit: commit here. **ELEPHANT**
+https://code.cs.umanitoba.ca/winter-2022-a02/group-1/cool-sentence-game/-/commit/d103f81e9acec76daee6bdfe610b21be7718e450
+
+As is shown, we have split out the DragShadowTemplate, and the TimerUI into their own files, reducing the technical debt.
+
 
 We would classify this debt as deliberate prudent. We needed to get the GameUI working for the first Iteration, and were not particularly concerned with the upkeep of it at the time. It was deliberate because we knew that the file was too large, and should have been split into multiple smaller pieces. It was prudent because we knew that it would not severely indebt us, as much of the debt we are now paying off is primarily refactoring.
 
@@ -94,6 +97,8 @@ No issues were opened by the graders, however there were some code suggestions, 
 
 In particular, the GameUI has a lot of *stuff* going on, and much of it could be separated into their own files, to allow for cleaner code, and easier modification.
 
-To fix this problem, we refactored the code, as indicated by the following commits:
+To fix this problem, we refactored the code, as indicated by the following commit
 
-List of commits here. **ELEPHANT**
+https://code.cs.umanitoba.ca/winter-2022-a02/group-1/cool-sentence-game/-/commit/d103f81e9acec76daee6bdfe610b21be7718e450
+
+We now have the files DragShadowTemplate and TimerUI, and have refactor the corresponding functions from GameUI into their own files.
