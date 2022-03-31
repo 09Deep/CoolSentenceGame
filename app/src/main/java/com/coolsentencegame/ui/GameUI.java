@@ -59,11 +59,13 @@ public class GameUI extends AppCompatActivity {
         gameLogic = new GameLogic();
         timer = new Timer();
 
+
+
         if ( my_intent.hasExtra("speed") ) {
             Log.i("msg","it has the extra!!!");
             int speed = my_intent.getIntExtra("speed",-1);
             if ( speed == 1)
-                delay = 3000;
+                delay = 1000;
             else if (speed == 0)
                 delay = 4000;
         }
