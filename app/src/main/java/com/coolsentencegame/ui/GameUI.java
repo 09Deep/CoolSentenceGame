@@ -94,7 +94,7 @@ public class GameUI extends AppCompatActivity {
         //if don't then the game is probably over
         if(!gameLogic.getFlag()){
 
-            textTitle.setText(gameLogic.getSentence().sentence);
+            textTitle.setText(gameLogic.getSentence().toString());
 
             // After 4 seconds, move to next phase
             timer.schedule(new MemorizeTimer(), 4000);

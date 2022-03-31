@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.objects.Sentence;
+import com.coolsentencegame.persistence.MockDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,10 +24,12 @@ public class GameLogic {
     private boolean answer = false;
 
     public GameLogic() {
+        database = new MockDatabase();
         tokens = new ArrayList<String>();
+        sentence = database.FetchRandomSentence();
+        prevSentence = null;
         correctGuesses = 0;
         wrongGuesses = 0;
-        newSentence();
     }
 
     public boolean getFlag(){
@@ -42,29 +45,9 @@ public class GameLogic {
         tokens.clear();
         prevSentence = sentence;
         while(sentence.equals(prevSentence)) {
-
-
-
             sentence = database.FetchRandomSentence();
-            if(sentence != null) {
-
-                //Collections.addAll(tokens, sentence.split(" "));
-
-            }
-            else{
-                answer=true;
-                break;
-
-
-
-            }
-
-
         }
-
-        if(sentence == null)
-            Log.v("Deep","still");
-
+        Collections.addAll(tokens, sentence.getSentence().split(" "));
     }
 
     /*

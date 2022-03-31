@@ -1,14 +1,9 @@
 package com.coolsentencegame.persistence;
 
-import android.util.Log;
-
 import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.objects.Sentence;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 /*
@@ -17,24 +12,23 @@ import java.util.Random;
  * Implements the database interface using an arraylist.
  */
 public class MockDatabase implements IDatabase {
+
     private Random random;
-
-    private ArrayList<String> words;
-
-    private ArrayList<Integer> scores;
+    private final ArrayList<Sentence> sentences;
+    private final ArrayList<Integer> scores;
 
     public MockDatabase() {
         random = new Random();
 
         //initialize phrases
-        words = new ArrayList<String>();
-        words.add("Why hello there");
-        words.add("That is based");
-        words.add("Don't have a cow man");
-        words.add("Cringe bro");
-        words.add("Of and words confusing a string arbitrary");
-        words.add("Our table! It's broken!");
-        words.add("Very groovy");
+        sentences = new ArrayList<Sentence>();
+        sentences.add(new Sentence("Why hello there", 1));
+        sentences.add(new Sentence("That is based", 2));
+        sentences.add(new Sentence("Don't have a cow man", 3));
+        sentences.add(new Sentence("Cringe bro", 4));
+        sentences.add(new Sentence("Of and words and such", 5));
+        sentences.add(new Sentence("Our table is broken", 6));
+        sentences.add(new Sentence("Very groovy", 7));
 
         scores = new ArrayList<Integer>();
     }
@@ -45,16 +39,15 @@ public class MockDatabase implements IDatabase {
      * Returns a string at a random index within the word database's bounds.
      *
      */
-    //changed - get to remove
     public Sentence FetchRandomSentence() {
-        Sentence check = null;
-
-        if(!words.isEmpty()){
-            //check = words.remove(random.nextInt(words.size()));
-
+        if(sentences.isEmpty()) {
+            // TODO: THROW AN EXCEPTION
+            return null;
         }
-
-        return check;
+        else {
+            int r = random.nextInt(sentences.size());
+            return sentences.get(r);
+        }
     }
 
     /*
