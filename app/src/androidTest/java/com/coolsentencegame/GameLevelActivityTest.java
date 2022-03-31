@@ -33,7 +33,7 @@ public class GameLevelActivityTest {
 
     @Test
     public void isButtonVisible(){
-        onView(withId(R.id.buttontolevel1)).check(matches(isDisplayed()));
+        onView(withId(R.id.btn_start)).check(matches(isDisplayed()));
         onView(withId(R.id.buttontolevel2)).check(matches(isDisplayed()));
         onView(withId(R.id.buttontolevel3)).check(matches(isDisplayed()));
         onView(withId(R.id.back_button_from_gamelevels)).check(matches(isDisplayed()));
@@ -41,14 +41,14 @@ public class GameLevelActivityTest {
 
     @Test
     public void isButtonTextVisible(){
-        onView(withId(R.id.buttontolevel1)).check(matches(withText("Level 1")));
+        onView(withId(R.id.btn_start)).check(matches(withText("Level 1")));
         onView(withId(R.id.buttontolevel2)).check(matches(withText("Level 2")));
         onView(withId(R.id.buttontolevel3)).check(matches(withText("Level 3")));
     }
 
     @Test
     public void isLevelOneButtonWorking(){
-        onView(withId(R.id.buttontolevel1)).perform(click());
+        onView(withId(R.id.btn_start)).perform(click());
         onView(withId(R.id.game_activity)).check(matches(isDisplayed()));
     }
 
