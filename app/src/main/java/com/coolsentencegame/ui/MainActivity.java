@@ -1,7 +1,6 @@
 package com.coolsentencegame.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import com.coolsentencegame.R;
 import com.coolsentencegame.application.Main;
 import com.coolsentencegame.interfaces.IDatabase;
-import com.coolsentencegame.persistence.AppDatabase;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //copyDatabaseToDevice();
+        copyDatabaseToDevice();
     }
 
     private void copyDatabaseToDevice() {
