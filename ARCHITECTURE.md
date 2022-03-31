@@ -10,6 +10,6 @@ Data is implemented in the *IDatabase* file (in interfaces package), with multip
 
 Additionally, our domain specific objects are *Account*, *AccountData*, and *Sentence*, (and maybe *Preferences*)
 
-The architecture diagram is a separate image called "ARCHITECTURE.png"
+The architecture diagram is a separate image called "ARCHITECTURE_I2.png"
 
 ![ARCHITECURE](ARCHITECTURE_I2.png)
