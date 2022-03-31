@@ -4,7 +4,12 @@ import com.coolsentencegame.objects.Sentence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * SentencePersistence
@@ -21,6 +26,31 @@ public class SentencePersistence implements ISentencePersistence {
     private Connection connection() throws SQLException {
         //Jordan: not fully sure what certain parts of this mean. It's from the sample project.
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
+    }
+
+    private Sentence fromResultSet(final ResultSet rs) throws SQLException {
+        final String sentence = rs.getString("sentence");
+        final String id = rs.getString("id");
+
+        return new Sentence(sentence, id);
+    }
+
+    public List<Sentence> getStudentSequential() {
+        final List<Sentence> students = new ArrayList<>();
+        try (final Connection c = connection()) {
+            final Statement st = c.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM students");
+            while (rs.next()) {
+                final Sentence student = fromResultSet(rs);
+                students.add(student);
+            }
+            rs.close();
+            st.close();
+
+            return students;
+        } catch (final SQLException e) {
+            return null;
+        }
     }
 
     @Override
@@ -41,7 +71,11 @@ public class SentencePersistence implements ISentencePersistence {
         Sentence sentenceVar = null;
 
         try (final Connection c = connection()) {
-
+            final PreparedStatement st = c.prepareStatement("INSERT INTO sentences VALUES(?, ?)");
+            st.setString(1, sentence.getID());
+            st.setString(2, sentence.getSentence());
+            st.executeUpdate();
+            sentenceVar = sentence;
         } catch (final SQLException e) {
 
         }
