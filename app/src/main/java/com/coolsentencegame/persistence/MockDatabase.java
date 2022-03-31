@@ -102,7 +102,7 @@ public class MockDatabase implements IDatabase {
     public double getPreviousTime(){
         Log.v("Deep","getPreviousTime is called");
 
-        if(time.size() > 0) {
+        if(time.size() > 1) {
             return time.get(0);
         }
         return -1;

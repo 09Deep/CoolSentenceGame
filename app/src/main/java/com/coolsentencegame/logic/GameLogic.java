@@ -69,9 +69,6 @@ public class GameLogic {
 
         }
 
-        if(sentence == null)
-            Log.v("Deep","still");
-
     }
 
 
@@ -147,7 +144,14 @@ public class GameLogic {
         db.storeTime(time);
     }
 
-    public String getPreviousTime(){ return getTimerText(db.getPreviousTime()); }
+    public String getPreviousTime() {
+        if (db.getPreviousTime() != -1) {
+            return getTimerText(db.getPreviousTime());
+        }
+        else{
+            return " ";
+        }
+    }
 
     public String getCurrentTime(){
         return getTimerText(db.getCurrentTime());
@@ -166,7 +170,7 @@ public class GameLogic {
         int seconds = ((rounded % 86400) % 3600) % 60;
         int minutes = ((rounded % 86400) % 3600) / 60;
         int hours = ((rounded % 86400) / 3600);
-        Log.v("Deep",rounded+" seconds- "+seconds+" minutes- "+minutes+" hours- "+hours);
+
         return formatTime(seconds, minutes, hours);
     }
 
