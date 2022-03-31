@@ -12,9 +12,9 @@ Example of how to link to a diff - click on he commit in the commit log, then cl
 
 ### Response
 
-The two examples of technical debt are the Stub Database, and nothing.
+The two examples of technical debt are the Stub Database, and the GameUI.
 
-Stub Database - As we did not have a real database, we had to implement a database from scratch, which proved to be challenging, and a lengthy endeavor. We started paying of this technical debt here
+**Stub Database** - As we did not have a real database, we had to implement a database from scratch, which proved to be challenging, and a lengthy endeavor. We started paying of this technical debt here
 
 https://code.cs.umanitoba.ca/winter-2022-a02/group-1/cool-sentence-game/-/commit/8399fd9d3333e0505186e208df554868df741485
 
@@ -30,7 +30,14 @@ This is the most recent commit of our database, and here there is not a whole lo
 
 We would classify this as a deliberate reckless. We knew we would have to change the database, but our timeline for Iteration 1 was too tight to fit designing a proper database for our system. In this case, it was deliberate because we specifically chose to implement a stub database, and reckless because we put the stub together quickly, and beyond including an interface, did not do much else to make paying off that debt easier.
 
-Nothing - We don't believe that there is no other technical debt in this project, however, in the course of working through this iteration, we have yet to find any other technical debt. Much of what we are doing relates heavily to the database, which is discussed above. The other large section is game logic, which we had originally designed knowing we needed to expand it. Thus, we have not yet discovered any other instances of technical debt in the project.
+**Game UI** - We had originally built GameUI as a very large single file, that contained everything it needed to. However, this is technical debt as we are now needing to refactor code into smaller files, to allow for better maintenance and readability.
+
+We are repaying this debt by spending time refactor the GameUI file into many smaller files that have a more focused purpose.
+
+From this commit: commit here.
+
+We would classify this debt as deliberate prudent. We needed to get the GameUI working for the first Iteration, and were not particularly concerned with the upkeep of it at the time. It was deliberate because we knew that the file was too large, and should have been split into multiple smaller pieces. It was prudent because we knew that it would not severely indebt us, as much of the debt we are now paying off is primarily refactoring.
+
 
 ## **SOLID**
 
@@ -45,9 +52,6 @@ Issue create for Group 16 violating the dependency inversion principle, linked h
 https://code.cs.umanitoba.ca/winter-2022-a02/group-16/pet-exchange-app/-/issues/25
 
 
-
-
-
 ## **Retrospective**
 
 Describe how the retrospective has changed the way you are doing your project. Is there evidence of the change in estimating/committing/peer review/timelines/testing? Provide those links and evidence here - or explain why there is not evidence.
@@ -58,6 +62,7 @@ There is little evidence of retrospectives changing the way we are working as we
 
 That being said, the retrospectives have provided us the ability to change one thing, and that is how much individuals work. During iteration 1, one of our members ended up doing a large majority of the work. Due to the retrospective, we have decided that this group member should have to do less work. Owing to this, there are no issues assigned to the group member, and thus we cannot link any evidence of such.
 
+
 ## **Design patterns**
 
 Show links to your project where you use a well-known design pattern. Which pattern is it? Provide links to the design pattern that you used.
@@ -66,6 +71,15 @@ Note: Though Dependency Injection is a programming pattern, we would like to see
 
 ### Response
 
+We used the well known design pattern of a Singleton. Within this commit:
+
+https://code.cs.umanitoba.ca/winter-2022-a02/group-1/cool-sentence-game/-/commit/728ebefb7e3291ba6eb14dcf5ceeb20a4b8656e1
+
+In the services.java you can see that on lines 10 and 20 we implement a singleton object. There is only one instance of each objected, created if it doesn't exist, but if it does exist, return the same one.
+
+The link to the design pattern we used can be found here, taken from the course schedule.
+
+https://refactoring.guru/design-patterns/singleton
 
 
 ## **Iteration 1 Feedback fixes**
@@ -76,8 +90,10 @@ Explain what the issue was, and why it was flagged. Explain what you did to refa
 
 ### Response
 
-No issues were opened by the graders, however there were some code suggestions. These suggestions made it clear that some of the code can be refactored, or utilize data structures in a better way. An example of us fixing an issue is here:
+No issues were opened by the graders, however there were some code suggestions, one of which in particular was about the restructuring of GameUI.
 
-issue link here! Likely the preferences to ENUMs.
+In particular, the GameUI has a lot of *stuff* going on, and much of it could be separated into their own files, to allow for cleaner code, and easier modification.
 
-commit link where that issue is fixed here!
+To fix this problem, we refactored the code, as indicated by the following commits:
+
+List of commits here.
