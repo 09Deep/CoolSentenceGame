@@ -1,7 +1,5 @@
 package com.coolsentencegame.logic;
 
-import android.util.Log;
-
 import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.objects.Sentence;
 import com.coolsentencegame.persistence.MockDatabase;
@@ -19,9 +17,10 @@ public class GameLogic {
     private Sentence sentence;
     private Sentence prevSentence;
     private final ArrayList<String> tokens;
+    private int nRounds;
+    private int roundsDone;
     private int correctGuesses;
     private int wrongGuesses;
-    private boolean answer = false;
 
     public GameLogic() {
         database = new MockDatabase();
@@ -30,11 +29,17 @@ public class GameLogic {
         prevSentence = null;
         correctGuesses = 0;
         wrongGuesses = 0;
+        roundsDone = 0;
     }
 
-    public boolean getFlag(){
+    public boolean isDone()
+    {
+        return roundsDone >= nRounds;
+    }
 
-        return answer;
+    public void setNumberRounds(int nRounds)
+    {
+        this.nRounds = nRounds;
     }
 
     /*
@@ -63,6 +68,7 @@ public class GameLogic {
         else
             wrongGuesses++;
 
+        roundsDone++;
         return correct;
     }
 
@@ -93,5 +99,14 @@ public class GameLogic {
         return wrongGuesses;
     }
 
+    public int getCurrentRoundNumber()
+    {
+        return roundsDone;
+    }
+
+    public int getNumberRounds()
+    {
+        return nRounds;
+    }
 
 }

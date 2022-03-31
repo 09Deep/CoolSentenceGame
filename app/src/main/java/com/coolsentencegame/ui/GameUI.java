@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.coolsentencegame.R;
 import com.coolsentencegame.logic.GameLogic;
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -77,6 +78,11 @@ public class GameUI extends AppCompatActivity {
                 delay = 4000;
         }
 
+        if(my_intent.hasExtra("rounds")) {
+            int nRounds = my_intent.getIntExtra("rounds", 5);
+            gameLogic.setNumberRounds(nRounds);
+        }
+
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
         btnFinish = findViewById(R.id.btnFinish);
@@ -107,7 +113,7 @@ public class GameUI extends AppCompatActivity {
 
         //if yoy receive the sentence then show it on the screen
         //if don't then the game is probably over
-        if (!gameLogic.getFlag()) {
+        if (!gameLogic.isDone()) {
             textTitle.setText(gameLogic.getSentence().toString());
 
             // After <delay> seconds, move to next phase
@@ -166,6 +172,8 @@ public class GameUI extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startPhase3() {
+        String msg = "Game done!\n"+gameLogic.getCorrectGuesses()+"/"+gameLogic.getNumberRounds();
+        textTitle.setText(msg);
         btnStart.setVisibility(View.GONE);
         btnCheck.setVisibility(View.GONE);
         btnFinish.setVisibility(View.VISIBLE);
@@ -253,11 +261,14 @@ public class GameUI extends AppCompatActivity {
 
         boolean success = gameLogic.isPlayerSentenceCorrect(playerTokens);
         textScore.setText("" + gameLogic.getCorrectGuesses());
-        if (success) {
-            startPhase1();
-        } else {
-            backToLevels(view);
-        }
+        Snackbar snackbar;
+        if(success)
+             snackbar = Snackbar.make(textTitle, "Correct!", Snackbar.LENGTH_SHORT);
+        else
+            snackbar = Snackbar.make(textTitle, "Incorrect :(", Snackbar.LENGTH_SHORT);
+
+        snackbar.show();
+        startPhase1();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
