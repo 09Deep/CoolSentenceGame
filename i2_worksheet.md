@@ -10,7 +10,7 @@ Show two instances of your group paying off technical debt. For these two instan
 
 Example of how to link to a diff - click on he commit in the commit log, then click on the margin to the line: https://code.cs.umanitoba.ca/3350-winter-2021-a01/sample-project/-/commit/8e38ae9c3084d62adc4ac5fafa3b87d7d862dc26#72899361f89777662df76c5ce0ed847af04dff86_35_41
 
-### Response
+### **Response**
 
 The two examples of technical debt are the Stub Database, and the GameUI.
 
@@ -34,7 +34,7 @@ We would classify this as a deliberate reckless. We knew we would have to change
 
 We are repaying this debt by spending time refactor the GameUI file into many smaller files that have a more focused purpose.
 
-From this commit: commit here.
+From this commit: commit here. **ELEPHANT**
 
 We would classify this debt as deliberate prudent. We needed to get the GameUI working for the first Iteration, and were not particularly concerned with the upkeep of it at the time. It was deliberate because we knew that the file was too large, and should have been split into multiple smaller pieces. It was prudent because we knew that it would not severely indebt us, as much of the debt we are now paying off is primarily refactoring.
 
@@ -45,7 +45,7 @@ Find a SOLID violation in the project of group with group number n-1 in the same
 
 Provide a link to the issue you created here.
 
-### Response
+### **Response**
 
 Issue create for Group 16 violating the dependency inversion principle, linked here.
 
@@ -56,7 +56,7 @@ https://code.cs.umanitoba.ca/winter-2022-a02/group-16/pet-exchange-app/-/issues/
 
 Describe how the retrospective has changed the way you are doing your project. Is there evidence of the change in estimating/committing/peer review/timelines/testing? Provide those links and evidence here - or explain why there is not evidence.
 
-### Response
+### **Response**
 
 There is little evidence of retrospectives changing the way we are working as we had made all expectations clear very early on. In addition, we have been very successful with our current strategy, and so do not feel it necessary to change the way we are working.
 
@@ -69,7 +69,7 @@ Show links to your project where you use a well-known design pattern. Which patt
 
 Note: Though Dependency Injection is a programming pattern, we would like to see a programming pattern other than Dependency Injections.
 
-### Response
+### **Response**
 
 We used the well known design pattern of a Singleton. Within this commit:
 
@@ -88,7 +88,7 @@ Provide a link to an issue opened by the grader.
 
 Explain what the issue was, and why it was flagged. Explain what you did to refactor or fix your code to address the issue. Provide links to the commits where you fixed the issue.
 
-### Response
+### **Response**
 
 No issues were opened by the graders, however there were some code suggestions, one of which in particular was about the restructuring of GameUI.
 
@@ -96,4 +96,4 @@ In particular, the GameUI has a lot of *stuff* going on, and much of it could be
 
 To fix this problem, we refactored the code, as indicated by the following commits:
 
-List of commits here.
+List of commits here. **ELEPHANT**
