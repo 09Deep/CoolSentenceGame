@@ -59,11 +59,10 @@ public class GameUI extends AppCompatActivity {
         gameLogic = new GameLogic();
         timer = new Timer();
 
-        if (bundle.getString("speed") == "1")
-            delay = 3000;
-        else if (bundle.getString("speed") == "0")
+        if (bundle.getInt("speed") == 1)
+            delay = 1000;
+        else if (bundle.getInt("speed") == 0)
             delay = 4000;
-
 
 
         btnCheck = findViewById(R.id.btnCheck);
