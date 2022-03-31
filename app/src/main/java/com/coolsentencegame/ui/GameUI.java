@@ -48,22 +48,25 @@ public class GameUI extends AppCompatActivity {
     private TextView textTitle;
     private TextView textScore;
     private Timer timer;
-    int delay;
+    int delay = 4000;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        Bundle bundle = getIntent().getExtras();
+        Intent my_intent = getIntent();
         gameLogic = new GameLogic();
         timer = new Timer();
 
-        if (bundle.getString("speed") == "1")
-            delay = 3000;
-        else if (bundle.getString("speed") == "0")
-            delay = 4000;
-
+        if ( my_intent.hasExtra("speed") ) {
+            Log.i("msg","it has the extra!!!");
+            int speed = my_intent.getIntExtra("speed",-1);
+            if ( speed == 1)
+                delay = 3000;
+            else if (speed == 0)
+                delay = 4000;
+        }
 
 
         btnCheck = findViewById(R.id.btnCheck);
