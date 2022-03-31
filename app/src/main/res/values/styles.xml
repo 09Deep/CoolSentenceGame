@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="gameui_button">
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="gameui_container">
+        <item name="android:minWidth">100dp</item>
+        <item name="android:minHeight">75dp</item>
+        <item name="android:padding">10sp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:left">20dp</item>
+        <item name="android:background">@drawable/rounded</item>
+    </style>
+</resources>
