@@ -68,8 +68,6 @@ public class GameUI extends AppCompatActivity {
         gameLogic = new GameLogic();
         timer = new Timer();
 
-
-
         if ( my_intent.hasExtra("speed") ) {
             Log.i("msg","it has the extra!!!");
             int speed = my_intent.getIntExtra("speed",-1);
@@ -78,7 +76,6 @@ public class GameUI extends AppCompatActivity {
             else if (speed == 0)
                 delay = 4000;
         }
-
 
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
@@ -132,10 +129,13 @@ public class GameUI extends AppCompatActivity {
         btnCheck.setEnabled(true);
         textTitle.setText("Rebuild the sentence!");
 
+        ContextThemeWrapper themeLayout = new ContextThemeWrapper(this, R.style.gameui_container);
+        ContextThemeWrapper themeButton = new ContextThemeWrapper(this, R.style.gameui_button);
+
         for (String s : gameLogic.getTokensRandomized()) {
-            LinearLayout btmLayout = new LinearLayout(new ContextThemeWrapper(this, R.style.gameui_container));
-            LinearLayout topLayout = new LinearLayout(new ContextThemeWrapper(this, R.style.gameui_container));
-            Button btn = new Button(new ContextThemeWrapper(this, R.style.gameui_button));
+            LinearLayout btmLayout = new LinearLayout(themeLayout);
+            LinearLayout topLayout = new LinearLayout(themeLayout);
+            Button btn = new Button(themeButton);
             btn.setText(s);
 
             btn.setOnTouchListener((v, e) -> {
@@ -188,9 +188,7 @@ public class GameUI extends AppCompatActivity {
             case DragEvent.ACTION_DRAG_ENTERED:
                 ((LinearLayout) v).getBackground().setColorFilter(Color.rgb(150, 50, 150), PorterDuff.Mode.MULTIPLY);
                 v.invalidate();
-
-                // Returns true; the value is ignored.
-                return true;
+                return true;  // the value is ignored.
 
             case DragEvent.ACTION_DRAG_LOCATION:
                 // Ignore the event.
@@ -200,34 +198,11 @@ public class GameUI extends AppCompatActivity {
             case DragEvent.ACTION_DRAG_ENDED:
                 ((LinearLayout) v).getBackground().clearColorFilter();
                 v.invalidate();
-
                 return true;
 
             case DragEvent.ACTION_DROP:
-                ViewGroup clickedParent = (ViewGroup) clickedView.getParent();
-                LinearLayout targetLayout = (LinearLayout) v;
-
-                // Move a token to an empty answer slot
-                if (targetLayout.getChildCount() == 0) {
-                    clickedParent.removeView(clickedView);
-                    targetLayout.addView(clickedView);
-                    btmFlex.removeView(clickedParent);
-                }
-
-                // Swap two tokens in their slots (unless trying to swap token with itself)
-                else if (targetLayout.getChildCount() == 1 && clickedView != targetLayout.getChildAt(0)) {
-                    View targetView = targetLayout.getChildAt(0);
-                    targetLayout.removeView(targetView);
-                    clickedParent.removeView(clickedView);
-                    targetLayout.addView(clickedView);
-                    clickedParent.addView(targetView);
-                }
-
-                targetLayout.getBackground().clearColorFilter();
-                v.invalidate();
-
-                // Returns true. DragEvent.getResult() will return true.
-                return true;
+                handleDragDrop(v);
+                return true; // DragEvent.getResult() will return true.
 
             // An unknown action type was received.
             default:
@@ -236,6 +211,31 @@ public class GameUI extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void handleDragDrop(View v)
+    {
+        ViewGroup clickedParent = (ViewGroup) clickedView.getParent();
+        LinearLayout targetLayout = (LinearLayout) v;
+
+        // Move a token to an empty answer slot
+        if (targetLayout.getChildCount() == 0) {
+            clickedParent.removeView(clickedView);
+            targetLayout.addView(clickedView);
+            btmFlex.removeView(clickedParent);
+        }
+
+        // Swap two tokens in their slots (unless trying to swap token with itself)
+        else if (targetLayout.getChildCount() == 1 && clickedView != targetLayout.getChildAt(0)) {
+            View targetView = targetLayout.getChildAt(0);
+            targetLayout.removeView(targetView);
+            clickedParent.removeView(clickedView);
+            targetLayout.addView(clickedView);
+            clickedParent.addView(targetView);
+        }
+
+        targetLayout.getBackground().clearColorFilter();
+        v.invalidate();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
