@@ -4,17 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +28,6 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class GameUI extends AppCompatActivity {
@@ -49,6 +45,19 @@ public class GameUI extends AppCompatActivity {
     private TextView textScore;
     private Timer timer;
     int delay;
+
+    // This is somehow causing a memory leak, should
+    // probably fix that?
+    // https://stackoverflow.com/questions/52286818/can-this-code-avoid-the-android-handler-memory-leak
+    public Handler timerHandler = new Handler() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        public void handleMessage(Message msg) {
+
+            if (!startClicked) {
+                startPhase2();
+            }
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -77,9 +86,7 @@ public class GameUI extends AppCompatActivity {
         textTitle = (TextView) findViewById(R.id.textTitle);
         textScore = (TextView) findViewById(R.id.textScore);
 
-
         startPhase1();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -98,31 +105,15 @@ public class GameUI extends AppCompatActivity {
         //if yoy receive the sentence then show it on the screen
         //if don't then the game is probably over
         if (!gameLogic.getFlag()) {
-
             textTitle.setText(gameLogic.getSentence().toString());
 
-            // After 4 seconds, move to next phase
-            timer.schedule(new MemorizeTimer(), delay);
+            // After <delay> seconds, move to next phase
+            timer.schedule(new TimerUI(timerHandler), delay);
         } else {
-
             startPhase3();
-
         }
-
 
     }
-
-    // This is somehow causing a memory leak, should
-    // probably fix that?
-    public Handler mHandler = new Handler() {
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        public void handleMessage(Message msg) {
-
-            if (!startClicked) {
-                startPhase2();
-            }
-        }
-    };
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -136,9 +127,10 @@ public class GameUI extends AppCompatActivity {
         textTitle.setText("Rebuild the sentence!");
 
         for (String s : gameLogic.getTokensRandomized()) {
-            LinearLayout btmLayout = layoutFactory();
-            LinearLayout topLayout = layoutFactory();
-            Button btn = buttonFactory(s);
+            LinearLayout btmLayout = new LinearLayout(new ContextThemeWrapper(this, R.style.gameui_container));
+            LinearLayout topLayout = new LinearLayout(new ContextThemeWrapper(this, R.style.gameui_container));
+            Button btn = new Button(new ContextThemeWrapper(this, R.style.gameui_button));
+            btn.setText(s);
 
             btn.setOnTouchListener((v, e) -> {
                 clickedView = v;
@@ -149,7 +141,7 @@ public class GameUI extends AppCompatActivity {
                         item
                 );
 
-                View.DragShadowBuilder shadow = new MyDragShadowBuilder(btn);
+                View.DragShadowBuilder shadow = new DragShadowTemplate(btn);
 
                 v.startDragAndDrop(dragData, shadow, null, 0);
 
@@ -240,31 +232,6 @@ public class GameUI extends AppCompatActivity {
         return false;
     }
 
-    private LinearLayout layoutFactory() {
-        LinearLayout layout = new LinearLayout(this);
-        layout.setMinimumWidth(150);
-        layout.setMinimumHeight(100);
-        layout.setBackgroundColor(Color.LTGRAY);
-        layout.setPadding(10, 10, 10, 10);
-        layout.setBackgroundResource(R.drawable.rounded);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        layoutParams.setMargins(20, 20, 20, 20);
-
-        layout.setLayoutParams(layoutParams);
-        return layout;
-    }
-
-    private Button buttonFactory(String s) {
-        Button btn = new Button(this);
-        btn.setText(s);
-        btn.setTextSize(24);
-        btn.setBackgroundColor(Color.TRANSPARENT);
-        return btn;
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCheckBtnClick(View view) {
         ArrayList<String> playerTokens = new ArrayList<>();
@@ -304,53 +271,4 @@ public class GameUI extends AppCompatActivity {
         startActivity(toGameLevels);
     }
 
-
-    private static class MyDragShadowBuilder extends View.DragShadowBuilder {
-
-        // The drag shadow image, defined as a drawable object.
-        private static Drawable shadow;
-
-        // Constructor
-        public MyDragShadowBuilder(View v) {
-            super(v);
-
-            // Creates a draggable image that fills the Canvas provided by the system.
-            shadow = new ColorDrawable(Color.LTGRAY);
-        }
-
-        // Defines a callback that sends the drag shadow dimensions and touch point
-        // back to the system.
-        @Override
-        public void onProvideShadowMetrics(Point size, Point touch) {
-            int width, height;
-
-            width = getView().getWidth();
-            height = getView().getHeight();
-
-            shadow.setBounds(0, 0, width, height);
-            size.set(width, height);
-
-            // Set the touch point's position to be in the middle of the drag shadow.
-            touch.set(width / 2, height / 2);
-        }
-
-        // Defines a callback that draws the drag shadow in a Canvas that the system
-        // constructs from the dimensions passed to onProvideShadowMetrics().
-        @Override
-        public void onDrawShadow(Canvas canvas) {
-            // Draw the ColorDrawable on the Canvas passed in from the system.
-            shadow.draw(canvas);
-            getView().draw(canvas);
-        }
-    }
-
-    private class MemorizeTimer extends TimerTask {
-
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        @Override
-        public void run() {
-            mHandler.obtainMessage(1).sendToTarget();
-        }
-
-    }
 }
