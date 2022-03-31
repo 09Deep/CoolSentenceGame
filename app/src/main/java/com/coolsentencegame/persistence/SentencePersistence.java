@@ -32,7 +32,7 @@ public class SentencePersistence implements ISentencePersistence {
         final String sentence = rs.getString("sentence");
         final String id = rs.getString("id");
 
-        return new Sentence(sentence, id);
+        return new Sentence(sentence, 0);
     }
 
     public List<Sentence> getStudentSequential() {
@@ -72,7 +72,7 @@ public class SentencePersistence implements ISentencePersistence {
 
         try (final Connection c = connection()) {
             final PreparedStatement st = c.prepareStatement("INSERT INTO sentences VALUES(?, ?)");
-            st.setString(1, sentence.getID());
+            //st.setString(1, sentence.getID());
             st.setString(2, sentence.getSentence());
             st.executeUpdate();
             sentenceVar = sentence;
