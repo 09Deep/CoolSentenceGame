@@ -1,10 +1,5 @@
 package com.coolsentencegame.objects;
 
-
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 public class Account
 {
     final int DIFF_DEFAULT = 1;

@@ -17,11 +17,7 @@ public class IDatabaseTest extends TestCase {
     }
 
     public void testFetchRandomSentence() {
-        try(ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
-            scenario.onActivity(mainActivity -> {
-                //mainActivity.GetDatabase();
-            });
-        }
+
     }
 
     public void testStoreScore() {
