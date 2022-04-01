@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import com.coolsentencegame.objects.Sentence;
 import com.coolsentencegame.persistence.MockScorePersistence;
+import com.coolsentencegame.persistence.MockSentencePersistence;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +25,7 @@ public class GameLogicTest {
 
     @Test
     public void newSentence() {
-        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence());
+        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence(), new MockSentencePersistence());
         Sentence sOne, sTwo;
 
         gameLogic.newSentence();
@@ -38,7 +39,7 @@ public class GameLogicTest {
 
     @Test
     public void isPlayerSentenceCorrect() {
-        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence());
+        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence(), new MockSentencePersistence());
         String sentence;
 
         gameLogic.newSentence();
@@ -49,7 +50,7 @@ public class GameLogicTest {
 
     @Test
     public void getSentence() {
-        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence());
+        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence(), new MockSentencePersistence());
 
         gameLogic.newSentence();
         assertNotNull(gameLogic.getSentence());
@@ -57,7 +58,7 @@ public class GameLogicTest {
 
     @Test
     public void getTokens() {
-        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence());
+        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence(), new MockSentencePersistence());
         ArrayList<String> tokens;
 
         gameLogic.newSentence();
@@ -68,7 +69,7 @@ public class GameLogicTest {
 
     @Test
     public void getCorrectGuesses() {
-        GameLogic gameLogic = new GameLogic(2, new MockScorePersistence());
+        GameLogic gameLogic = new GameLogic(2, new MockScorePersistence(), new MockSentencePersistence());
 
         // 0 Start
         assertEquals(0, gameLogic.getCorrectGuesses());
@@ -91,7 +92,7 @@ public class GameLogicTest {
 
     @Test
     public void getWrongGuesses() {
-        GameLogic gameLogic = new GameLogic(2, new MockScorePersistence());
+        GameLogic gameLogic = new GameLogic(2, new MockScorePersistence(), new MockSentencePersistence());
 
         // 0 Start
         assertEquals(0, gameLogic.getWrongGuesses());
@@ -115,7 +116,7 @@ public class GameLogicTest {
     @Test
     public void isDone()
     {
-        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence());
+        GameLogic gameLogic = new GameLogic(5, new MockScorePersistence(), new MockSentencePersistence());
         ArrayList<String> tokens = new ArrayList<>();
         for(int i = 0; i < 5; i++) {
             gameLogic.isPlayerSentenceCorrect(tokens);

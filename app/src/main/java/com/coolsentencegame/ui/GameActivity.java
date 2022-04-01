@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -29,14 +30,11 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Timer;
-
 
 public class GameActivity extends AppCompatActivity {
 
     private GameLogic gameLogic; // Handles logic layer
     private View clickedView;
-    private boolean startClicked; //to only load the scene once. either with the timer or the check btn
 
     private Button btnCheck;
     private Button btnStart;
@@ -45,29 +43,17 @@ public class GameActivity extends AppCompatActivity {
     private FlexboxLayout btmFlex;  // Users choices
     private TextView textTitle;
     private TextView textScore;
-    private Timer timer;
+    private TextView textTimer;
+    private CountDownTimer timer;
     int delay = 4000;
-
-    // This is somehow causing a memory leak, should
-    // probably fix that?
-    // https://stackoverflow.com/questions/52286818/can-this-code-avoid-the-android-handler-memory-leak
-    public Handler timerHandler = new Handler() {
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        public void handleMessage(Message msg) {
-
-            if (!startClicked) {
-                startPhase2();
-            }
-        }
-    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         Intent my_intent = getIntent();
-        timer = new Timer();
         GameLogic.Difficulty difficulty;
 
         difficulty = (GameLogic.Difficulty)my_intent.getSerializableExtra("difficulty");
@@ -77,26 +63,27 @@ public class GameActivity extends AppCompatActivity {
             delay = 2000;
 
         int nRounds = my_intent.getIntExtra("rounds", 5);
-        gameLogic = new GameLogic(nRounds, difficulty, Services.getScorePersistence());
+        gameLogic = new GameLogic(nRounds, difficulty, Services.getScorePersistence(), Services.getSentencePersistence());
 
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
         btnFinish = findViewById(R.id.btnFinish);
         btnCheck.setVisibility(View.GONE);
-        btnStart.setVisibility(View.VISIBLE);
         btnFinish.setVisibility(View.VISIBLE);
+        btnStart.setVisibility(View.VISIBLE);
 
         topFlex = findViewById(R.id.topLayout2);
         btmFlex = findViewById(R.id.btmLayout2);
         textTitle = (TextView) findViewById(R.id.textTitle);
         textScore = (TextView) findViewById(R.id.textScore);
+        textTimer = (TextView) findViewById(R.id.textTimer);
 
         startPhase1();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void startPhase1() {
-        startClicked = false;
+    private void startPhase1()
+    {
         btnStart.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
         btnFinish.setVisibility(View.VISIBLE);
@@ -104,16 +91,23 @@ public class GameActivity extends AppCompatActivity {
         btmFlex.removeAllViews();
         topFlex.removeAllViews();
 
-        gameLogic.newSentence();
-
-
-        //if yoy receive the sentence then show it on the screen
-        //if don't then the game is probably over
         if (!gameLogic.isDone()) {
+            gameLogic.newSentence();
+            textTimer.setVisibility(View.VISIBLE);
             textTitle.setText(gameLogic.getSentence().toString());
 
             // After <delay> seconds, move to next phase
-            timer.schedule(new TimerUI(timerHandler), delay);
+            timer = new CountDownTimer(delay, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    String msg = "" + ((millisUntilFinished / 1000)+1);
+                    textTimer.setText(msg);
+                }
+                public void onFinish() {
+                    startPhase2();
+                }
+            };
+            timer.start();
+
         } else {
             startPhase3();
         }
@@ -122,10 +116,12 @@ public class GameActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void startPhase2() {
+    public void startPhase2()
+    {
         btnStart.setVisibility(View.GONE);
         btnCheck.setVisibility(View.VISIBLE);
         btnFinish.setVisibility(View.VISIBLE);
+        textTimer.setVisibility(View.GONE);
 
         btnCheck.setText("Check");
         btnCheck.setEnabled(true);
@@ -167,7 +163,8 @@ public class GameActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void startPhase3() {
+    public void startPhase3()
+    {
         String msg = "Game done!\n"+gameLogic.getCorrectGuesses()+"/"+gameLogic.getNumberRounds();
         textTitle.setText(msg);
         btnStart.setVisibility(View.GONE);
@@ -175,7 +172,8 @@ public class GameActivity extends AppCompatActivity {
         btnFinish.setVisibility(View.VISIBLE);
     }
 
-    private boolean dragListener(View v, DragEvent e) {
+    private boolean dragListener(View v, DragEvent e)
+    {
         // Handles each of the expected events.
         switch (e.getAction()) {
 
@@ -243,7 +241,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onCheckBtnClick(View view) {
+    public void onCheckBtnClick(View view)
+    {
         ArrayList<String> playerTokens = new ArrayList<>();
 
         // Build the tokens from the UI
@@ -268,18 +267,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onStartBtnClick(View view) {
-        startClicked = true;
+    public void onStartBtnClick(View view)
+    {
+        timer.cancel();
         startPhase2();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void onFinishBtnClick(View view) {
+    public void onFinishBtnClick(View view)
+    {
         Intent toMainMenu = new Intent(view.getContext(), MainActivity.class);
         startActivity(toMainMenu);
     }
 
-    public void backToLevels(View view) {
+    public void backToLevels(View view)
+    {
         Intent toGameLevels = new Intent(view.getContext(), GameSetupActivity.class);
         startActivity(toGameLevels);
     }
