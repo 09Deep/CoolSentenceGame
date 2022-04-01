@@ -7,6 +7,7 @@ import com.coolsentencegame.logic.GameLogic;
 import com.coolsentencegame.objects.Score;
 import com.coolsentencegame.persistence.IScorePersistence;
 import com.coolsentencegame.persistence.MockScorePersistence;
+import com.coolsentencegame.persistence.MockSentencePersistence;
 
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class GameLogicScoreTest {
         for(int i = 0; i < 20; i++) {
             int correct = 1 + rand.nextInt(5);
             int wrong = 1 + rand.nextInt(5);
-            GameLogic gameLogic = new GameLogic(correct + wrong, scorePersistence);
+            GameLogic gameLogic = new GameLogic(correct + wrong, scorePersistence, new MockSentencePersistence());
             ArrayList<String> tokens = gameLogic.getTokens();
 
             // Make some right guesses

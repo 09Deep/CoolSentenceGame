@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.coolsentencegame.R;
+import com.coolsentencegame.application.Services;
 import com.coolsentencegame.logic.GameLogic;
+import com.coolsentencegame.persistence.ISentencePersistence;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GameSetupActivity extends AppCompatActivity {

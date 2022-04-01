@@ -77,7 +77,7 @@ public class GameActivity extends AppCompatActivity {
             delay = 2000;
 
         int nRounds = my_intent.getIntExtra("rounds", 5);
-        gameLogic = new GameLogic(nRounds, difficulty, Services.getScorePersistence());
+        gameLogic = new GameLogic(nRounds, difficulty, Services.getScorePersistence(), Services.getSentencePersistence());
 
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);

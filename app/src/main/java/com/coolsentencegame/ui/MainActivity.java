@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.coolsentencegame.R;
 import com.coolsentencegame.application.Main;
+import com.coolsentencegame.application.Services;
+import com.coolsentencegame.persistence.ISentencePersistence;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         copyDatabaseToDevice();
+
     }
 
     private void copyDatabaseToDevice() {
