@@ -1,6 +1,5 @@
 package com.coolsentencegame.persistence;
 
-import com.coolsentencegame.interfaces.IDatabase;
 import com.coolsentencegame.objects.Sentence;
 
 import java.util.ArrayList;
@@ -11,13 +10,12 @@ import java.util.Random;
  *
  * Implements the database interface using an arraylist.
  */
-public class MockDatabase implements IDatabase {
+public class MockSentencePersistence implements ISentencePersistence {
 
     private Random random;
     private final ArrayList<Sentence> sentences;
-    private final ArrayList<Integer> scores;
 
-    public MockDatabase() {
+    public MockSentencePersistence() {
         random = new Random();
 
         //initialize phrases
@@ -29,17 +27,10 @@ public class MockDatabase implements IDatabase {
         sentences.add(new Sentence("Of and words and such", 5));
         sentences.add(new Sentence("Our table is broken", 6));
         sentences.add(new Sentence("Very groovy", 7));
-
-        scores = new ArrayList<Integer>();
     }
 
-    /*
-     * FetchRandomWord
-     *
-     * Returns a string at a random index within the word database's bounds.
-     *
-     */
-    public Sentence FetchRandomSentence() {
+    @Override
+    public Sentence getRandomSentence() {
         if(sentences.isEmpty()) {
             // TODO: THROW AN EXCEPTION
             return null;
@@ -50,21 +41,18 @@ public class MockDatabase implements IDatabase {
         }
     }
 
-    /*
-     * StoreScore
-     *
-     * Record the current score in the database.
-     */
-    public void StoreScore(int score) {
-        if(scores.size() == 0) {
-            scores.add((score));
-            return;
-        }
+    @Override
+    public Sentence insertSentence(Sentence sentence) {
+        return null;
+    }
 
-        for(int i = 0; i < scores.size(); i++) {
-            if(score > scores.get(i)) {
-                scores.add(i, score);
-            }
-        }
+    @Override
+    public Sentence updateSentence(Sentence sentence) {
+        return null;
+    }
+
+    @Override
+    public void deleteSentence(Sentence sentence) {
+
     }
 }
