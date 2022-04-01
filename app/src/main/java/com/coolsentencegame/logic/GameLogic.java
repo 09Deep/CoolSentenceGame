@@ -1,11 +1,9 @@
 package com.coolsentencegame.logic;
 
-import com.coolsentencegame.application.Services;
 import com.coolsentencegame.objects.Score;
 import com.coolsentencegame.objects.Sentence;
 import com.coolsentencegame.persistence.IScorePersistence;
 import com.coolsentencegame.persistence.ISentencePersistence;
-import com.coolsentencegame.persistence.MockSentencePersistence;
 import com.coolsentencegame.persistence.PersistenceException;
 
 import java.util.ArrayList;
@@ -90,7 +88,7 @@ public class GameLogic {
             roundsDone++;
             if(isDone()){
                 try {
-                    scorePersistence.StoreScore(new Score(correctGuesses, wrongGuesses));
+                    scorePersistence.storeScore(new Score(correctGuesses, wrongGuesses));
                 }
                 catch(PersistenceException e) {
                     // Handle this

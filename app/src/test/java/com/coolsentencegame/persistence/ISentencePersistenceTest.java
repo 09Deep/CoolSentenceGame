@@ -1,25 +1,29 @@
 package com.coolsentencegame.persistence;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class ISentencePersistenceTest extends TestCase {
+import org.junit.Test;
 
-    public void setUp() throws Exception {
-        super.setUp();
+public class ISentencePersistenceTest {
+
+    @Test
+    public void getEasySentenceTest()
+    {
+        ISentencePersistence sentencePersistence = new MockSentencePersistence();
+        int cutoff = sentencePersistence.getEasyHardCutoff();
+        for(int i = 0; i < 20; i++) {
+            assertTrue(sentencePersistence.getEasySentence().getnTokens() <= cutoff);
+        }
     }
 
-    public void tearDown() throws Exception {
+    @Test
+    public void getHardSentenceTest()
+    {
+        ISentencePersistence sentencePersistence = new MockSentencePersistence();
+        int cutoff = sentencePersistence.getEasyHardCutoff();
+        for(int i = 0; i < 20; i++) {
+            assertTrue(sentencePersistence.getHardSentence().getnTokens() > cutoff);
+        }
     }
 
-    public void testGetRandomSentence() {
-    }
-
-    public void testInsertSentence() {
-    }
-
-    public void testUpdateSentence() {
-    }
-
-    public void testDeleteSentence() {
-    }
 }
