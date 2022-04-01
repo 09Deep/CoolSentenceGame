@@ -11,15 +11,11 @@ import android.widget.Button;
 
 import com.coolsentencegame.R;
 import com.coolsentencegame.application.Main;
-import com.coolsentencegame.application.Services;
-import com.coolsentencegame.objects.Score;
-import com.coolsentencegame.persistence.IScorePersistence;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         copyDatabaseToDevice();
-
-        IScorePersistence scorePersistence = Services.getScorePersistence();
-        ArrayList<Score> ar = scorePersistence.getPrevScores(1);
     }
 
     private void copyDatabaseToDevice() {
@@ -69,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             copyAssetsToDirectory(assetNames, dataDirectory);
 
             Main.setDBPath(dataDirectory.toString() + "/" + Main.getDBPath());
-            System.out.println("*** HELLO THERE");
 
         } catch (final IOException ioe) {
 
@@ -88,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             File outFile = new File(copyPath);
 
-            if (outFile.exists()) {
+            if (!outFile.exists()) {
                 InputStreamReader in = new InputStreamReader(assetManager.open(asset));
                 FileWriter out = new FileWriter(outFile);
 
