@@ -25,6 +25,7 @@ public class SentencePersistence implements ISentencePersistence {
 
     private Connection connection() throws SQLException {
         //Jordan: not fully sure what certain parts of this mean. It's from the sample project.
+        //return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
@@ -32,23 +33,24 @@ public class SentencePersistence implements ISentencePersistence {
         final String sentence = rs.getString("sentence");
         final String id = rs.getString("id");
 
-        return new Sentence(sentence, 0);
+        return new Sentence(sentence, id);
     }
 
-    public List<Sentence> getStudentSequential() {
-        final List<Sentence> students = new ArrayList<>();
+    public List<Sentence> getSentenceSequential() {
+        final List<Sentence> sentences = new ArrayList<>();
         try (final Connection c = connection()) {
             final Statement st = c.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM students");
+            final ResultSet rs = st.executeQuery("SELECT * FROM sentences");
             while (rs.next()) {
-                final Sentence student = fromResultSet(rs);
-                students.add(student);
+                final Sentence sentence = fromResultSet(rs);
+                sentences.add(sentence);
             }
             rs.close();
             st.close();
 
-            return students;
-        } catch (final SQLException e) {
+            return sentences;
+        }
+        catch (final SQLException e) {
             return null;
         }
     }
@@ -59,7 +61,8 @@ public class SentencePersistence implements ISentencePersistence {
 
         try (final Connection c = connection()) {
 
-        } catch (final SQLException e) {
+        }
+        catch (final SQLException e) {
 
         }
 
@@ -71,9 +74,9 @@ public class SentencePersistence implements ISentencePersistence {
         Sentence sentenceVar = null;
 
         try (final Connection c = connection()) {
-            final PreparedStatement st = c.prepareStatement("INSERT INTO sentences VALUES(?, ?)");
-            //st.setString(1, sentence.getID());
-            st.setString(2, sentence.getSentence());
+            final PreparedStatement st = c.prepareStatement("INSERT INTO sentences (sentence, id) VALUES(?, ?)");
+            st.setString(1, sentence.getSentence());
+            st.setString(2, sentence.getID());
             st.executeUpdate();
             sentenceVar = sentence;
         } catch (final SQLException e) {

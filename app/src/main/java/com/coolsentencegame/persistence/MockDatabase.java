@@ -22,13 +22,13 @@ public class MockDatabase implements IDatabase {
 
         //initialize phrases
         sentences = new ArrayList<Sentence>();
-        sentences.add(new Sentence("Why hello there", 1));
-        sentences.add(new Sentence("That is based", 2));
-        sentences.add(new Sentence("Don't have a cow man", 3));
-        sentences.add(new Sentence("Cringe bro", 4));
-        sentences.add(new Sentence("Of and words and such", 5));
-        sentences.add(new Sentence("Our table is broken", 6));
-        sentences.add(new Sentence("Very groovy", 7));
+        sentences.add(new Sentence("Why hello there", "1"));
+        sentences.add(new Sentence("That is based", "2"));
+        sentences.add(new Sentence("Don't have a cow man", "3"));
+        sentences.add(new Sentence("Cringe bro", "4"));
+        sentences.add(new Sentence("Of and words and such", "5"));
+        sentences.add(new Sentence("Our table is broken", "6"));
+        sentences.add(new Sentence("Very groovy", "7"));
 
         scores = new ArrayList<Integer>();
     }

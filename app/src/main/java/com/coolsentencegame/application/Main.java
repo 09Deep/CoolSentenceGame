@@ -1,7 +1,7 @@
 package com.coolsentencegame.application;
 
 public class Main {
-    private static String dbName="SentenceGameDB";
+    private static String dbName="SC";
 
     public static void setDBPath(final String name) {
         try {

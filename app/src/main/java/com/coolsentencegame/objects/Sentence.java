@@ -5,15 +5,15 @@ import androidx.annotation.NonNull;
 public class Sentence {
 
     private final String sentence;
-    public final int id;
+    public final String id;
 
-    public Sentence(String sentence, int id)
+    public Sentence(String sentence, String id)
     {
         this.sentence = sentence;
         this.id = id;
     }
 
-    public int getId()
+    public String getId()
     {
         return this.id;
     }
@@ -21,6 +21,10 @@ public class Sentence {
     public String getSentence()
     {
         return this.sentence;
+    }
+
+    public String getID() {
+        return id;
     }
 
     @Override
