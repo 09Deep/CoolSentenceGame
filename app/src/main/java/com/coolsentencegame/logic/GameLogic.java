@@ -1,7 +1,12 @@
 package com.coolsentencegame.logic;
 
-import com.coolsentencegame.interfaces.IDatabase;
-import com.coolsentencegame.persistence.MockDatabase;
+import com.coolsentencegame.application.Services;
+import com.coolsentencegame.objects.Score;
+import com.coolsentencegame.objects.Sentence;
+import com.coolsentencegame.persistence.IScorePersistence;
+import com.coolsentencegame.persistence.ISentencePersistence;
+import com.coolsentencegame.persistence.MockSentencePersistence;
+import com.coolsentencegame.persistence.PersistenceException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,21 +17,44 @@ import java.util.Collections;
  * Main logic layer class. Sets sentences and checks user guesses, and keeps track of score.
  */
 public class GameLogic {
-    IDatabase db;
-    private String sentence;
-    private String prevSentence;
+    private final ISentencePersistence sentencePersistence;
+    private final IScorePersistence scorePersistence;
+    private Sentence sentence;
+    private Sentence prevSentence;
     private final ArrayList<String> tokens;
+    private final int nRounds;
+    private int roundsDone;
     private int correctGuesses;
     private int wrongGuesses;
+    private GameLogic.Difficulty difficulty;
 
-    public GameLogic() {
-        db = new MockDatabase();
+    public enum Difficulty {
+        EASY,
+        HARD
+    }
+
+    public GameLogic(int nRounds, IScorePersistence scorePersistence, ISentencePersistence sentencePersistence)
+    {
+        this(nRounds, Difficulty.EASY, scorePersistence, sentencePersistence);
+    }
+
+    public GameLogic(int nRounds, GameLogic.Difficulty difficulty, IScorePersistence scorePersistence, ISentencePersistence sentencePersistence) {
+        this.sentencePersistence = sentencePersistence;
+        this.scorePersistence = scorePersistence;
         tokens = new ArrayList<String>();
-        sentence = "";
-        prevSentence = "";
+        sentence = null;
+        prevSentence = null;
         correctGuesses = 0;
         wrongGuesses = 0;
+        roundsDone = 0;
+        this.nRounds = nRounds;
         newSentence();
+        this.difficulty = difficulty;
+    }
+
+    public boolean isDone()
+    {
+        return roundsDone >= nRounds;
     }
 
     /*
@@ -36,10 +64,13 @@ public class GameLogic {
     {
         tokens.clear();
         prevSentence = sentence;
-        while(sentence.equals(prevSentence)) {
-            sentence = db.FetchRandomWord();
+        while(sentence == null || sentence.equals(prevSentence)) {
+            if(difficulty == Difficulty.EASY)
+                sentence = sentencePersistence.getEasySentence();
+            else
+                sentence = sentencePersistence.getHardSentence();
         }
-        Collections.addAll(tokens, sentence.split(" "));
+        Collections.addAll(tokens, sentence.toString().split(" "));
     }
 
     /*
@@ -50,15 +81,29 @@ public class GameLogic {
     public boolean isPlayerSentenceCorrect(ArrayList<String> playerTokens) {
         boolean correct = tokens.equals(playerTokens);
 
-        if(correct)
-            correctGuesses++;
-        else
-            wrongGuesses++;
+        if(!isDone()) {
+            if (correct)
+                correctGuesses++;
+            else
+                wrongGuesses++;
+
+            roundsDone++;
+            if(isDone()){
+                try {
+                    scorePersistence.StoreScore(new Score(correctGuesses, wrongGuesses));
+                }
+                catch(PersistenceException e) {
+                    // Handle this
+                    System.out.println(e.getMessage());
+                }
+            }
+
+        }
 
         return correct;
     }
 
-    public String getSentence()
+    public Sentence getSentence()
     {
         return sentence;
     }
@@ -85,5 +130,14 @@ public class GameLogic {
         return wrongGuesses;
     }
 
+    public int getCurrentRoundNumber()
+    {
+        return roundsDone;
+    }
+
+    public int getNumberRounds()
+    {
+        return nRounds;
+    }
 
 }

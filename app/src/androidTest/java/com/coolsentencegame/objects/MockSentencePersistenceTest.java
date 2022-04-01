@@ -2,13 +2,13 @@ package com.coolsentencegame.objects;
 
 import static org.junit.Assert.*;
 
-import com.coolsentencegame.persistence.MockDatabase;
+import com.coolsentencegame.persistence.MockSentencePersistence;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MockDatabaseTest {
+public class MockSentencePersistenceTest {
 
     @Before
     public void setUp() throws Exception {
@@ -20,9 +20,9 @@ public class MockDatabaseTest {
 
     @Test
     public void fetchRandomWord() {
-        MockDatabase mockDatabase = new MockDatabase();
+        MockSentencePersistence mockSentencePersistence = new MockSentencePersistence();
 
-        assertNotNull(mockDatabase.FetchRandomWord());
+//        assertNotNull(mockSentencePersistence.getRandomSentence());
     }
 
     @Test
