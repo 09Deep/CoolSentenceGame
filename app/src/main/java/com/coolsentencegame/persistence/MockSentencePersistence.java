@@ -21,17 +21,17 @@ public class MockSentencePersistence implements ISentencePersistence {
 
         //initialize phrases
         sentences = new ArrayList<Sentence>();
-        sentences.add(new Sentence("Why hello there", 1));
-        sentences.add(new Sentence("That is based", 2));
-        sentences.add(new Sentence("Don't have a cow man", 3));
-        sentences.add(new Sentence("Cringe bro", 4));
-        sentences.add(new Sentence("Of and words and such", 5));
-        sentences.add(new Sentence("Our table is broken", 6));
-        sentences.add(new Sentence("Very groovy", 7));
 
-        sentences.add(new Sentence("This is a harder sentence i guess", 8));
-        sentences.add(new Sentence("This is another harder sentence i guess", 9));
-        sentences.add(new Sentence("This is a very very hard sentence i guess", 10));
+        sentences.add(new Sentence("Why hello there", 1));
+        sentences.add(new Sentence("Another one", 2));
+        sentences.add(new Sentence("This is a sentence", 3));
+        sentences.add(new Sentence("Easy peazy", 4));
+        sentences.add(new Sentence("Dont have a cow man", 5));
+        sentences.add(new Sentence("This is a harder sentence I guess", 6));
+        sentences.add(new Sentence("This is a harder sentence I suppose", 7));
+        sentences.add(new Sentence("This is a much harder sentence I truly guess", 8));
+        sentences.add(new Sentence("This is a something of a sentence I guess", 9));
+        sentences.add(new Sentence("This is a longer sentence with some words", 10));
 
     }
 

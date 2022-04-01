@@ -11,10 +11,9 @@ public class MockScorePersistence implements IScorePersistence {
     public MockScorePersistence()
     {
         scores = new ArrayList<Score>();
-        scores.add(new Score(5, 6));
-        scores.add(new Score(9, 3));
-        scores.add(new Score(1, 0));
-        scores.add(new Score(4, 1));
+        scores.add(new Score (1, 2, "2022.03.31 23:02:16"));
+        scores.add(new Score (3, 4, "2022.03.30 23:56:16"));
+        scores.add(new Score (5, 6, "2022.03.29 23:22:16"));
     }
 
     public void storeScore(Score score)
