@@ -22,7 +22,7 @@ public class MockSentencePersistenceTest {
     public void fetchRandomWord() {
         MockSentencePersistence mockSentencePersistence = new MockSentencePersistence();
 
-        assertNotNull(mockSentencePersistence.FetchRandomSentence());
+//        assertNotNull(mockSentencePersistence.getRandomSentence());
     }
 
     @Test

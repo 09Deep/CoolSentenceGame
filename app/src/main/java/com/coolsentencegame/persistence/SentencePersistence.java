@@ -30,74 +30,18 @@ public class SentencePersistence implements ISentencePersistence {
 
     private Sentence fromResultSet(final ResultSet rs) throws SQLException {
         final String sentence = rs.getString("sentence");
-        final String id = rs.getString("id");
+        final int id = rs.getInt("id");
 
-        return new Sentence(sentence, 0);
-    }
-
-    public List<Sentence> getStudentSequential() {
-        final List<Sentence> students = new ArrayList<>();
-        try (final Connection c = connection()) {
-            final Statement st = c.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM students");
-            while (rs.next()) {
-                final Sentence student = fromResultSet(rs);
-                students.add(student);
-            }
-            rs.close();
-            st.close();
-
-            return students;
-        } catch (final SQLException e) {
-            return null;
-        }
+        return new Sentence(sentence, id);
     }
 
     @Override
-    public Sentence getRandomSentence() {
-        Sentence sentence = null;
-
-        try (final Connection c = connection()) {
-
-        } catch (final SQLException e) {
-
-        }
-
-        return sentence;
+    public Sentence getEasySentence() {
+        return null;
     }
 
     @Override
-    public Sentence insertSentence(Sentence sentence) {
-        Sentence sentenceVar = null;
-
-        try (final Connection c = connection()) {
-            final PreparedStatement st = c.prepareStatement("INSERT INTO sentences VALUES(?, ?)");
-            //st.setString(1, sentence.getID());
-            st.setString(2, sentence.toString());
-            st.executeUpdate();
-            sentenceVar = sentence;
-        } catch (final SQLException e) {
-
-        }
-
-        return sentenceVar;
-    }
-
-    @Override
-    public Sentence updateSentence(Sentence sentence) {
-        Sentence sentenceVar = null;
-
-        try (final Connection c = connection()) {
-
-        } catch (final SQLException e) {
-
-        }
-
-        return sentenceVar;
-    }
-
-    @Override
-    public void deleteSentence(Sentence sentence) {
-
+    public Sentence getHardSentence() {
+        return null;
     }
 }

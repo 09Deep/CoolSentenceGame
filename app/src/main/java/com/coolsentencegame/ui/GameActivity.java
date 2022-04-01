@@ -68,20 +68,16 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         Intent my_intent = getIntent();
         timer = new Timer();
+        GameLogic.Difficulty difficulty;
 
-        if ( my_intent.hasExtra("speed") ) {
-            Log.i("msg","it has the extra!!!");
-            int speed = my_intent.getIntExtra("speed",-1);
-            if ( speed == 1)
-                delay = 2000;
-            else if (speed == 0)
-                delay = 4000;
-        }
+        difficulty = (GameLogic.Difficulty)my_intent.getSerializableExtra("difficulty");
+        if (difficulty == GameLogic.Difficulty.EASY)
+            delay = 4000;
+        else
+            delay = 2000;
 
-        if(my_intent.hasExtra("rounds")) {
-            int nRounds = my_intent.getIntExtra("rounds", 5);
-            gameLogic = new GameLogic(nRounds, Services.getScorePersistence());
-        }
+        int nRounds = my_intent.getIntExtra("rounds", 5);
+        gameLogic = new GameLogic(nRounds, difficulty, Services.getScorePersistence());
 
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);

@@ -27,32 +27,32 @@ public class MockSentencePersistence implements ISentencePersistence {
         sentences.add(new Sentence("Of and words and such", 5));
         sentences.add(new Sentence("Our table is broken", 6));
         sentences.add(new Sentence("Very groovy", 7));
+
+        sentences.add(new Sentence("This is a harder sentence i guess", 8));
+        sentences.add(new Sentence("This is another harder sentence i guess", 9));
+        sentences.add(new Sentence("This is a very very hard sentence i guess", 10));
+
     }
 
     @Override
-    public Sentence getRandomSentence() {
-        if(sentences.isEmpty()) {
-            // TODO: THROW AN EXCEPTION
-            return null;
+    public Sentence getEasySentence() {
+        int r = random.nextInt(sentences.size());
+        Sentence s = sentences.get(r);
+        while(s.getnTokens() > 5) {
+            r = random.nextInt(sentences.size());
+            s = sentences.get(r);
         }
-        else {
-            int r = random.nextInt(sentences.size());
-            return sentences.get(r);
+        return s;
+    }
+
+    @Override
+    public Sentence getHardSentence() {
+        int r = random.nextInt(sentences.size());
+        Sentence s = sentences.get(r);
+        while(s.getnTokens() <= 5) {
+            r = random.nextInt(sentences.size());
+            s = sentences.get(r);
         }
-    }
-
-    @Override
-    public Sentence insertSentence(Sentence sentence) {
-        return null;
-    }
-
-    @Override
-    public Sentence updateSentence(Sentence sentence) {
-        return null;
-    }
-
-    @Override
-    public void deleteSentence(Sentence sentence) {
-
+        return s;
     }
 }
