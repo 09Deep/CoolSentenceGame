@@ -17,8 +17,9 @@ public class MockScorePersistence implements IScorePersistence {
         scores.add(new Score(4, 1));
     }
 
-    public void StoreScore(int correct, int wrong) {
-        scores.add((new Score(correct, wrong)));
+    public void StoreScore(Score score)
+    {
+        scores.add(score);
     }
 
     // Get the last n scores, with the most recent score first.

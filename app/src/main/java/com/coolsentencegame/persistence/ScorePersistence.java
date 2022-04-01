@@ -19,35 +19,50 @@ public class ScorePersistence implements IScorePersistence {
         this.dbPath = dbPath;
     }
 
-    private Connection connection() throws SQLException {
+    private Connection connection() throws SQLException
+    {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    private Score fromResultSet(final ResultSet rs) throws SQLException {
-        final int wrong = rs.getInt("CORRECT");
-        final int correct = rs.getInt("WRONG");
-
-        return new Score(correct, wrong);
+    private Score fromResultSet(final ResultSet rs) throws SQLException
+    {
+        final int correct = rs.getInt("CORRECT");
+        final int wrong = rs.getInt("WRONG");
+        final String date = rs.getString("SCORETIME");
+        return new Score(correct, wrong, date);
     }
 
     @Override
-    public void StoreScore(int correct, int wrong) {
-
+    public void StoreScore(Score score)
+    {
+        try(final Connection c = connection()) {
+            final PreparedStatement ps = c.prepareStatement("INSERT INTO scores VALUES(?, ?, ?)");
+            ps.setInt(1, score.getCorrect());
+            ps.setInt(2, score.getWrong());
+            ps.setString(3, score.getDate());
+            ps.executeUpdate();
+            ps.close();
+        }
+        catch (final SQLException e)
+        {
+            throw new PersistenceException(e);
+        }
     }
 
     @Override
     public ArrayList<Score> getPrevScores(int n) {
+        String limit = "";
+        if(n > 0)
+            limit = " limit " + n;
+
         ArrayList<Score> scores = new ArrayList<Score>();
-        try {
-            final Connection c = connection();
+        try (final Connection c = connection()) {
             final Statement st = c.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM scores");
+            final ResultSet rs = st.executeQuery("SELECT * FROM scores ORDER BY SCORETIME DESC" + limit);
 
             while (rs.next()) {
-//                final Score record = fromResultSet(rs);
-//                scores.add(record);
-                int s = rs.getInt("CORRECT");
-                System.out.println(s);
+                final Score record = fromResultSet(rs);
+                scores.add(record);
             }
 
             rs.close();
@@ -57,14 +72,14 @@ public class ScorePersistence implements IScorePersistence {
         }
         catch (final SQLException e)
         {
-//            throw new PersistenceException(e);
-            return null;
+            throw new PersistenceException(e);
         }
 
     }
 
     @Override
-    public void removeScore(Score score) {
+    public void removeScore(Score score)
+    {
 
     }
 }

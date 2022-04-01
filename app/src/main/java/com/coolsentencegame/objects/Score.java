@@ -29,6 +29,15 @@ public class Score {
         this.date = dateFormat.format(new Date());
     }
 
+    public Score(int correct, int wrong, String date)
+    {
+        this.correct = correct;
+        this.wrong = wrong;
+        this.total = correct + wrong;
+        this.pcent = ((float)correct / (float)total) * 100;
+        this.date = date;
+    }
+
     public int getCorrect() {
         return correct;
     }
