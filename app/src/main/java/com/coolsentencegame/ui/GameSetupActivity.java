@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.coolsentencegame.R;
+import com.coolsentencegame.logic.GameLogic;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GameSetupActivity extends AppCompatActivity {
@@ -75,7 +76,7 @@ public class GameSetupActivity extends AppCompatActivity {
         }
 
         Intent gameArgs = new Intent(GameSetupActivity.this, GameActivity.class);
-        gameArgs.putExtra("speed",get_speed(gameSpeedEasy, gameSpeedHard));
+        gameArgs.putExtra("difficulty", getDifficulty(gameSpeedEasy, gameSpeedHard));
         gameArgs.putExtra("rounds", nRounds);
         startActivity(gameArgs);
     }
@@ -93,12 +94,7 @@ public class GameSetupActivity extends AppCompatActivity {
             return -1;
     }
 
-    private int get_speed(Button easy, Button hard) {
-        int result = -1;
-        if (easy.isEnabled() && !hard.isEnabled())
-            result = 0;
-        if (!easy.isEnabled() && hard.isEnabled())
-            result = 1;
-        return result;
+    private GameLogic.Difficulty getDifficulty(Button easy, Button hard) {
+        return (hard.isEnabled()) ? GameLogic.Difficulty.EASY : GameLogic.Difficulty.HARD;
     }
 }

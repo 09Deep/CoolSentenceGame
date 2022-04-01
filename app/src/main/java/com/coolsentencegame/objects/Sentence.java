@@ -5,12 +5,14 @@ import androidx.annotation.NonNull;
 public class Sentence {
 
     private final String sentence;
-    public final int id;
+    private final int id;
+    private final int nTokens;
 
     public Sentence(String sentence, int id)
     {
         this.sentence = sentence;
         this.id = id;
+        this.nTokens = sentence.split(" ").length;
     }
 
     public int getId()
@@ -28,6 +30,10 @@ public class Sentence {
         else {
             return false;
         }
+    }
+
+    public int getnTokens() {
+        return nTokens;
     }
 
     @NonNull

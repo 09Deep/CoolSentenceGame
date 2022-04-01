@@ -26,8 +26,19 @@ public class GameLogic {
     private int roundsDone;
     private int correctGuesses;
     private int wrongGuesses;
+    private GameLogic.Difficulty difficulty;
 
-    public GameLogic(int nRounds, IScorePersistence scorePersistence) {
+    public enum Difficulty {
+        EASY,
+        HARD
+    }
+
+    public GameLogic(int nRounds, IScorePersistence scorePersistence)
+    {
+        this(nRounds, Difficulty.EASY, scorePersistence);
+    }
+
+    public GameLogic(int nRounds, GameLogic.Difficulty difficulty, IScorePersistence scorePersistence) {
         sentencePersistence = new MockSentencePersistence();
         this.scorePersistence = scorePersistence;
         tokens = new ArrayList<String>();
@@ -38,6 +49,7 @@ public class GameLogic {
         roundsDone = 0;
         this.nRounds = nRounds;
         newSentence();
+        this.difficulty = difficulty;
     }
 
     public boolean isDone()
@@ -53,7 +65,10 @@ public class GameLogic {
         tokens.clear();
         prevSentence = sentence;
         while(sentence == null || sentence.equals(prevSentence)) {
-            sentence = sentencePersistence.getRandomSentence();
+            if(difficulty == Difficulty.EASY)
+                sentence = sentencePersistence.getEasySentence();
+            else
+                sentence = sentencePersistence.getHardSentence();
         }
         Collections.addAll(tokens, sentence.toString().split(" "));
     }
