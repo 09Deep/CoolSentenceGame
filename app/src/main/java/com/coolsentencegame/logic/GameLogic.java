@@ -20,30 +20,27 @@ public class GameLogic {
     private Sentence sentence;
     private Sentence prevSentence;
     private final ArrayList<String> tokens;
-    private int nRounds;
+    private final int nRounds;
     private int roundsDone;
     private int correctGuesses;
     private int wrongGuesses;
 
-    public GameLogic() {
+    public GameLogic(int nRounds, IScorePersistence scorePersistence) {
         sentencePersistence = new MockSentencePersistence();
-        scorePersistence = Services.getScorePersistence();
+        this.scorePersistence = scorePersistence;
         tokens = new ArrayList<String>();
-        sentence = sentencePersistence.getRandomSentence();
+        sentence = null;
         prevSentence = null;
         correctGuesses = 0;
         wrongGuesses = 0;
         roundsDone = 0;
+        this.nRounds = nRounds;
+        newSentence();
     }
 
     public boolean isDone()
     {
         return roundsDone >= nRounds;
-    }
-
-    public void setNumberRounds(int nRounds)
-    {
-        this.nRounds = nRounds;
     }
 
     /*
@@ -53,10 +50,10 @@ public class GameLogic {
     {
         tokens.clear();
         prevSentence = sentence;
-        while(sentence.equals(prevSentence)) {
+        while(sentence == null || sentence.equals(prevSentence)) {
             sentence = sentencePersistence.getRandomSentence();
         }
-        Collections.addAll(tokens, sentence.getSentence().split(" "));
+        Collections.addAll(tokens, sentence.toString().split(" "));
     }
 
     /*
@@ -67,15 +64,16 @@ public class GameLogic {
     public boolean isPlayerSentenceCorrect(ArrayList<String> playerTokens) {
         boolean correct = tokens.equals(playerTokens);
 
-        if(correct)
-            correctGuesses++;
-        else
-            wrongGuesses++;
+        if(!isDone()) {
+            if (correct)
+                correctGuesses++;
+            else
+                wrongGuesses++;
 
-        roundsDone++;
-
-        if(isDone())
-            scorePersistence.StoreScore(correctGuesses, wrongGuesses);
+            roundsDone++;
+            if(isDone())
+                scorePersistence.StoreScore(correctGuesses, wrongGuesses);
+        }
 
         return correct;
     }

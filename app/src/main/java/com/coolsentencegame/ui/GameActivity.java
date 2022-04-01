@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.coolsentencegame.R;
+import com.coolsentencegame.application.Services;
 import com.coolsentencegame.logic.GameLogic;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -66,7 +67,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         Intent my_intent = getIntent();
-        gameLogic = new GameLogic();
         timer = new Timer();
 
         if ( my_intent.hasExtra("speed") ) {
@@ -80,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
 
         if(my_intent.hasExtra("rounds")) {
             int nRounds = my_intent.getIntExtra("rounds", 5);
-            gameLogic.setNumberRounds(nRounds);
+            gameLogic = new GameLogic(nRounds, Services.getScorePersistence());
         }
 
         btnCheck = findViewById(R.id.btnCheck);
