@@ -33,13 +33,13 @@ public class GameLogic {
         HARD
     }
 
-    public GameLogic(int nRounds, IScorePersistence scorePersistence)
+    public GameLogic(int nRounds, IScorePersistence scorePersistence, ISentencePersistence sentencePersistence)
     {
-        this(nRounds, Difficulty.EASY, scorePersistence);
+        this(nRounds, Difficulty.EASY, scorePersistence, sentencePersistence);
     }
 
-    public GameLogic(int nRounds, GameLogic.Difficulty difficulty, IScorePersistence scorePersistence) {
-        sentencePersistence = new MockSentencePersistence();
+    public GameLogic(int nRounds, GameLogic.Difficulty difficulty, IScorePersistence scorePersistence, ISentencePersistence sentencePersistence) {
+        this.sentencePersistence = sentencePersistence;
         this.scorePersistence = scorePersistence;
         tokens = new ArrayList<String>();
         sentence = null;
