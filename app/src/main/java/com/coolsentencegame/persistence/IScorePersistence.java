@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface IScorePersistence {
 
-    void StoreScore(Score score);
+    void storeScore(Score score);
 
     // Get the last n scores, with the most recent score first.
     // Return all if n == 0

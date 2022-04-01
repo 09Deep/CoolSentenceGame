@@ -88,4 +88,10 @@ public class SentencePersistence implements ISentencePersistence {
         int r = rand.nextInt(hardCache.size());
         return hardCache.get(r);
     }
+
+    @Override
+    public int getEasyHardCutoff()
+    {
+        return CUTOFF;
+    }
 }

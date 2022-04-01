@@ -8,4 +8,6 @@ public interface ISentencePersistence {
 
     Sentence getHardSentence();
 
+    int getEasyHardCutoff();
+
 }

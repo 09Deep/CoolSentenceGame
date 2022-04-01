@@ -17,7 +17,7 @@ public class MockScorePersistence implements IScorePersistence {
         scores.add(new Score(4, 1));
     }
 
-    public void StoreScore(Score score)
+    public void storeScore(Score score)
     {
         scores.add(score);
     }

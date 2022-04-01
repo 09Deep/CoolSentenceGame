@@ -33,7 +33,7 @@ public class ScorePersistence implements IScorePersistence {
     }
 
     @Override
-    public void StoreScore(Score score)
+    public void storeScore(Score score)
     {
         try(final Connection c = connection()) {
             final PreparedStatement ps = c.prepareStatement("INSERT INTO scores VALUES(?, ?, ?)");

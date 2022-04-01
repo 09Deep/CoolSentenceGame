@@ -14,6 +14,7 @@ public class MockSentencePersistence implements ISentencePersistence {
 
     private Random random;
     private final ArrayList<Sentence> sentences;
+    private final int cutoff = 5;
 
     public MockSentencePersistence() {
         random = new Random();
@@ -49,10 +50,16 @@ public class MockSentencePersistence implements ISentencePersistence {
     public Sentence getHardSentence() {
         int r = random.nextInt(sentences.size());
         Sentence s = sentences.get(r);
-        while(s.getnTokens() <= 5) {
+        while(s.getnTokens() <= cutoff) {
             r = random.nextInt(sentences.size());
             s = sentences.get(r);
         }
         return s;
+    }
+
+    @Override
+    public int getEasyHardCutoff()
+    {
+        return cutoff;
     }
 }
