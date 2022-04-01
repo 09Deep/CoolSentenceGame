@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.coolsentencegame.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class GameLevelActivity extends AppCompatActivity {
+public class GameSetupActivity extends AppCompatActivity {
 
     private Button gameSpeedEasy;
     private Button gameSpeedHard;
@@ -74,7 +74,7 @@ public class GameLevelActivity extends AppCompatActivity {
             return;
         }
 
-        Intent gameArgs = new Intent(GameLevelActivity.this, GameUI.class);
+        Intent gameArgs = new Intent(GameSetupActivity.this, GameActivity.class);
         gameArgs.putExtra("speed",get_speed(gameSpeedEasy, gameSpeedHard));
         gameArgs.putExtra("rounds", nRounds);
         startActivity(gameArgs);

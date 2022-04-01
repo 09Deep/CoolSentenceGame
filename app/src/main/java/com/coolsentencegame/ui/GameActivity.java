@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 
-public class GameUI extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     private GameLogic gameLogic; // Handles logic layer
     private View clickedView;
@@ -284,7 +284,7 @@ public class GameUI extends AppCompatActivity {
     }
 
     public void backToLevels(View view) {
-        Intent toGameLevels = new Intent(view.getContext(), GameLevelActivity.class);
+        Intent toGameLevels = new Intent(view.getContext(), GameSetupActivity.class);
         startActivity(toGameLevels);
     }
 

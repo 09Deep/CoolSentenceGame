@@ -1,8 +1,10 @@
 package com.coolsentencegame.logic;
 
-import com.coolsentencegame.interfaces.IDatabase;
+import com.coolsentencegame.application.Services;
 import com.coolsentencegame.objects.Sentence;
-import com.coolsentencegame.persistence.MockDatabase;
+import com.coolsentencegame.persistence.IScorePersistence;
+import com.coolsentencegame.persistence.ISentencePersistence;
+import com.coolsentencegame.persistence.MockSentencePersistence;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +15,8 @@ import java.util.Collections;
  * Main logic layer class. Sets sentences and checks user guesses, and keeps track of score.
  */
 public class GameLogic {
-    private IDatabase database;
+    private final ISentencePersistence sentencePersistence;
+    private final IScorePersistence scorePersistence;
     private Sentence sentence;
     private Sentence prevSentence;
     private final ArrayList<String> tokens;
@@ -23,9 +26,10 @@ public class GameLogic {
     private int wrongGuesses;
 
     public GameLogic() {
-        database = new MockDatabase();
+        sentencePersistence = new MockSentencePersistence();
+        scorePersistence = Services.getScorePersistence();
         tokens = new ArrayList<String>();
-        sentence = database.FetchRandomSentence();
+        sentence = sentencePersistence.getRandomSentence();
         prevSentence = null;
         correctGuesses = 0;
         wrongGuesses = 0;
@@ -50,7 +54,7 @@ public class GameLogic {
         tokens.clear();
         prevSentence = sentence;
         while(sentence.equals(prevSentence)) {
-            sentence = database.FetchRandomSentence();
+            sentence = sentencePersistence.getRandomSentence();
         }
         Collections.addAll(tokens, sentence.getSentence().split(" "));
     }
@@ -69,6 +73,10 @@ public class GameLogic {
             wrongGuesses++;
 
         roundsDone++;
+
+        if(isDone())
+            scorePersistence.StoreScore(correctGuesses, wrongGuesses);
+
         return correct;
     }
 

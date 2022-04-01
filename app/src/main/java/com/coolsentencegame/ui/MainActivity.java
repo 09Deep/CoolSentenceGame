@@ -11,7 +11,6 @@ import android.widget.Button;
 
 import com.coolsentencegame.R;
 import com.coolsentencegame.application.Main;
-import com.coolsentencegame.interfaces.IDatabase;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +28,16 @@ public class MainActivity extends AppCompatActivity {
         buttontoGameLevels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), GameSetupActivity.class);
+                startActivity(i);
+            }
+        });
 
-                Intent i = new Intent(view.getContext(),GameLevelActivity.class);
+        Button statsButton = findViewById(R.id.btnStats);
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(),StatsActivity.class);
                 startActivity(i);
             }
         });

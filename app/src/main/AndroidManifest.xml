@@ -10,10 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoolSentenceGame">
         <activity
-            android:name=".ui.GameLevelActivity"
-            />
+            android:name=".ui.StatsActivity"
+            android:exported="false" />
+        <activity android:name=".ui.GameSetupActivity" />
         <activity
-            android:name=".ui.GameUI"
+            android:name=".ui.GameActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
