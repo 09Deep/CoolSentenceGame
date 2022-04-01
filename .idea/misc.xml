@@ -6,7 +6,10 @@
         <entry key="..\:/Code/cool-sentence-game/app/src/main/res/drawable/gameui_button.xml" value="0.335" />
         <entry key="..\:/Code/cool-sentence-game/app/src/main/res/drawable/rounded.xml" value="0.335" />
         <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_game.xml" value="0.5" />
-        <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_game_level.xml" value="0.2777777777777778" />
+        <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_game_level.xml" value="0.5" />
+        <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_level_one.xml" value="0.15925925925925927" />
+        <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_main.xml" value="0.371875" />
+        <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/activity_stats.xml" value="0.371875" />
         <entry key="..\:/Code/cool-sentence-game/app/src/main/res/layout/gameui_button_layout.xml" value="0.36615384615384616" />
         <entry key="..\:/Users/deepi/AndroidStudioProjects/comp 3350/Cool Sentence Game/GitHub/cool-sentence-game/app/src/main/res/layout/activity_game.xml" value="0.21331521739130435" />
         <entry key="..\:/Users/deepi/AndroidStudioProjects/comp 3350/Cool Sentence Game/GitHub/cool-sentence-game/app/src/main/res/layout/activity_game_level.xml" value="0.264" />

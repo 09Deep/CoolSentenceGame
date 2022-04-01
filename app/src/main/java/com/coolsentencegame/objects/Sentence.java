@@ -18,11 +18,6 @@ public class Sentence {
         return this.id;
     }
 
-    public String getSentence()
-    {
-        return this.sentence;
-    }
-
     @Override
     public boolean equals(Object other)
     {

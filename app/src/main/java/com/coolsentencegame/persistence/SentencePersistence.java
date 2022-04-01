@@ -73,7 +73,7 @@ public class SentencePersistence implements ISentencePersistence {
         try (final Connection c = connection()) {
             final PreparedStatement st = c.prepareStatement("INSERT INTO sentences VALUES(?, ?)");
             //st.setString(1, sentence.getID());
-            st.setString(2, sentence.getSentence());
+            st.setString(2, sentence.toString());
             st.executeUpdate();
             sentenceVar = sentence;
         } catch (final SQLException e) {

@@ -40,4 +40,10 @@ public class MockScorePersistence implements IScorePersistence {
         return lastScores;
     }
 
+    @Override
+    public void removeScore(Score score)
+    {
+        scores.remove(score);
+    }
+
 }

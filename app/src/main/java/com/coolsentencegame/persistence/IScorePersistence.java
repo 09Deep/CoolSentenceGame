@@ -12,4 +12,6 @@ public interface IScorePersistence {
     // Return all if n == 0
     ArrayList<Score> getPrevScores(int n);
 
+    void removeScore(Score score);
+
 }

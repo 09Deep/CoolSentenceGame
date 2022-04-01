@@ -3,6 +3,7 @@ package com.coolsentencegame.application;
 import com.coolsentencegame.persistence.AccountPersistence;
 import com.coolsentencegame.persistence.IScorePersistence;
 import com.coolsentencegame.persistence.MockScorePersistence;
+import com.coolsentencegame.persistence.ScorePersistence;
 import com.coolsentencegame.persistence.SentencePersistence;
 
 public class Services {
@@ -31,8 +32,8 @@ public class Services {
 
     public static synchronized IScorePersistence getScorePersistence() {
         if (scorePersistence == null) {
-//            scorePersistence = new ScorePersistence(Main.getDBPath());
-            scorePersistence = new MockScorePersistence();
+            scorePersistence = new ScorePersistence(Main.getDBPath());
+//            scorePersistence = new MockScorePersistence();
         }
 
         return scorePersistence;
