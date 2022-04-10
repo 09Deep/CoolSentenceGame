@@ -37,10 +37,11 @@ public class StatsActivity extends AppCompatActivity {
         ArrayList<Score> scores = scorePersistence.getPrevScores(0);
         for(Score score : scores) {
             TextView tv = new TextView(this);
-            tv.setText(score.toString());
-            tv.setTextSize(16);
+            tv.setText(score.toString()+ "\n");
+            tv.setTextSize(20);
             linearLayout.addView(tv);
         }
+
     }
 
 
