@@ -9,8 +9,6 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.DragEvent;
@@ -26,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.coolsentencegame.R;
 import com.coolsentencegame.application.Services;
 import com.coolsentencegame.logic.GameLogic;
+import com.coolsentencegame.objects.GameParams;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -53,17 +52,15 @@ public class GameActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        Intent my_intent = getIntent();
-        GameLogic.Difficulty difficulty;
+        Intent intent = getIntent();
+        GameParams gameParams = (GameParams)intent.getSerializableExtra("params");
 
-        difficulty = (GameLogic.Difficulty)my_intent.getSerializableExtra("difficulty");
-        if (difficulty == GameLogic.Difficulty.EASY)
+        if(gameParams.getSpeed() == GameParams.Speed.NORMAL)
             delay = 4000;
         else
             delay = 2000;
 
-        int nRounds = my_intent.getIntExtra("rounds", 5);
-        gameLogic = new GameLogic(nRounds, difficulty, Services.getScorePersistence(), Services.getSentencePersistence());
+        gameLogic = new GameLogic(gameParams, Services.getScorePersistence(), Services.getSentencePersistence());
 
         btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
@@ -91,27 +88,21 @@ public class GameActivity extends AppCompatActivity {
         btmFlex.removeAllViews();
         topFlex.removeAllViews();
 
-        if (!gameLogic.isDone()) {
-            gameLogic.newSentence();
-            textTimer.setVisibility(View.VISIBLE);
-            textTitle.setText(gameLogic.getSentence().toString());
+        gameLogic.newSentence();
+        textTimer.setVisibility(View.VISIBLE);
+        textTitle.setText(gameLogic.getSentence().toString());
 
-            // After <delay> seconds, move to next phase
-            timer = new CountDownTimer(delay, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    String msg = "" + ((millisUntilFinished / 1000)+1);
-                    textTimer.setText(msg);
-                }
-                public void onFinish() {
-                    startPhase2();
-                }
-            };
-            timer.start();
-
-        } else {
-            startPhase3();
-        }
-
+        // After <delay> seconds, move to next phase
+        timer = new CountDownTimer(delay, 1000) {
+            public void onTick(long millisUntilFinished) {
+                String msg = "" + ((millisUntilFinished / 1000)+1);
+                textTimer.setText(msg);
+            }
+            public void onFinish() {
+                startPhase2();
+            }
+        };
+        timer.start();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -140,9 +131,9 @@ public class GameActivity extends AppCompatActivity {
                 clickedView = v;
                 ClipData.Item item = new ClipData.Item((CharSequence) s);
                 ClipData dragData = new ClipData(
-                        (CharSequence) s,
-                        new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
-                        item
+                    (CharSequence) s,
+                    new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
+                    item
                 );
 
                 View.DragShadowBuilder shadow = new DragShadowTemplate(btn);
@@ -159,17 +150,6 @@ public class GameActivity extends AppCompatActivity {
             btmFlex.addView(btmLayout);
             topFlex.addView(topLayout);
         }
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void startPhase3()
-    {
-        String msg = "Game done!\n"+gameLogic.getCorrectGuesses()+"/"+gameLogic.getNumberRounds();
-        textTitle.setText(msg);
-        btnStart.setVisibility(View.GONE);
-        btnCheck.setVisibility(View.GONE);
-        btnFinish.setVisibility(View.VISIBLE);
     }
 
     private boolean dragListener(View v, DragEvent e)
@@ -276,14 +256,11 @@ public class GameActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onFinishBtnClick(View view)
     {
-        Intent toMainMenu = new Intent(view.getContext(), MainActivity.class);
-        startActivity(toMainMenu);
-    }
-
-    public void backToLevels(View view)
-    {
-        Intent toGameLevels = new Intent(view.getContext(), GameSetupActivity.class);
-        startActivity(toGameLevels);
+        Intent intent = new Intent(GameActivity.this, GameSummary.class);
+        String msg = ""+gameLogic.getCorrectGuesses()+"/"+gameLogic.getCurrentRoundNumber();
+        intent.putExtra("msg", msg);
+        startActivity(intent);
+        finish();
     }
 
 }

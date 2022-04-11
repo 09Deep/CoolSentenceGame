@@ -1,11 +1,13 @@
 package com.coolsentencegame.logic;
 
+import com.coolsentencegame.objects.GameParams;
 import com.coolsentencegame.objects.Score;
 import com.coolsentencegame.objects.Sentence;
 import com.coolsentencegame.persistence.IScorePersistence;
 import com.coolsentencegame.persistence.ISentencePersistence;
 import com.coolsentencegame.persistence.PersistenceException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -14,61 +16,43 @@ import java.util.Collections;
  *
  * Main logic layer class. Sets sentences and checks user guesses, and keeps track of score.
  */
-public class GameLogic {
+public class GameLogic implements Serializable {
     private final ISentencePersistence sentencePersistence;
     private final IScorePersistence scorePersistence;
-    private Sentence sentence;
+    private final GameParams gameParams;
+    private Sentence curSentence;
     private Sentence prevSentence;
     private final ArrayList<String> tokens;
-    private final int nRounds;
     private int roundsDone;
     private int correctGuesses;
     private int wrongGuesses;
-    private GameLogic.Difficulty difficulty;
 
-    public enum Difficulty {
-        EASY,
-        HARD
-    }
-
-    public GameLogic(int nRounds, IScorePersistence scorePersistence, ISentencePersistence sentencePersistence)
-    {
-        this(nRounds, Difficulty.EASY, scorePersistence, sentencePersistence);
-    }
-
-    public GameLogic(int nRounds, GameLogic.Difficulty difficulty, IScorePersistence scorePersistence, ISentencePersistence sentencePersistence) {
+    public GameLogic(GameParams gameParams, IScorePersistence scorePersistence, ISentencePersistence sentencePersistence) {
         this.sentencePersistence = sentencePersistence;
         this.scorePersistence = scorePersistence;
+        this.gameParams = gameParams;
         tokens = new ArrayList<String>();
-        sentence = null;
+        curSentence = null;
         prevSentence = null;
         correctGuesses = 0;
         wrongGuesses = 0;
         roundsDone = 0;
-        this.nRounds = nRounds;
         newSentence();
-        this.difficulty = difficulty;
     }
 
-    public boolean isDone()
-    {
-        return roundsDone >= nRounds;
-    }
-
-    /*
-    Sets a new sentence.
-     */
+    // Sets a new sentence.
     public void newSentence()
     {
         tokens.clear();
-        prevSentence = sentence;
-        while(sentence == null || sentence.equals(prevSentence)) {
-            if(difficulty == Difficulty.EASY)
-                sentence = sentencePersistence.getEasySentence();
+        prevSentence = curSentence;
+        while(curSentence == null || curSentence.equals(prevSentence)) {
+            // TODO: Redo all this
+            if(true)
+                curSentence = sentencePersistence.getEasySentence();
             else
-                sentence = sentencePersistence.getHardSentence();
+                curSentence = sentencePersistence.getHardSentence();
         }
-        Collections.addAll(tokens, sentence.toString().split(" "));
+        Collections.addAll(tokens, curSentence.toString().split(" "));
     }
 
     /*
@@ -79,31 +63,31 @@ public class GameLogic {
     public boolean isPlayerSentenceCorrect(ArrayList<String> playerTokens) {
         boolean correct = tokens.equals(playerTokens);
 
-        if(!isDone()) {
-            if (correct)
-                correctGuesses++;
-            else
-                wrongGuesses++;
+        if (correct)
+            correctGuesses++;
+        else
+            wrongGuesses++;
 
-            roundsDone++;
-            if(isDone()){
-                try {
-                    scorePersistence.storeScore(new Score(correctGuesses, wrongGuesses));
-                }
-                catch(PersistenceException e) {
-                    // Handle this
-                    System.out.println(e.getMessage());
-                }
-            }
-
-        }
+        roundsDone++;
 
         return correct;
     }
 
+    public void finish()
+    {
+        try {
+            scorePersistence.storeScore(new Score(correctGuesses, wrongGuesses));
+        }
+        catch(PersistenceException e) {
+            // Handle this
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public Sentence getSentence()
     {
-        return sentence;
+        return curSentence;
     }
 
     public ArrayList<String> getTokens()
@@ -131,11 +115,6 @@ public class GameLogic {
     public int getCurrentRoundNumber()
     {
         return roundsDone;
-    }
-
-    public int getNumberRounds()
-    {
-        return nRounds;
     }
 
 }
