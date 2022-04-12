@@ -256,6 +256,7 @@ public class GameActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onFinishBtnClick(View view)
     {
+        gameLogic.finish();
         Intent intent = new Intent(GameActivity.this, GameSummary.class);
         String msg = ""+gameLogic.getCorrectGuesses()+"/"+gameLogic.getCurrentRoundNumber();
         intent.putExtra("msg", msg);

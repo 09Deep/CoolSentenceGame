@@ -20,15 +20,17 @@ import java.util.Random;
  */
 public class SentencePersistence implements ISentencePersistence {
     private final String dbPath;
-    private final int CUTOFF = 5;
-    private final ArrayList<Sentence> easyCache;
-    private final ArrayList<Sentence> hardCache;
+    private final ArrayList<Sentence> sentenceCache;
+    private int minCacheLen;
+    private int maxCacheLen;
 
     public SentencePersistence(final String dbPath)
     {
         this.dbPath = dbPath;
-        easyCache = new ArrayList<Sentence>();
-        hardCache = new ArrayList<Sentence>();
+
+        sentenceCache = new ArrayList<Sentence>();
+        minCacheLen = -1;
+        maxCacheLen = -1;
     }
 
     private Connection connection() throws SQLException {
@@ -39,25 +41,19 @@ public class SentencePersistence implements ISentencePersistence {
     private Sentence fromResultSet(final ResultSet rs) throws SQLException {
         final String sentence = rs.getString("sentence");
         final int id = rs.getInt("sid");
-
         return new Sentence(sentence, id);
     }
 
-    private void fillCache()
+    private void fillSentenceCache(int min, int max)
     {
-        // For now, just add everything into the cache, database
-        // is small. We can refactor this to more intelligently use the
-        // cache in iteration 3 when our db gets bigger
         try (final Connection c = connection()) {
+            final String sql = "SELECT * FROM SENTENCES WHERE SENTENCES.LEN >= " + min + " AND SENTENCES.LEN <= " + max;
             final Statement st = c.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM SENTENCES");
+            final ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
                 final Sentence sentence = fromResultSet(rs);
-                if(sentence.getnTokens() <= CUTOFF)
-                    easyCache.add(sentence);
-                else
-                    hardCache.add(sentence);
+                sentenceCache.add(sentence);
             }
 
             rs.close();
@@ -69,29 +65,21 @@ public class SentencePersistence implements ISentencePersistence {
         }
     }
 
-    @Override
-    public Sentence getEasySentence()
+    private boolean isCacheStale(int min, int max)
     {
-        if(easyCache.isEmpty())
-            fillCache();
-        Random rand = new Random();
-        int r = rand.nextInt(easyCache.size());
-        return easyCache.get(r);
+        return sentenceCache.isEmpty() || (min != minCacheLen || max != maxCacheLen);
     }
 
     @Override
-    public Sentence getHardSentence()
-    {
-        if(hardCache.isEmpty())
-            fillCache();
-        Random rand = new Random();
-        int r = rand.nextInt(hardCache.size());
-        return hardCache.get(r);
-    }
+    public Sentence getSentence(int minLen, int maxLen) {
+        if(isCacheStale(minLen, maxLen)) {
+            fillSentenceCache(minLen, maxLen);
+            minCacheLen = minLen;
+            maxCacheLen = maxLen;
+        }
 
-    @Override
-    public int getEasyHardCutoff()
-    {
-        return CUTOFF;
+        Random rand = new Random();
+        int r = rand.nextInt(sentenceCache.size());
+        return sentenceCache.get(r);
     }
 }

@@ -25,11 +25,11 @@ public class GameParams implements Serializable {
         return speed;
     }
 
-    public int getMinSentenceLen() {
+    public int getMinLen() {
         return minSentenceLen;
     }
 
-    public int getMaxSentenceLen() {
+    public int getMaxLen() {
         return maxSentenceLen;
     }
 

@@ -47,10 +47,7 @@ public class GameLogic implements Serializable {
         prevSentence = curSentence;
         while(curSentence == null || curSentence.equals(prevSentence)) {
             // TODO: Redo all this
-            if(true)
-                curSentence = sentencePersistence.getEasySentence();
-            else
-                curSentence = sentencePersistence.getHardSentence();
+            curSentence = sentencePersistence.getSentence(gameParams.getMinLen(), gameParams.getMaxLen());
         }
         Collections.addAll(tokens, curSentence.toString().split(" "));
     }
