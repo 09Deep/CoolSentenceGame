@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import com.coolsentencegame.application.Services;
 import com.coolsentencegame.logic.GameLogic;
+import com.coolsentencegame.objects.GameParams;
 import com.coolsentencegame.objects.Score;
 import com.coolsentencegame.persistence.IScorePersistence;
 import com.coolsentencegame.persistence.MockScorePersistence;
@@ -23,11 +24,12 @@ public class GameLogicScoreTest {
         Random rand = new Random();
         ArrayList<String> wrongTokens = new ArrayList<>();
         int startSize = scorePersistence.getPrevScores(0).size();
+        GameParams gameParams = new GameParams(GameParams.Speed.NORMAL, 1, 99);
 
         for(int i = 0; i < 20; i++) {
             int correct = 1 + rand.nextInt(5);
             int wrong = 1 + rand.nextInt(5);
-            GameLogic gameLogic = new GameLogic(correct + wrong, scorePersistence, new MockSentencePersistence());
+            GameLogic gameLogic = new GameLogic(gameParams, scorePersistence, new MockSentencePersistence());
             ArrayList<String> tokens = gameLogic.getTokens();
 
             // Make some right guesses
@@ -39,6 +41,8 @@ public class GameLogicScoreTest {
             for(int j = 0; j < wrong; j++) {
                 assertFalse(gameLogic.isPlayerSentenceCorrect(wrongTokens));
             }
+
+            gameLogic.finish();
 
             // Check that it was added
             ArrayList<Score> scores = scorePersistence.getPrevScores(1);

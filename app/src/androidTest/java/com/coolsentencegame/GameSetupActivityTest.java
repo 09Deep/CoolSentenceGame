@@ -28,7 +28,7 @@ public class GameSetupActivityTest {
     public void isTextVisible(){
         onView(withId(R.id.textView)).check(matches(isDisplayed()));
         onView(withId(R.id.textView2)).check(matches(isDisplayed()));
-        onView(withId(R.id.textView3)).check(matches(isDisplayed()));
+        onView(withId(R.id.gs_textTitle)).check(matches(isDisplayed()));
     }
 
     @Test
