@@ -18,4 +18,5 @@ public interface IScorePersistence {
     // in next iteration.
     void removeScore(Score score);
 
+    Score getHighScore();
 }

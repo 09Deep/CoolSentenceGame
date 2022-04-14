@@ -35,6 +35,13 @@ public class StatsActivity extends AppCompatActivity {
 
         linearLayout = findViewById(R.id.linLayout);
         ArrayList<Score> scores = scorePersistence.getPrevScores(0);
+        Score highScore = scorePersistence.getHighScore();
+
+        TextView tvHighScore = new TextView(this);
+        tvHighScore.setText("High Score: " + highScore.toString()+ "\n");
+        tvHighScore.setTextSize(20);
+        linearLayout.addView(tvHighScore);
+
         for(Score score : scores) {
             TextView tv = new TextView(this);
             tv.setText(score.toString()+ "\n");
