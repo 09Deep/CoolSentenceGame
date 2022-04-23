@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rebuild the sentence!"
-        android:textColor="#000000"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,15 +92,13 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score: "
-            android:textColor="#000000" />
+            android:text="Score: "/>
 
         <TextView
             android:id="@+id/textScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:textColor="#00BCD4" />
+            android:text="0" />
 
     </LinearLayout>
 
@@ -124,7 +121,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="timer"
-        android:textColor="#000000"
         android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/btmLayout1"
         app:layout_constraintEnd_toEndOf="parent"

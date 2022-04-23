@@ -240,7 +240,7 @@ public class GameActivity extends AppCompatActivity {
         if(success)
              snackbar = Snackbar.make(textTitle, "Correct!", Snackbar.LENGTH_SHORT);
         else
-            snackbar = Snackbar.make(textTitle, "Incorrect :(", Snackbar.LENGTH_SHORT);
+            snackbar = Snackbar.make(textTitle, getString(R.string.snackbar_message), Snackbar.LENGTH_SHORT);
 
         snackbar.show();
         startPhase1();
