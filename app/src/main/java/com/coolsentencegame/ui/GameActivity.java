@@ -51,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTheme(Utils.getTheme());
         setContentView(R.layout.activity_game);
         Intent intent = getIntent();
         GameParams gameParams = (GameParams)intent.getSerializableExtra("params");

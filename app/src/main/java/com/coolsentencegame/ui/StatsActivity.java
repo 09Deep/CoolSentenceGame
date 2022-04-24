@@ -26,6 +26,7 @@ public class StatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTheme(Utils.getTheme());
         setContentView(R.layout.activity_stats);
 
         scorePersistence = Services.getScorePersistence();

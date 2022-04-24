@@ -27,6 +27,7 @@ public class GameSetupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(Utils.getTheme());
         setContentView(R.layout.activity_game_setup);
 
         // Radio buttons

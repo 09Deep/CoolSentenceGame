@@ -19,6 +19,7 @@ public class GameSummary extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(Utils.getTheme());
         setContentView(R.layout.activity_game_summary);
 
         Intent intent = getIntent();

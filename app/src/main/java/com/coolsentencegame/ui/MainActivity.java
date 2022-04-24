@@ -11,8 +11,6 @@ import android.widget.Button;
 
 import com.coolsentencegame.R;
 import com.coolsentencegame.application.Main;
-import com.coolsentencegame.application.Services;
-import com.coolsentencegame.persistence.ISentencePersistence;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,16 +19,28 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static AppCompatActivity mainActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(Utils.getTheme());
         setContentView(R.layout.activity_main);
-
+mainActivity = this;
         Button buttontoGameLevels = findViewById(R.id.gamebutton);
         buttontoGameLevels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), GameSetupActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        Button settingButton = findViewById(R.id.btnsetting);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(),SettingActivity.class);
                 startActivity(i);
             }
         });
@@ -47,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         copyDatabaseToDevice();
 
     }
+
+
 
     private void copyDatabaseToDevice() {
         final String DB_PATH = "db";
@@ -99,4 +111,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

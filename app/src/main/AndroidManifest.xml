@@ -15,6 +15,9 @@
         <activity
             android:name=".ui.StatsActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.SettingActivity"
+            android:exported="false" />
         <activity android:name=".ui.GameSetupActivity" />
         <activity
             android:name=".ui.GameActivity"
