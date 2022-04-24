@@ -31,7 +31,6 @@ mainActivity = this;
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), GameSetupActivity.class);
-
                 startActivity(i);
             }
         });
@@ -57,8 +56,6 @@ mainActivity = this;
         copyDatabaseToDevice();
 
     }
-
-
 
     private void copyDatabaseToDevice() {
         final String DB_PATH = "db";

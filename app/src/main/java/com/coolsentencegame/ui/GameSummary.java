@@ -32,11 +32,19 @@ public class GameSummary extends AppCompatActivity {
         textScore.setText(msg);
 
         btnHome.setOnClickListener(this::onHomeBtnClick);
+        btnAgain.setOnClickListener(this::onPlayAgainClick);
     }
 
     public void onHomeBtnClick(View v)
     {
         Intent intent = new Intent(GameSummary.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void onPlayAgainClick(View v)
+    {
+        Intent intent = new Intent(GameSummary.this, GameSetupActivity.class);
         startActivity(intent);
         finish();
     }
