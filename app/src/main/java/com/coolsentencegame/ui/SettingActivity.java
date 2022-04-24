@@ -45,30 +45,45 @@ setting_activiy = this;
         findViewById(R.id.btn_theme_peach).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.settingTheme(Utils.THEME_PEACH);
+                setting_activiy.finish();
+                setting_activiy.startActivity(new Intent(setting_activiy,setting_activiy.getClass()));
 
             }
         });
         findViewById(R.id.btn_theme_ruby).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.settingTheme(Utils.THEME_RUBY);
+                setting_activiy.finish();
+                setting_activiy.startActivity(new Intent(setting_activiy,setting_activiy.getClass()));
 
             }
         });
         findViewById(R.id.btn_theme_default).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.settingTheme(Utils.THEME_DEFAULT);
+                setting_activiy.finish();
+                setting_activiy.startActivity(new Intent(setting_activiy,setting_activiy.getClass()));
 
             }
         });
         findViewById(R.id.btn_theme_green).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.settingTheme(Utils.THEME_GREEN);
+                setting_activiy.finish();
+                setting_activiy.startActivity(new Intent(setting_activiy,setting_activiy.getClass()));
 
             }
         });
         findViewById(R.id.btn_theme_blue).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.settingTheme(Utils.THEME_BLUE);
+                setting_activiy.finish();
+                setting_activiy.startActivity(new Intent(setting_activiy,setting_activiy.getClass()));
 
             }
         });
