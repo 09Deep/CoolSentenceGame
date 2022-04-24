@@ -46,6 +46,7 @@ public class SentencePersistence implements ISentencePersistence {
 
     private void fillSentenceCache(int min, int max)
     {
+        sentenceCache.clear();
         try (final Connection c = connection()) {
             final String sql = "SELECT * FROM SENTENCES WHERE SENTENCES.LEN >= " + min + " AND SENTENCES.LEN <= " + max;
             final Statement st = c.createStatement();
@@ -73,6 +74,7 @@ public class SentencePersistence implements ISentencePersistence {
     @Override
     public Sentence getSentence(int minLen, int maxLen) {
         if(isCacheStale(minLen, maxLen)) {
+            System.out.println("STALE CACHE");
             fillSentenceCache(minLen, maxLen);
             minCacheLen = minLen;
             maxCacheLen = maxLen;
