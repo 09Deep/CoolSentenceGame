@@ -31,8 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
         // I think this is because we are calling recreate()
         // in the main thread. When we do this, maybe we are lowering
         // permissions?
-        Services.getScorePersistence();
-        Services.getSentencePersistence();
+       // Services.getScorePersistence();
+       // Services.getSentencePersistence();
 
         findViewById(R.id.btn_theme_pink).setOnClickListener(new View.OnClickListener() {
             @Override
