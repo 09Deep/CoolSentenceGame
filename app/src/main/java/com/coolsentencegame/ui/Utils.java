@@ -37,7 +37,7 @@ public class Utils {
     public final static int THEME_PEACH = 5;
 
 
-    public static void settingTheme(int theme) {
+    public static void setTheme(int theme) {
         sTheme = theme;
     }
 
