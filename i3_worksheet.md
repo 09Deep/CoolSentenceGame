@@ -21,7 +21,7 @@ be marked negatively. Classify this debt.
 
 ### Response
 
-Our settings option, that allows a user to change the theme of the app. If you enter settings, back out, and then attempt to start a game or going to stats. (Pressing Game, and then selecting a level), the app can crash. We are unable to fix this as it was discovered very close to the deadline, and we are not sure where the fix might need to be. We would classify this as Inadvertant Prudent. It is Inadvertant because we had did not think that adding the Settings would cause us technical debt. It is Prudent because we did not foresee the unknown interactions that setting would end up having, causing our game to crash.
+SettingsActivity, on line 34 and 35, there is a very thrown together bandaid for a crash. It does prevent the crash, but it prevents it in a "smelly" way. We would classify this as Deliberate Reckless. It is Deliberate because we know it's there, and we know it's going to be an issue in the future. It's reckless because we don't have time to try and think of anything better, so we are using the first fix that we came up with. We don't have time to design a better solution.
 
 Discuss a Feature or User Story that was cut/re-prioritized
 ============================================
@@ -58,7 +58,7 @@ or impossible to test?
 
 ### Response
 
-
+In the Game, the user must recreate the sentence by clicking and dragging the word boxes. This was too difficult to implement in our time frame, and so we did not get around to testing it. Especially because the sentences provided can be random, it would take too much time to set up a test double and integrate that with the rest of the test suite. Due to that, we were unable to add a test that ensures that the dragging function works correctly.
 
 Velocity/teamwork
 =================
