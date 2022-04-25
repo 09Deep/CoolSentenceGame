@@ -1,0 +1,3 @@
+## Vision Statement
+
+The **Cool Sentence Game** is a tool intended to improve cognitive skills that may have been impaired by aging or dementia in older adults. It is recommended to be used daily for a better result. The user will be given a sentence or string of words, and after some time elapses, the sentence will disappear. Then the user will have to recreate the sentence. The tool will track a variety of data that the user can reference, including scores, total time played, and average time taken to finish a level of the game. 
