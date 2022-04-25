@@ -21,6 +21,7 @@ public class StatsActivity extends AppCompatActivity {
     private IScorePersistence scorePersistence;
     private Button btnBack;
     LinearLayout linearLayout;
+    private TextView gamesPlayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,8 +32,10 @@ public class StatsActivity extends AppCompatActivity {
 
         scorePersistence = Services.getScorePersistence();
 
-        btnBack = findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btn_back_stats);
         btnBack.setOnClickListener(this::onBackBtnTap);
+
+        gamesPlayed = findViewById(R.id.text_games_played);
 
         linearLayout = findViewById(R.id.linLayout);
         ArrayList<Score> scores = scorePersistence.getPrevScores(0);
@@ -49,6 +52,8 @@ public class StatsActivity extends AppCompatActivity {
             tv.setTextSize(20);
             linearLayout.addView(tv);
         }
+
+        gamesPlayed.setText("" + scores.size());
 
     }
 

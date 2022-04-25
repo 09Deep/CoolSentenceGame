@@ -11,41 +11,34 @@ import static org.hamcrest.core.AllOf.allOf;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
-
 import com.coolsentencegame.ui.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-public class MainActivityTest {
+public class MenuNavTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mainActivityActivityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
-
     @Test
     public void isMainActivityLoading(){
+        // Check that we can navigate to and from our menus
+
         onView(withId(R.id.mainActivity)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.btnStats)).perform(click());
+        onView(withId(R.id.statsActivity)).check(matches(isDisplayed()));
+        onView(withId(R.id.btn_back_stats)).perform(click());
 
         onView(withId(R.id.gamebutton)).perform(click());
         onView(withId(R.id.gamelevelactivity)).check(matches(isDisplayed()));
+        onView(withId(R.id.back_button_from_gamelevels)).perform(click());
 
-        onView(withId(R.id.btnLevel1)).perform(click());
-        onView(withId(R.id.game_activity)).check(matches(isDisplayed()));
+        onView(withId(R.id.btnsetting)).perform(click());
+        onView(withId(R.id.activitySettings)).check(matches(isDisplayed()));
+        onView(withId(R.id.btn_settings_back)).perform(click());
 
-        onView(withId(R.id.btnStart)).perform(click());
-        onView(withId(R.id.btnCheck)).perform(click());
-
-        onView(withText(R.string.snackbar_message)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.btnFinish)).perform(click());
-
-        onView(withId(R.id.gameSummaryActivity)).check(matches(isDisplayed()));
-        onView(withId(R.id.textView5)).check(matches(withText("Game Done")));
-        onView(withId(R.id.gs_textScore)).check(matches(withText("0/1")));
-
-        onView(withId(R.id.gs_btnHome)).perform(click());
+        onView(withId(R.id.mainActivity)).check(matches(isDisplayed()));
     }
-
-
 }
