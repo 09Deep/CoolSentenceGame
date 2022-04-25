@@ -21,6 +21,8 @@ be marked negatively. Classify this debt.
 
 ### Response
 
+Our settings option, that allows a user to change the theme of the app. If you enter settings, back out, and then attempt to start a game or going to stats. (Pressing Game, and then selecting a level), the app can crash. We are unable to fix this as it was discovered very close to the deadline, and we are not sure where the fix might need to be. We would classify this as Inadvertant Prudent. It is Inadvertant because we had did not think that adding the Settings would cause us technical debt. It is Prudent because we did not foresee the unknown interactions that setting would end up having, causing our game to crash.
+
 Discuss a Feature or User Story that was cut/re-prioritized
 ============================================
 
