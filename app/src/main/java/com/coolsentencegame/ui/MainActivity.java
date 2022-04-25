@@ -53,6 +53,7 @@ mainActivity = this;
             }
         });
 
+        if(Utils.get_permition())
         copyDatabaseToDevice();
 
     }

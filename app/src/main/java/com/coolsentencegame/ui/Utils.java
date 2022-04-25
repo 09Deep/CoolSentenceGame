@@ -27,7 +27,7 @@ import com.coolsentencegame.R;
 
 public class Utils {
 
-
+    private static boolean first_time = true;
     private static int sTheme = R.style.Theme_CoolSentenceGame;
     public final static int THEME_DEFAULT = 0;
     public final static int THEME_PINK = 1;
@@ -38,9 +38,14 @@ public class Utils {
 
 
     public static void settingTheme(int theme) {
+        first_time = false;
         sTheme = theme;
     }
 
+    public static boolean get_permition(){
+        boolean result = first_time;
+        return result;
+    }
     /**
      * Set the theme of the activity, according to the configuration.
      */
