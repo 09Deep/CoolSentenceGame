@@ -1,8 +1,6 @@
 # Cool Sentence Game
 
-## Vision Statement
-
-The **Cool Sentence Game** is a tool intended to improve cognitive skills that may have been impaired by aging or dementia in older adults. It is recommended to be used daily for a better result. The user will be given a sentence or string of words, and after some time elapses, the sentence will disappear. Then the user will have to recreate the sentence. The tool will track a variety of data that the user can reference, including scores, total time played, and average time taken to finish a level of the game. 
+## Description
 
 Games will involve users being shown a sentence (or, as difficulty increases, more abstract strings of words) which will then be scrambled after a small period. The words will be enclosed in small boxes that the user can tap on to reconstruct the sentence back to its original form. The user will earn a higher score based on how quickly and how accurately they reconstruct the sentence. 
 
@@ -14,6 +12,22 @@ A study conducted by Dr. Zahra Moussavi at the biomedical engineering lab of the
 
 The game will be considered successful if either a user's memory improves, or the decline in memory slows down. Standardized tests such as WMS-IV and ADAS-Cog can be used for base line assessment of patients and the follow up assessment after they use tools such as this game to train their cognitive skills to test and illustrate the effectiveness of this game. 
 <br>
+
+## Running
+
+This application was coded on Android Studio, and should be built through that application. It was tested on the Nexus 7 API 32 emulator.
+
+## Links
+
+[Vision Statement](VISION.md)
+
+[Architecture Diagram](ARCHITECTURE.md)
+
+[Retrospective](RETROSPECTIVE.md)
+
+## Website
+
+index.html links to a GitHub Pages style website. The index.md that is used on that website can be found alongside index.html
 
 #### Utilizing GitFlow style Version Control.
 
