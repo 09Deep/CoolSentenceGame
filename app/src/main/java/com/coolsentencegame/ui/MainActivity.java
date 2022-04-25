@@ -19,13 +19,16 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static AppCompatActivity mainActivity;
+    private boolean checkTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setTheme(Utils.getTheme());
         setContentView(R.layout.activity_main);
-mainActivity = this;
+        checkTheme = false;
+
         Button buttontoGameLevels = findViewById(R.id.gamebutton);
         buttontoGameLevels.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +42,8 @@ mainActivity = this;
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(),SettingActivity.class);
+                checkTheme = true;
+                Intent i = new Intent(view.getContext(), SettingsActivity.class);
                 startActivity(i);
             }
         });
@@ -54,7 +58,15 @@ mainActivity = this;
         });
 
         copyDatabaseToDevice();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(checkTheme) {
+            checkTheme = false;
+            recreate();
+        }
     }
 
     private void copyDatabaseToDevice() {
