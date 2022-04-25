@@ -11,11 +11,5 @@ import org.junit.runners.Suite;
         StatsActivityTest.class
 })
 
-public class AllSystemTest {
-
-    public void allSystemTests()
-    {
-
-    }
-}
+public class AllSystemTest { }
 

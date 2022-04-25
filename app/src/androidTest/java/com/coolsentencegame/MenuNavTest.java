@@ -36,8 +36,8 @@ public class MenuNavTest {
         onView(withId(R.id.back_button_from_gamelevels)).perform(click());
 
         onView(withId(R.id.btnsetting)).perform(click());
-        onView(withId(R.id.settingActivity)).check(matches(isDisplayed()));
-        onView(withId(R.id.btnBack2)).perform(click());
+        onView(withId(R.id.activitySettings)).check(matches(isDisplayed()));
+        onView(withId(R.id.btn_settings_back)).perform(click());
 
         onView(withId(R.id.mainActivity)).check(matches(isDisplayed()));
     }
