@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(Utils.get_permition())
+
         copyDatabaseToDevice();
     }
 
