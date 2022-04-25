@@ -11,8 +11,6 @@ import android.widget.Button;
 
 import com.coolsentencegame.R;
 import com.coolsentencegame.application.Main;
-import com.coolsentencegame.application.Services;
-import com.coolsentencegame.persistence.ISentencePersistence;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,16 +19,31 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean checkTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTheme(Utils.getTheme());
         setContentView(R.layout.activity_main);
+        checkTheme = false;
 
         Button buttontoGameLevels = findViewById(R.id.gamebutton);
         buttontoGameLevels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), GameSetupActivity.class);
+                startActivity(i);
+            }
+        });
+
+        Button settingButton = findViewById(R.id.btnsetting);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkTheme = true;
+                Intent i = new Intent(view.getContext(), SettingsActivity.class);
                 startActivity(i);
             }
         });
@@ -44,8 +57,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        copyDatabaseToDevice();
 
+        copyDatabaseToDevice();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(checkTheme) {
+            checkTheme = false;
+            recreate();
+        }
     }
 
     private void copyDatabaseToDevice() {
@@ -99,4 +121,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

@@ -32,6 +32,30 @@ public class ScorePersistence implements IScorePersistence {
         return new Score(correct, wrong, date);
     }
 
+    public Score getHighScore() {
+        ArrayList<Score> prevScores = getPrevScores(0);
+        Score currScore = null;
+        Score currHighestScore = null;
+        int currScoreEvaluation = 0;
+        int highestScoreEvaluation = Integer.MIN_VALUE;
+
+        //find the highest score.
+        for(int i = 0; i < prevScores.size(); i++) {
+            currScore = prevScores.get(i);
+
+            if((currScoreEvaluation = evaluateScore(currScore)) > highestScoreEvaluation) {
+                highestScoreEvaluation = currScoreEvaluation;
+                currHighestScore = currScore;
+            }
+        }
+
+        return currHighestScore;
+    }
+
+    public int evaluateScore(Score score) {
+        return score.getCorrect() - score.getWrong();
+    }
+
     @Override
     public void storeScore(Score score)
     {

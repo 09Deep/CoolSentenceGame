@@ -7,6 +7,7 @@ import com.coolsentencegame.objects.Score;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class IScorePersistenceTest {
 
@@ -14,28 +15,21 @@ public class IScorePersistenceTest {
     public void autoTest()
     {
         IScorePersistence scorePersistence = new MockScorePersistence();
+
         ArrayList<Score> scores = new ArrayList<Score>();
+        ArrayList<Score> expected = new ArrayList<Score>();
+        ArrayList<Score> retrieved;
+
         scores.add(new Score(1, 2));
         scores.add(new Score(3, 4));
         scores.add(new Score(5, 6));
         scores.add(new Score(7, 8));
 
-        // Add in reverse order
-        // Get prev returns list with most recent entries first
-        scorePersistence.storeScore(scores.get(3));
-        scorePersistence.storeScore(scores.get(2));
-        scorePersistence.storeScore(scores.get(1));
-        scorePersistence.storeScore(scores.get(0));
-
-        ArrayList<Score> retrieved = scorePersistence.getPrevScores(scores.size());
-        assertEquals(scores, retrieved);
-
-        int n = scores.size();
-        for(int i = 1; i < n; i++) {
-            scorePersistence.removeScore(scores.get(0));
-            scores.remove(0);
-            retrieved = scorePersistence.getPrevScores(scores.size());
-            assertEquals(scores, retrieved);
+        for(int i = 0; i < 4; i++) {
+            expected.add(0, scores.get(i));
+            scorePersistence.storeScore(scores.get(i));
+            retrieved = scorePersistence.getPrevScores(i + 1);
+            assertEquals(expected, retrieved);
         }
 
     }

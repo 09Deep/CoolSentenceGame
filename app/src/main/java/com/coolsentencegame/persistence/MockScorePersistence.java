@@ -46,4 +46,7 @@ public class MockScorePersistence implements IScorePersistence {
         scores.remove(score);
     }
 
+    public Score getHighScore() {
+        return null;
+    }
 }

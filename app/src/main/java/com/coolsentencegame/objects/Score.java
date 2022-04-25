@@ -56,13 +56,17 @@ public class Score {
         return date;
     }
 
-    public boolean isEqual( Score b) {
-        boolean result = true;
-        if (this.getTotal() != b.getTotal()) result = false;
-        else if (this.getCorrect() != b.getCorrect()) result =  false;
-        else if ( this.getWrong() != b.getWrong() ) result = false;
-        return result;
-
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof Score) {
+            Score other_score = (Score)other;
+            boolean result = true;
+            if (this.total != other_score.total) result = false;
+            else if (this.correct != other_score.correct) result =  false;
+            else if ( this.wrong != other_score.wrong ) result = false;
+            return result;
+        }
+        return false;
     }
 
     @NonNull

@@ -7,4 +7,55 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="primary">#FF9800</color>
+    <color name="primary_dark">#F57C00</color>
+    <color name="primary_light">#FFE0B2</color>
+    <color name="accent">#F5722F</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#212121</color>
+    <color name="divider">#BDBDBD</color>
+
+    <color name="dtprimary">#9C27B0</color>
+    <color name="dtprimary_dark">#7B1FA2</color>
+    <color name="dtprimary_light">#E1BEE7</color>
+    <color name="dtaccent">#673AB7</color>
+    <color name="dtprimary_text">#212121</color>
+    <color name="dtsecondary_text">#757575</color>
+    <color name="dticons">#FFFFFF</color>
+    <color name="dtdivider">#BDBDBD</color>
+
+    <color name="bluePrimary">#67A0CC</color>
+    <color name="bluePrimary_dark">#1D659C</color>
+    <color name="bluePrimary_light">#93CAF3</color>
+    <color name="accent_blue">#17527F</color>
+
+
+    <color name="greenPrimary">#127369</color>
+    <color name="greenPrimary_dark">#0D514A</color>
+    <color name="greenPrimary_light">#17988B</color>
+    <color name="accent_green">#10403B</color>
+
+    <color name="pinkPrimary">#F2ACC6</color>
+    <color name="pinkPrimary_dark">#EF92B4</color>
+    <color name="pinkPrimary_light">#F2C9D4</color>
+    <color name="accent_pink">#ED518B</color>
+
+    <color name="rubyPrimary">#85586F</color>
+    <color name="rubyPrimary_dark">#6A4056</color>
+    <color name="rubyPrimary_light">#AC7D88</color>
+    <color name="accent_ruby">#502D3F</color>
+
+    <color name="peachPrimary">#FF6363</color>
+    <color name="peachPrimary_dark">#C84747</color>
+    <color name="peachPrimary_light">#F87676</color>
+    <color name="accent_peach">#BF2A2A</color>
+
+    <color name="light_blue_400">#FF29B6F6</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="gray_400">#FFBDBDBD</color>
+    <color name="gray_600">#FF757575</color>
+
+
 </resources>

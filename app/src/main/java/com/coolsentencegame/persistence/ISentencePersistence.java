@@ -4,10 +4,6 @@ import com.coolsentencegame.objects.Sentence;
 
 public interface ISentencePersistence {
 
-    Sentence getEasySentence();
-
-    Sentence getHardSentence();
-
-    int getEasyHardCutoff();
+    Sentence getSentence(int minLen, int maxLen);
 
 }
